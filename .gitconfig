@@ -1,0 +1,8 @@
+[user]
+	name = Roman Milishchuk
+	email = milromchuk@gmail.com
+[credential]
+	helper = store
+[github]
+	user = RomanMilishchuk
+	token = 13a948df8fba6f6f8abd51ef37c686a365a8a127
