@@ -11,7 +11,6 @@
 let s:vim_runtime = expand('<sfile>:p:h')."/.."
 call pathogen#infect(s:vim_runtime.'/sources_forked/{}')
 call pathogen#infect(s:vim_runtime.'/sources_non_forked/{}')
-call pathogen#infect(s:vim_runtime.'/my_plugins/{}')
 call pathogen#helptags()
 
 """"""""""""""""""""""""""""""
@@ -31,26 +30,44 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdcommenter'
-" Plugin 'vim-latex/vim-latex'
 Plugin 'lervag/vimtex'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'dense-analysis/ale'
+Plugin 'maxbrunsfeld/vim-yankstack'
+Plugin 'michaeljsmith/vim-indent-object'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'tpope/vim-surround'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'junegunn/goyo.vim' " Distraction free writing
+Plugin 'amix/vim-zenroom2'
+Plugin 'tpope/vim-repeat'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'itchyny/lightline.vim'
+Plugin 'maximbaz/lightline-ale'
+Plugin 'hzchirs/vim-material'
+Plugin 'yegappan/mru'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'nvie/vim-flake8'
+Plugin 'Vimjas/vim-python-pep8-indent'
+Plugin 'kien/ctrlp.vim'
 " Plugin 'jistr/vim-nerdtree-tabs'
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-easytags'
 " Plugin 'majutsushi/tagbar'
 " Plugin 'vim-scripts/a.vim' 
-" Plugin 'airblade/vim-gitgutter'
 " Plugin 'Raimondi/delimitMate' 
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'nathanaelkane/vim-indent-guides'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
 " Plugin 'octol/vim-cpp-enhanced-highlight'
 " Plugin 'rip-rip/clang_complete'
 " Plugin 'Valloric/YouCompleteMe'
-" Plugin 'tomlion/vim-solidity'
-"Plugin  'vim-fugitive'
 
 call vundle#end()
 """"""""""""""""""""""""""""""
