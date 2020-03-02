@@ -28,8 +28,8 @@ set guioptions-=l
 set guioptions-=L
 
 " Colorscheme
-" set background=dark
-" colorscheme peaksea
+"set background=dark
+"colorscheme peaksea
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
