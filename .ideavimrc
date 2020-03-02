@@ -1,0 +1,25 @@
+set incsearch
+set nrformats=
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set wildmenu
+set wildmode=longest:full,full
+set history=2000
+set smartcase
+set laststatus=2
+set showcmd
+set autochdir
+set splitbelow
+set nowrap
+"set guioptions=a
+"ter++rows=7++norestore
+
+set ignorecase
+set clipboard=unnamedplus
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+let mapleader = "-"
+nnoremap <leader>v :vsplit ~/.ideavimrc<CR>
+nnoremap <leader>sv :source ~/.ideavimrc<CR>
+iabbrev @@ milishchuk.roman@gmail.com
+iabbrev RM Roman Milishchuk
