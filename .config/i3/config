@@ -162,10 +162,10 @@ exec_always setxkbmap 'us,ua' ',winkeys' 'grp:win_space_toggle'
 exec --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/horizon.jpeg
 
 # Network manager icon in var
-exec --no-startup-id "nm-applet &"
+exec --no-startup-id nm-applet
 
 # Composite manager
-exec --no-startup-id compton
+exec --no-startup-id compton --config ~/.config/compton/compton.conf
 
 # Replacement for dmenu
 exec --no-startup-id albert
@@ -188,14 +188,13 @@ bindsym Control+Shift+Print exec flameshot gui
 # Go to sleep
 bindsym $mod+Shift+S exec dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Suspend" boolean:true
 
-# Auto startup
+# Auto startup of basic programs
 exec --no-startup-id telegram-desktop -startintray
 exec --no-startup-id mailspring -b
 exec --no-startup-id firefox
 exec --no-startup-id telegram-desktop
 exec --no-startup-id slack
 exec --no-startup-id mailspring
-exec --no-startup-id "albert &"
 
 # Automatically match applications to workspace
 for_window [class="Firefox"] move to workspace $ws1
