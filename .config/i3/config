@@ -195,10 +195,11 @@ exec --no-startup-id firefox
 exec --no-startup-id telegram-desktop
 exec --no-startup-id slack
 exec --no-startup-id mailspring
+exec --no-startup-id libinput-gestures-setup restart
 
 # Automatically match applications to workspace
 for_window [class="Firefox"] move to workspace $ws1
-for_window [class="TelegramDesktop"] move to workspace $ws3
-for_window [class="Slack"] move to workspace $ws3
-for_window [class="Mailspring"] move to workspace $ws10
+for_window [class="TelegramDesktop"] move to workspace $ws10
+for_window [class="Slack"] move to workspace $ws10
+for_window [class="Mailspring"] move to workspace $ws9
 
