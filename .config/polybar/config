@@ -32,8 +32,8 @@ background = #D93d3c3b
 foreground = #b6a49b
 width                    = 100%
 height                   = 26
-border-left-size         = 48
-border-right-size        = 48
+border-left-size         = 20
+border-right-size        = 20
 radius                   = 15
 line-size                = 0
 border-bottom-size       = 0
@@ -73,7 +73,7 @@ wm-name = bar
 type = internal/cpu
 
 format = <label>
-label =  %percentage-sum%%
+label =   %percentage-sum%%
 interval = 3
 
 [module/temperature]
@@ -105,16 +105,16 @@ format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
+ramp-capacity-0 = "  "
+ramp-capacity-1 = "  "
+ramp-capacity-2 = "  "
 ramp-capacity-foreground = ${colors.foreground-alt}
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
-animation-charging-4 = 
+animation-charging-0 = "  "
+animation-charging-1 = "  "
+animation-charging-2 = "  "
+animation-charging-3 = "  "
+animation-charging-4 = "  "
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 1000
 
