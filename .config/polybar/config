@@ -48,12 +48,13 @@ offset-y = 10
 wm-restack=i3
 
 fixed-center = true
-font-0 = San Francisco Display Regular:size=11;1
+font-0 = San Francisco Display Regular:size=11;2
 font-1 = unifont:fontformat=truetype:size=11:antialias=false;0
-font-2 = "MaterialIcons:size=11:antialias=false;1"
+font-2 = "MaterialIcons:size=18;1"
 font-3 = "icomoon-extended-ultra:size=11:antialias=false;1"
-font-4 = FontAwesome:size=11;1
-font-5 = "3270Medium Nerd Font:size=11:antialias=false;1"
+font-4 = "Font Awesome 5 Brands:size=11;1"
+font-5 = "3270Medium Nerd Font:size=12:style=Medium;2"
+font-6 = "TerminessTTF Nerd Font Mono:size=18;3"
 
 modules-left = i3 temperature cpu memory
 modules-center =
@@ -102,10 +103,6 @@ format-charging-underline = #ffb52a
 format-discharging = <ramp-capacity> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
-
 ramp-capacity-0 = "  "
 ramp-capacity-1 = "  "
 ramp-capacity-2 = "  "
@@ -124,30 +121,36 @@ type = internal/xkeyboard
 label-layout =   %layout%
 
 [module/i3]
+pin-workspaces=true
 type = internal/i3
+
+ws-icon-0 = "1;"
+ws-icon-1 = "2;"
+ws-icon-2 = "9;"
+ws-icon-3 = "10;"
+ws-icon-4 = ";a"
+
+label-focused-font = 7
+label-unfocused-font = ${self.label-focused-font}
+label-visible-font = ${self.label-focused-font}
+label-urgent-font = ${self.label-focused-font}
+
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
 
-label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.primary}
-
 ; focused = Active workspace on focused monitor
-label-focused = %index%
+label-focused = %{T6}%index%: %{T7}%icon%%{T-}
 label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
+label-unfocused = %{T6}%index%: %{T7}%icon%%{T-}
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
+label-visible = %index% %icon%
+label-visible-padding = ${self.label-unfocused-padding}
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %index%
@@ -159,7 +162,7 @@ type = internal/date
 interval = 60
 date = %a %d %b
 time = %l:%M %p
-label =    %date%      %time%
+label =    %date%    %time%
 ;label =  %time%
 format-padding = 1
 
@@ -170,11 +173,3 @@ format-muted = 0%  
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
-
-[module/poweroff]
-type = custom/script
-exec = echo " X"
-click-left = rofi -modi run,drun,window -show drun
-click-right = i3lock-fancy -pg &
-click-middle = /usr/bin/rofi-logout
-format-padding = 1
