@@ -162,7 +162,7 @@ exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
 exec_always --no-startup-id nm-applet
 
 # Composite manager
-exec_always --no-startup-id compton --config ~/.config/compton/compton.conf
+exec_always --no-startup-id ~/.config/compton/launch.sh
 
 # Replacement for dmenu
 exec --no-startup-id albert
