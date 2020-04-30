@@ -137,8 +137,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/pactl_volume.sh -
 bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/pactl_volume.sh M # mute sound
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec light -k -A 15 # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -k -U 15 # decrease screen brightness
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
@@ -193,6 +193,7 @@ bindsym $mod+Shift+S exec dbus-send --system --print-reply --dest=org.freedeskto
 
 # To give sudo for pamac
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
+for_window [class="polkit-gnome-authentication-agent-1"] focus
 
 # Auto startup of basic programs
 exec --no-startup-id firefox
@@ -214,3 +215,6 @@ bindsym $mod+o exec terminator -x ranger
 
 # Dual monitor window managing
 bindsym $mod+m move workspace to output right
+
+# Automounting flash drives
+exec --no-startup-id udiskie -an --no-tray &
