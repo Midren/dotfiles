@@ -211,3 +211,6 @@ for_window [title="Microsoft Teams Notification"] floating enable
 for_window [title="Microsoft Teams Notification"] sticky enable
 
 bindsym $mod+o exec terminator -x ranger
+
+# Dual monitor window managing
+bindsym $mod+m move workspace to output right

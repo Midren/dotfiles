@@ -28,6 +28,7 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/topbar]
+monitor = ${env:MONITOR:}
 background = #D93d3c3b
 foreground = #b6a49b
 width                    = 100%
