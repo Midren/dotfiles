@@ -6,19 +6,27 @@
 - clean: ['~']
 
 - link:
-    ~/.config/albert: config/albert
-    ~/.config/compton: config/compton
-    ~/.config/dunst: config/dunst
-    ~/.config/gtk-3.0: config/gtk-3.0
-    ~/.config/i3: config/i3
-    ~/.config/polybar: config/polybar
-    ~/.config/ranger: config/ranger
-    ~/.config/terminator: config/terminator
-    ~/.config/zathura: config/zathura
-    ~/.fonts: fonts
+    ~/.config/i3:      DE/i3
+    ~/.config/polybar: DE/polybar
+    ~/.config/dunst:   DE/dunst
+    ~/.config/compton: DE/compton
+    ~/.config/gtk-3.0: DE/gtk-3.0
+    ~/.config/mimeapps.list:
+      path: DE/mimeapps.list
+    ~/.fonts:
+      create: true
+      path: DE/fonts
+
+
+- link:
+    ~/.config/albert: albert
+    ~/.config/ranger: ranger
+    ~/.config/terminator: terminator
+    ~/.config/zathura: zathura
     ~/.vim_runtime: vim_runtime
-    ~/.zshrc: zshrc
+    ~/.zshrc: zsh/zshrc
     ~/.ideavimrc: ideavimrc
 
 - shell:
   - [git submodule update --recursive --init, Installing/updating submodules]
+  - [~/.vim_runtime/install_awesome_vimrc.sh, Installing vimrc]
