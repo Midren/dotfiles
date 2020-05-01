@@ -8,19 +8,11 @@
 ;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
 ;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 ;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;   The README contains a lot of information
-;
 ;==========================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
 background = #222
 background-alt = #444
-;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
 foreground-alt = #555
 primary = #ffb52a
@@ -49,12 +41,8 @@ wm-restack=i3
 
 fixed-center = true
 font-0 = San Francisco Display Regular:size=11;2
-font-1 = unifont:fontformat=truetype:size=11:antialias=false;0
-font-2 = "MaterialIcons:size=18;1"
-font-3 = "icomoon-extended-ultra:size=11:antialias=false;1"
-font-4 = "Font Awesome 5 Brands:size=11;1"
-font-5 = "3270Medium Nerd Font:size=12:style=Medium;2"
-font-6 = "TerminessTTF Nerd Font Mono:size=18;3"
+font-1 = "3270Medium Nerd Font:size=12:style=Medium;2"
+font-2 = "TerminessTTF Nerd Font Mono:size=18;3"
 
 modules-left = i3 temperature cpu memory
 modules-center =
@@ -130,7 +118,7 @@ ws-icon-2 = "9;"
 ws-icon-3 = "10;"
 ws-icon-4 = ";a"
 
-label-focused-font = 7
+label-focused-font = 3
 label-unfocused-font = ${self.label-focused-font}
 label-visible-font = ${self.label-focused-font}
 label-urgent-font = ${self.label-focused-font}
@@ -140,20 +128,20 @@ index-sort = true
 wrapping-scroll = false
 
 ; focused = Active workspace on focused monitor
-label-focused = %{T6}%index%: %{T7}%icon%%{T-}
+label-focused = %{T2}%index%: %{T3}%icon%%{T-}
 label-focused-background = ${colors.background-alt}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %{T6}%index%: %{T7}%icon%%{T-}
+label-unfocused = %{T2}%index%: %{T3}%icon%%{T-}
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index% %icon%
+label-visible = %{T2}%index%: %{T3}%icon%%{T-}
 label-visible-padding = ${self.label-unfocused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index%
+label-urgent = %{T2}%index%: %{T3}%icon%%{T-}
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
