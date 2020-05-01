@@ -1,0 +1,24 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.config/albert: config/albert
+    ~/.config/compton: config/compton
+    ~/.config/dunst: config/dunst
+    ~/.config/gtk-3.0: config/gtk-3.0
+    ~/.config/i3: config/i3
+    ~/.config/polybar: config/polybar
+    ~/.config/ranger: config/ranger
+    ~/.config/terminator: config/terminator
+    ~/.config/zathura: config/zathura
+    ~/.fonts: fonts
+    ~/.vim_runtime: vim_runtime
+    ~/.zshrc: zshrc
+    ~/.ideavimrc: ideavimrc
+
+- shell:
+  - [git submodule update --recursive --init, Installing/updating submodules]
