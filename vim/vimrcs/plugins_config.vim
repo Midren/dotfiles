@@ -6,14 +6,6 @@
 
 
 """"""""""""""""""""""""""""""
-" => Load pathogen paths
-""""""""""""""""""""""""""""""
-let s:vim_runtime = expand('<sfile>:p:h')."/.."
-call pathogen#infect(s:vim_runtime.'/sources_forked/{}')
-call pathogen#infect(s:vim_runtime.'/sources_non_forked/{}')
-call pathogen#helptags()
-
-""""""""""""""""""""""""""""""
 " => Install using Vundle
 """"""""""""""""""""""""""""""
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -222,7 +214,10 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:material_style='palenight'
 set background=light
-colorscheme vim-material
+try
+    colorscheme vim-material
+catch
+endtry
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => scrooloose/nerdcommenter

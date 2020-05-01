@@ -23,10 +23,11 @@
     ~/.config/ranger: ranger
     ~/.config/terminator: terminator
     ~/.config/zathura: zathura
-    ~/.vim_runtime: vim_runtime
     ~/.zshrc: zsh/zshrc
-    ~/.ideavimrc: ideavimrc
+    ~/.vim: vim/vim
+    ~/.ideavimrc: vim/vimrcs/ideavimrc
 
 - shell:
-  - [git submodule update --recursive --init, Installing/updating submodules]
-  - [~/.vim_runtime/install_awesome_vimrc.sh, Installing vimrc]
+  - [git submodule update --recursive, Installing/updating submodules]
+  - [vim/install_awesome_vimrc.sh, Installing vimrc]
+  - [vim +PluginInstall +qall, Install plugins via Vundle]
