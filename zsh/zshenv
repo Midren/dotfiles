@@ -1,0 +1,3 @@
+export ZDOTDIR=$HOME/.config/zsh
+export ZSH_CUSTOM=$HOME/.config/zsh/custom
+export HISTFILE=$HOME/.config/zsh/.zsh_history

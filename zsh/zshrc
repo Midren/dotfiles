@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH="/home/$USER/.oh-my-zsh"
+export ZSH="$HOME/.config/zsh/oh-my-zsh"
 
 ZSH_THEME="agnoster"
 
@@ -18,10 +18,10 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 plugins=(
     vi-mode
     git
-    zsh-syntax-highlighting
     zsh-autosuggestions
     history-substring-search
     docker docker-compose
+    zsh-syntax-highlighting
 )
 source $ZSH/oh-my-zsh.sh
 

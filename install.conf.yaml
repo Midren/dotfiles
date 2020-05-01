@@ -5,6 +5,10 @@
 
 - clean: ['~']
 
+- shell:
+  - [git submodule update --recursive, Installing/updating submodules]
+
+# Install DE related stuff
 - link:
     ~/.config/i3:      DE/i3
     ~/.config/polybar: DE/polybar
@@ -17,17 +21,28 @@
       create: true
       path: DE/fonts
 
+# Install vim-related stuff
+- link:
+    ~/.vim: vim/vim
+    ~/.ideavimrc: vim/vimrcs/ideavimrc
+
+- shell:
+  - [vim/install_awesome_vimrc.sh, Installing vimrc]
+  - [vim +PluginInstall +qall, Install plugins via Vundle]
+
+# Install Zsh and Oh-my-zsh
+- create:
+  - ~/.config/zsh
+    ~/.config/custom
+
+- link:
+    ~/.zshenv: zsh/zshenv
+    ~/.config/zsh/.zshrc: zsh/zshrc
+    ~/.config/zsh/oh-my-zsh: zsh/oh-my-zsh
+    ~/.config/zsh/custom/plugins: zsh/plugins
 
 - link:
     ~/.config/albert: albert
     ~/.config/ranger: ranger
     ~/.config/terminator: terminator
     ~/.config/zathura: zathura
-    ~/.zshrc: zsh/zshrc
-    ~/.vim: vim/vim
-    ~/.ideavimrc: vim/vimrcs/ideavimrc
-
-- shell:
-  - [git submodule update --recursive, Installing/updating submodules]
-  - [vim/install_awesome_vimrc.sh, Installing vimrc]
-  - [vim +PluginInstall +qall, Install plugins via Vundle]
