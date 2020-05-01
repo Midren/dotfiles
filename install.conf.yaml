@@ -41,6 +41,7 @@
     ~/.config/zsh/oh-my-zsh: zsh/oh-my-zsh
     ~/.config/zsh/custom/plugins: zsh/plugins
 
+# Install custom applications
 - link:
     ~/.config/albert: albert
     ~/.config/ranger: ranger
