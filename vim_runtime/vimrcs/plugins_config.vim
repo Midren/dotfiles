@@ -14,15 +14,6 @@ call pathogen#infect(s:vim_runtime.'/sources_non_forked/{}')
 call pathogen#helptags()
 
 """"""""""""""""""""""""""""""
-" => Install using Plug
-""""""""""""""""""""""""""""""
-call plug#begin("~/.vim_runtime/sources_forked")
-
-Plug 'hzchirs/vim-material'
-
-call plug#end()
-
-""""""""""""""""""""""""""""""
 " => Install using Vundle
 """"""""""""""""""""""""""""""
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -31,6 +22,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'lervag/vimtex'
+Plugin 'xuhdev/vim-latex-live-preview'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'dense-analysis/ale'
 Plugin 'maxbrunsfeld/vim-yankstack'
@@ -249,3 +241,8 @@ let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => lervag/vimtex
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:livepreview_previewer = 'zathura'
+let g:livepreview_cursorhold_recompile=1
