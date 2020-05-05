@@ -19,6 +19,9 @@
       create: true
       path: DE/fonts
 
+- shell:
+  - [fc-cache -f -v, Update fonts]
+
 # Install vim-related stuff
 - link:
     ~/.vim: vim/vim
