@@ -6,7 +6,7 @@
 - clean: ['~']
 
 - shell:
-  - [git submodule update --recursive, Installing/updating submodules]
+  - [git submodule update --recursive --init, Installing/updating submodules]
 
 # Install DE related stuff
 - link:
@@ -15,8 +15,6 @@
     ~/.config/dunst:   DE/dunst
     ~/.config/compton: DE/compton
     ~/.config/gtk-3.0: DE/gtk-3.0
-    #~/.config/mimeapps.list:
-    #  path: DE/mimeapps.list
     ~/.fonts:
       create: true
       path: DE/fonts

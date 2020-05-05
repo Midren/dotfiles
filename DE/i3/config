@@ -8,11 +8,13 @@ font pango:monospace 9
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
+set $term terminator
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminator
+bindsym $mod+Return exec $term
 
 # kill focused window
 bindsym $mod+q kill
@@ -174,14 +176,14 @@ exec_always --no-startup-id exec $HOME/.config/polybar/launch.sh
 
 # Low battery notification
 for_window [title="Battery Warning"] sticky enable
-exec --no-startup-id exec $HOME/.config/i3/i3-battery-popup.sh -n -L 25 -l 10 -t 5m
+exec --no-startup-id exec $HOME/.config/i3/i3-battery-popup.sh -n -L 25 -l 15 -t 3m
 
 # Locking
 bindsym $mod+Control+l exec "$HOME/.config/i3/i3-lock-and-blur.sh"
 
 # Screenshots
-bindsym Print exec flameshot full -p "$HOME/Pictures"
-bindsym Control+Print exec flameshot full -c
+bindsym Print exec flameshot screen -p "$HOME/Pictures"
+bindsym Control+Print exec flameshot screen -c
 bindsym Control+Shift+Print exec flameshot gui
 
 # Hide program to scratchpad
@@ -211,10 +213,17 @@ for_window [class="Mailspring"] move to workspace $ws9
 for_window [title="Microsoft Teams Notification"] floating enable
 for_window [title="Microsoft Teams Notification"] sticky enable
 
-bindsym $mod+o exec terminator -x ranger
+bindsym $mod+o exec $term -x ranger
 
 # Dual monitor window managing
 bindsym $mod+m move workspace to output right
 
 # Automounting flash drives
 exec --no-startup-id udiskie -an --no-tray &
+
+# General settings
+popup_during_fullscreen smart
+
+for_window [title="Preferences$"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
