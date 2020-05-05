@@ -15,8 +15,8 @@
     ~/.config/dunst:   DE/dunst
     ~/.config/compton: DE/compton
     ~/.config/gtk-3.0: DE/gtk-3.0
-    ~/.config/mimeapps.list:
-      path: DE/mimeapps.list
+    #~/.config/mimeapps.list:
+    #  path: DE/mimeapps.list
     ~/.fonts:
       create: true
       path: DE/fonts
