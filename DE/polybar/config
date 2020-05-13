@@ -20,7 +20,7 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/topbar]
-monitor = ${env:MONITOR:}
+monitor = ${env:MONITOR:eDP-1-1}
 background = #D93d3c3b
 foreground = #b6a49b
 width                    = 100%
@@ -35,6 +35,7 @@ padding-right            = 5
 module-margin-left       = 1
 module-margin-right      = 1
 
+enable-ipc=true
 override-redirect=true
 offset-y = 10
 wm-restack=i3
@@ -42,7 +43,8 @@ wm-restack=i3
 fixed-center = true
 font-0 = San Francisco Display Regular:size=11;2
 font-1 = "3270Medium Nerd Font:size=12:style=Medium;2"
-font-2 = "TerminessTTF Nerd Font Mono:size=18;3"
+font-2 = "TerminessTTF Nerd Font Mono:size=18:style=Medium;3"
+font-3 = "Noto Sans Symbols2:size=13;4"
 
 modules-left = i3 temperature cpu memory
 modules-center =
@@ -50,7 +52,7 @@ modules-right = date volume xkeyboard battery
 module-margin = 2
 
 left - center - right - none
-tray-position = center
+tray-position = ${env:TRAY_POSITION:center}
 tray-detached = false
 tray-padding = 5
 tray-scale = 1.0
@@ -155,9 +157,23 @@ label =    %date%    %time%
 format-padding = 1
 
 [module/volume]
-type = internal/alsa
-format-volume =  <ramp-volume>  <label-volume>
-format-muted = 0%  
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
+type = custom/script
+;type = internal/pulseaudio
+;sink = alsa_output.pci-0000_01_00.1.hdmi-stereo
+;format-volume =  <ramp-volume>  <label-volume>
+;ramp-volume-0 = 
+;ramp-volume-1 = 
+;ramp-volume-2 = 
+;format-muted = 0%  
+;click-right = pavucontrol &
+tail = true
+label=%output%
+
+exec = ~/.config/polybar/scripts/pulseaudio-control.bash listen
+click-right = exec pavucontrol &
+click-left = ~/.config/polybar/scripts/pulseaudio-control.bash togmute
+click-middle = ~/.config/polybar/scripts/pulseaudio-control.bash next-sink
+scroll-up = ~/.config/polybar/scripts/pulseaudio-control.bash up
+scroll-down = ~/.config/polybar/scripts/pulseaudio-control.bash down
+
+# vim:filetype=dosini

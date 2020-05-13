@@ -2,19 +2,31 @@
 
 # Terminate already running bar instances
 killall -q polybar
-# If all your bars have ipc enabled, you can also use
-# polybar-msg cmd quit
+
+while pgrep -u $UID -x polybar > /dev/null; do sleep 0.5; done
+
+outputs=$(xrandr --query | grep " connected" | cut -d" " -f1)
+tray_output=eDP-1
+
+for m in $outputs; do
+  if [[ $m == "HDMI-0" ]]; then
+      tray_output=$m
+      echo tray output $tray_output
+  fi
+done
+
 
 # Launch example
 echo "---" | tee -a /tmp/topbar.log /tmp/topbar.log
-if type "xrandr"; then
-    for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-        echo $m
-        MONITOR=$m polybar --reload topbar  >>/tmp/topbar.log 2>&1 &
-    done
-else
-    polybar --reload topbar  >>/tmp/topbar.log 2>&1 &
-fi
-
+for m in $outputs; do
+    echo $m
+    TRAY_POSITION=none
+    if [[ $m == $tray_output ]]; then
+      TRAY_POSITION=center
+    fi
+    export TRAY_POSITION
+    MONITOR=$m polybar --reload topbar  >>/tmp/topbar.log 2>&1 &
+    disown
+done
 
 echo "Bars launched..."
