@@ -19,4 +19,4 @@
 	url = https://github.com/alexanderjeurissen/ranger_devicons
 [submodule "ranger/plugins/plugin_ranger-archives"]
 	path = ranger/plugins/plugin_ranger-archives
-	url = https://github.com/RomanMilishchuk/ranger-archives
+	url = https://github.com/maximtrp/ranger-archives
