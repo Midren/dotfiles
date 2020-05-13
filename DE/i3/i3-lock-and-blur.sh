@@ -1,18 +1,30 @@
-#!/usr/bin/env bash
+#!/usr/bin/sh
 
 # set the icon and a temporary location for the screenshot to be stored
 icon="$HOME/.config/i3/lock_screen.png"
 tmpbg='/tmp/screen.png'
 
-# take a screenshot
-#scrot -uzoa "$tmpbg"
-flameshot full -r > "$tmpbg"
+SR=$(xrandr --query | grep ' connected' | grep -o '[0-9][0-9]*x[0-9][0-9]*[^ ]*')
+I=0
+for RES in $SR; do
+    SRA=(${RES//[x+]/ })
+    WIDTH=${SRA[0]}
+    HEIGHT=${SRA[1]}
+    rectangle="rectangle $((WIDTH*58/100-86)),$(($HEIGHT*55/100-52)) $((WIDTH*58/100+86)),$((HEIGHT*55/100+52))"
+    if [ $I -ge 1 ]; then
+        flameshot screen -r -n $I | \
+            convert - -draw "fill black fill-opacity 0.4 $rectangle" \
+            -filter Gaussian -thumbnail 20% -sample 500% \
+            "$icon" -gravity center -composite - | \
+            convert - "$tmpbg" +append "$tmpbg"
+    else
+        flameshot screen -r -n $I | convert - -draw "fill black fill-opacity 0.4 $rectangle" \
+            -filter Gaussian -thumbnail 20% -sample 500% \
+            "$icon" -gravity center -composite "$tmpbg"
+    fi
+    I=$((I+1))
+done
 
-# blur the screenshot by resizing and scaling back up
-convert "$tmpbg" -filter Gaussian -thumbnail 20% -sample 500% "$tmpbg"
-
-# overlay the icon onto the screenshot
-convert "$tmpbg" "$icon" -gravity center -composite "$tmpbg"
-
-# lock the screen with the blurred screenshot
-i3lock -i "$tmpbg" -f
+# It is actually using i3lock
+i3lock -ei "$tmpbg" -f \
+     -k --pass-media-keys --pass-screen-keys --indpos='x+0.58*w:y+0.55*h' --datecolor=FFFFFFFF --timecolor=FFFFFFFF --wrongcolor=FFFFFFFF --verifcolor=FFFFFFFF

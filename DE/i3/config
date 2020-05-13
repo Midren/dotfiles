@@ -158,10 +158,10 @@ gaps top 30
 exec_always setxkbmap 'us,ua' ',winkeys' 'grp:win_space_toggle'
 
 # Wallpaper
-exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg --no-fehbg
 
 # Network manager icon in var
-exec_always --no-startup-id nm-applet
+exec --no-startup-id nm-applet
 
 # Composite manager
 exec_always --no-startup-id ~/.config/compton/launch.sh
