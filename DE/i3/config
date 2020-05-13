@@ -221,6 +221,9 @@ bindsym $mod+m move workspace to output right
 # Automounting flash drives
 exec --no-startup-id udiskie -an --no-tray &
 
+# Filter blue light at night
+exec --no-startup-id redshift -l 49.5:24
+
 # General settings
 popup_during_fullscreen smart
 
