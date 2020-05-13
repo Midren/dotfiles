@@ -1,0 +1,8 @@
+[Unit]
+Description=Update programs which depend on screen size/count
+
+[Service]
+Type=simple
+RemainAfterExit=no
+User=midren
+ExecStart=/home/midren/.config/i3/scripts/on_monitor_changed.sh

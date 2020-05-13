@@ -1,0 +1,2 @@
+ACTION=="change", KERNEL=="card1", SUBSYSTEM=="drm", RUN+="/usr/bin/systemctl start adaptdisplay.service"
+#KERNEL=="card1", SUBSYSTEM=="drm", ACTION=="change", ENV{SYSTEMD_USER_WANTS}+="adaptdisplay.service", TAG+="systemd"
