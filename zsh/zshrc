@@ -71,3 +71,9 @@ export GOPATH="$SKY/go"
 PATH="$HOME/.local/bin:$HOME/bin:$GOPATH/bin:$PATH"
 
 alias sleep='dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Suspend" boolean:true'
+
+export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#if command -v pyenv 1>/dev/null 2>&1; then
+#  eval "$(pyenv init -)"
+#fi

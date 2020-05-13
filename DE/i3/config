@@ -230,3 +230,4 @@ popup_during_fullscreen smart
 for_window [title="Preferences$"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
+# vim:filetype=i3
