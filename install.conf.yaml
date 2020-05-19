@@ -15,11 +15,13 @@
     ~/.config/dunst:   DE/dunst
     ~/.config/compton: DE/compton
     ~/.config/gtk-3.0: DE/gtk-3.0
+    ~/.Xresources:     DE/Xresources
     ~/.fonts:
       create: true
       path: DE/fonts
 
 - shell:
+  - [xrdb ~/.Xresources, Update Xresources]
   - [fc-cache -f -v, Update fonts]
 
 # Install vim-related stuff
@@ -51,5 +53,4 @@
 # Install custom applications
 - link:
     ~/.config/albert: albert
-    ~/.config/terminator: terminator
     ~/.config/zathura: zathura

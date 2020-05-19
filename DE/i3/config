@@ -8,7 +8,7 @@ font pango:monospace 9
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-set $term terminator
+set $term st
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
