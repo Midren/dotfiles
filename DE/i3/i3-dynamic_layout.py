@@ -10,7 +10,8 @@ i3 = Connection()
 
 focused = i3.get_tree().find_focused()
 
-if focused is not None:
+print(f"{focused.id}, {focused.type}")
+if focused.type != "workspace":
     windows = focused.workspace().leaves()
     windows[-1].command("focus")
     i3.command("split " + ("horizontal" if len(windows) % 2 else "vertical"))

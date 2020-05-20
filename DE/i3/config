@@ -8,12 +8,12 @@ font pango:monospace 9
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-set $term '/home/midren/.dotfiles/DE/i3/i3-cwd-shell.sh st'
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
+set $term '/home/midren/.dotfiles/DE/i3/i3-cwd-shell.sh st'
+
 bindsym $mod+Return exec ~/.config/i3/i3-dynamic_layout.py $term
 
 # kill focused window
