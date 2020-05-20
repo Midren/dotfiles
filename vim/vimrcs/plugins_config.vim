@@ -209,7 +209,6 @@ let g:gitgutter_enabled=0
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim-material
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -220,6 +219,7 @@ try
 catch
 endtry
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => scrooloose/nerdcommenter
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -227,6 +227,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCompactSexyComs = 1
 nmap <C-_>   <Plug>NERDCommenterToggle
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => lervag/vimtex
@@ -237,8 +238,15 @@ let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
 
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => lervag/vimtex
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:livepreview_previewer = 'zathura'
 let g:livepreview_cursorhold_recompile=1
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vhdirk/vim-cmake
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
