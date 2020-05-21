@@ -82,3 +82,9 @@ autocmd BufRead *.twig set syntax=html filetype=html
 " => Markdown
 """"""""""""""""""""""""""""""
 let vim_markdown_folding_disabled = 1
+
+
+""""""""""""""""""""""""""""""
+" => QML
+" """"""""""""""""""""""""""""""
+au BufNewFile,BufRead *.qml set filetype=qml

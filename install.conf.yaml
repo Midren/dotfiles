@@ -44,13 +44,14 @@
     ~/.config/zsh/oh-my-zsh: zsh/oh-my-zsh
     ~/.config/zsh/custom/plugins: zsh/plugins
 
+# Install ranger with plugins
 - link:
     ~/.config/ranger: ranger
 
 - shell:
   - ["find ~/.config/ranger/ -name 'plugin_*' -type d -exec make install -C {} \\;", Install ranger plugins]
 
-# Install custom applications
+# Install other application configs
 - link:
     ~/.config/albert: albert
     ~/.config/zathura: zathura

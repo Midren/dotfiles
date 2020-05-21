@@ -12,6 +12,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'lervag/vimtex'
 Plugin 'xuhdev/vim-latex-live-preview'
@@ -21,7 +22,6 @@ Plugin 'maxbrunsfeld/vim-yankstack'
 Plugin 'michaeljsmith/vim-indent-object'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
-Plugin 'garbas/vim-snipmate'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'tpope/vim-surround'
@@ -40,7 +40,11 @@ Plugin 'nvie/vim-flake8'
 Plugin 'Vimjas/vim-python-pep8-indent'
 Plugin 'kien/ctrlp.vim'
 Plugin 'PotatoesMaster/i3-vim-syntax'
-" Plugin 'jistr/vim-nerdtree-tabs'
+
+Plugin 'peterhoeg/vim-qml'
+
+Plugin 'preservim/nerdtree'
+
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'xolox/vim-misc'
 " Plugin 'xolox/vim-easytags'
@@ -118,10 +122,10 @@ set grepprg=/bin/grep\ -nH
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:NERDTreeWinPos = "left"
-let NERDTreeShowHidden=0
+let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=35
-map <leader>nn :NERDTreeToggle<cr>
+map <leader>t :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 
