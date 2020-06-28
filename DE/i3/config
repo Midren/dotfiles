@@ -176,7 +176,7 @@ exec --no-startup-id exec $HOME/.config/i3/i3-battery-popup.sh -n -L 25 -l 15 -t
 
 # Locking
 bindsym $mod+Control+l exec "$HOME/.config/i3/i3-lock-and-blur.sh"
-exec --no-startup-id xautolock -time 10 -locker ~/.dotfiles/DE/i3/i3-lock-and-blur.sh &
+#exec --no-startup-id xautolock -time 10 -locker ~/.dotfiles/DE/i3/i3-lock-and-blur.sh &
 
 # Screenshots
 bindsym Print exec flameshot screen -p "$HOME/Pictures"
@@ -220,6 +220,9 @@ exec --no-startup-id udiskie -an --no-tray &
 
 # Filter blue light at night
 exec --no-startup-id redshift -l 49.5:24
+
+# Autohide mouse after 10 sec
+exec --no-startup-id unclutter --timeout 10 &
 
 # General settings
 popup_during_fullscreen smart

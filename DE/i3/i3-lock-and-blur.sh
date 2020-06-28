@@ -28,3 +28,5 @@ done
 # It is actually using i3lock
 i3lock -ei "$tmpbg" -f \
      -k --pass-media-keys --pass-screen-keys --indpos='x+0.58*w:y+0.55*h' --datecolor=FFFFFFFF --timecolor=FFFFFFFF --wrongcolor=FFFFFFFF --verifcolor=FFFFFFFF
+sleep 5
+xset dpms force off
