@@ -150,8 +150,8 @@ for_window [class=".*"] border pixel 2
 gaps inner 20
 gaps top 30
 
-# Keyboard Layout
-exec_always setxkbmap 'us,ua' ',winkeys' 'grp:win_space_toggle'
+# Keyboard Layout and disable caps lock
+exec_always setxkbmap 'us,ua' ',winkeys' 'grp:win_space_toggle' -option caps:none
 
 # Wallpaper
 exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg --no-fehbg
