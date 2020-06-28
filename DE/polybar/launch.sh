@@ -6,7 +6,9 @@ killall -q polybar
 while pgrep -u $UID -x polybar > /dev/null; do sleep 0.5; done
 
 outputs=$(xrandr --query | grep " connected" | cut -d" " -f1)
-tray_output=eDP-1-1
+# When external monitor is not connected on start up
+# laptop screen is eDP-1 instead of eDP-1-1
+tray_output=$(xrandr | grep "eDP" | cut -d' ' -f1)
 
 for m in $outputs; do
   if [[ $m == "HDMI-0" ]]; then
