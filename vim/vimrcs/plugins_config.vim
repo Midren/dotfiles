@@ -112,13 +112,6 @@ let g:user_zen_mode='a'
 
 
 """"""""""""""""""""""""""""""
-" => snipMate (beside <TAB> support <CTRL-j>)
-""""""""""""""""""""""""""""""
-ino <C-j> <C-r>=snipMate#TriggerSnippet()<cr>
-snor <C-j> <esc>i<right><C-r>=snipMate#TriggerSnippet()<cr>
-
-
-""""""""""""""""""""""""""""""
 " => Vim grep
 """"""""""""""""""""""""""""""
 let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
@@ -260,3 +253,43 @@ let g:livepreview_cursorhold_recompile=1
 " => vhdirk/vim-cmake
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => ycm-core/YouCompleteMe
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup MyYCMCustom
+    let g:ycm_filetype_whitelist={ 'c': 1, 'cpp': 1, 'python': 1}
+    let g:ycm_add_preview_to_completeopt = 1
+    let g:ycm_key_invoke_completion = '<C-Space>'
+    let g:ycm_key_list_select_completion = ['<TAB>', '<Enter>']
+    let g:ycm_semantic_triggers =  {
+      \   'c,cpp,objc,python': [ 're!\w{4}', '_'  ],
+      \ }
+    set completeopt+=popup
+    let g:ycm_autoclose_preview_window_after_completion = 1
+    let g:ycm_autoclose_preview_window_after_insertion = 1
+    let g:ycm_python_binary_path = '/bin/python3'
+    let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf/ycm_extra_conf.py'
+
+    let g:ycm_key_list_select_completion=[]
+    let g:ycm_key_list_previous_completion=[]
+
+    let g:UltiSnipsEditSplit='horizontal'
+    let g:UltiSnipsExpandTrigger = '<tab>'
+    let g:UltiSnipsJumpForwardTrigger = '<tab>'
+    let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
+
+
+  autocmd!
+  autocmd FileType c,cpp,python let b:ycm_hover = {
+    \ 'command': 'GetDoc',
+    \ 'syntax': &filetype
+    \ }
+    let g:ycm_auto_hover=''
+    nmap <leader>d <plug>(YCMHover)
+augroup END
+
+nnoremap <buffer> <silent> <leader>gd :YcmCompleter GoTo<CR>
+nnoremap <buffer> <silent> <leader>gr :YcmCompleter GoToReferences<CR>
+nnoremap <buffer> <silent> <leader>rr :YcmCompleter RefactorRename 
+
+set updatetime=300
