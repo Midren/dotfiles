@@ -6,44 +6,52 @@
 
 
 """"""""""""""""""""""""""""""
-" => Install using Vundle
+" => Install using Vim-plug
 """"""""""""""""""""""""""""""
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'lervag/vimtex'
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'dense-analysis/ale'
-Plugin 'maxbrunsfeld/vim-yankstack'
-Plugin 'michaeljsmith/vim-indent-object'
-Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'tomtom/tlib_vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'tpope/vim-surround'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'junegunn/goyo.vim' " Distraction free writing
-Plugin 'amix/vim-zenroom2'
-Plugin 'tpope/vim-repeat'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'itchyny/lightline.vim'
-Plugin 'maximbaz/lightline-ale'
-Plugin 'hzchirs/vim-material'
-Plugin 'yegappan/mru'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'nvie/vim-flake8'
-Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'kien/ctrlp.vim'
-Plugin 'PotatoesMaster/i3-vim-syntax'
+Plug 'scrooloose/nerdcommenter'
+Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview'
+Plug 'jiangmiao/auto-pairs'
+Plug 'dense-analysis/ale'
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'junegunn/goyo.vim' " Distraction free writing
+Plug 'amix/vim-zenroom2'
+Plug 'tpope/vim-repeat'
+Plug 'airblade/vim-gitgutter'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'hzchirs/vim-material'
+Plug 'yegappan/mru'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'nvie/vim-flake8'
+Plug 'kien/ctrlp.vim'
+Plug 'PotatoesMaster/i3-vim-syntax'
+Plug 'vim-utils/vim-man'
 
-Plugin 'peterhoeg/vim-qml'
+Plug 'skywind3000/asyncrun.vim'
 
-Plugin 'preservim/nerdtree'
+Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vhdirk/vim-cmake'
+Plug 'peterhoeg/vim-qml'
+Plug 'suy/vim-qmake'
+
+Plug 'preservim/nerdtree'
 
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'xolox/vim-misc'
@@ -55,10 +63,8 @@ Plugin 'preservim/nerdtree'
 " Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'nathanaelkane/vim-indent-guides'
 " Plugin 'octol/vim-cpp-enhanced-highlight'
-" Plugin 'rip-rip/clang_complete'
-" Plugin 'Valloric/YouCompleteMe'
 
-call vundle#end()
+call plug#end()
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
 """"""""""""""""""""""""""""""

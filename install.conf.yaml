@@ -31,7 +31,7 @@
 
 - shell:
   - [vim/install_awesome_vimrc.sh, Installing vimrc]
-  - [vim +PluginInstall +qall, Install plugins via Vundle]
+  - [vim +silent +VimEnter +PlugInstall +qall, Install plugins via Vundle]
 
 # Install Zsh and Oh-my-zsh
 - create:

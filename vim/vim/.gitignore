@@ -1,2 +1,2 @@
-bundle/*
-!bundle/Vundle.Vim
+*
+!ycm_extra_conf
