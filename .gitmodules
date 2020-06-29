@@ -17,3 +17,6 @@
 [submodule "ranger/plugins/plugin_ranger-archives"]
 	path = ranger/plugins/plugin_ranger-archives
 	url = https://github.com/maximtrp/ranger-archives
+[submodule "st"]
+	path = st
+	url = https://github.com/Midren/st
