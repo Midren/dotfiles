@@ -139,6 +139,14 @@ set clipboard=unnamedplus
 " Show numbers
 set number
 
+" Split below
+set splitbelow
+
+" Sets max number of items in listing (i.e. completions)
+set pumheight=10
+
+" Activate mouse support
+set mouse=a
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -257,7 +257,10 @@ let g:livepreview_cursorhold_recompile=1
 " => ycm-core/YouCompleteMe
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup MyYCMCustom
-    let g:ycm_filetype_whitelist={ 'c': 1, 'cpp': 1, 'python': 1}
+    let g:ycm_filetype_whitelist= { 'c': 1, 
+                                  \ 'cpp': 1,
+                                  \ 'python': 1
+                                  \ }
     let g:ycm_add_preview_to_completeopt = 1
     let g:ycm_key_invoke_completion = '<C-Space>'
     let g:ycm_key_list_select_completion = ['<TAB>', '<Enter>']
@@ -268,10 +271,12 @@ augroup MyYCMCustom
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
     let g:ycm_python_binary_path = '/bin/python3'
+    let g:ycm_clangd_binary_path= 'clangd'
     let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf/ycm_extra_conf.py'
 
     let g:ycm_key_list_select_completion=[]
     let g:ycm_key_list_previous_completion=[]
+    "let g:ycm_echo_current_diagnostic=0
 
     let g:UltiSnipsEditSplit='horizontal'
     let g:UltiSnipsExpandTrigger = '<tab>'
@@ -288,8 +293,8 @@ augroup MyYCMCustom
     nmap <leader>d <plug>(YCMHover)
 augroup END
 
-nnoremap <buffer> <silent> <leader>gd :YcmCompleter GoTo<CR>
-nnoremap <buffer> <silent> <leader>gr :YcmCompleter GoToReferences<CR>
-nnoremap <buffer> <silent> <leader>rr :YcmCompleter RefactorRename 
+nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
+nnoremap <silent> <leader>gr :YcmCompleter GoToReferences<CR>
+nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 
 set updatetime=300
