@@ -85,6 +85,7 @@ let vim_markdown_folding_disabled = 1
 
 
 """"""""""""""""""""""""""""""
-" => QML
+" => Qt
 " """"""""""""""""""""""""""""""
 au BufNewFile,BufRead *.qml set filetype=qml
+au BufNewFile,BufRead *.qrc set filetype=xml
