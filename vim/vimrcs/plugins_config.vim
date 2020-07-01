@@ -178,6 +178,18 @@ let g:ale_set_highlights = 0
 " Only run linting when saving the file
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vim-clang-format
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:clang_format#detect_style_file = 1
+"let g:clang_format#auto_format_on_insert_leave = 1
+let g:clang_format#style_options = {
+ \ "BasedOnStyle": "LLVM",
+ \ "IndentWidth":  4
+ \ }
+
+autocmd FileType c,cpp nnoremap <buffer><Leader>cl :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp vnoremap <buffer><Leader>cl :ClangFormat<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
