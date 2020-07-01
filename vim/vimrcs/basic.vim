@@ -1,13 +1,13 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
-"       Amir Salihefendic — @amix3k
+"       Roman Milishchuk — @Midren
 "
 " Awesome_version:
 "       Get this config, nice color schemes and lots of plugins!
 "
 "       Install the awesome version from:
 "
-"           https://github.com/amix/vimrc
+"           https://github.com/Midren/dotfiles
 "
 " Sections:
 "    -> General
@@ -62,7 +62,6 @@ au BufEnter * set noreadonly
 set so=7
 
 " Add langmap for ukrainian language
-"set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ї],фa,іs,вd,аf,пg,рh,оj,лk,дl,ж\\;,є',ґ\\,яz,чx,сc,мv,иb,тn,ьm,ю.,./,ЙQ,ЦW,УE,КR,ЕT,НY,НY,ГU,ШI,ЩO,ЗP,Х{,Ї},ФA,ІS,ВD,АF,ПG,РH,ОJ,ЛK,ДL,Ж\\:,Є\\",Ґ<bar>,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Б\\<,Ю>,
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКІЫЕГМЦЧНЯЖЮЇфисвуапршолдьтщзйкыіегмцчняжюї\\;?;ABCDEFGHIJKLMNOPQRSSTUVWXYZ:>}abcdefghijklmnopqrsstuvwxyz\;.]$&
 
 " Avoid garbled characters in Chinese language windows OS
@@ -334,8 +333,6 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scribble
 map <leader>q :e ~/buffer<cr>

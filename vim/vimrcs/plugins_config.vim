@@ -1,10 +1,3 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Important:
-"       This requires that you install https://github.com/amix/vimrc !
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 """"""""""""""""""""""""""""""
 " => Install using Vim-plug
 """"""""""""""""""""""""""""""
@@ -35,7 +28,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'hzchirs/vim-material'
-Plug 'yegappan/mru'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'nvie/vim-flake8'
@@ -62,25 +54,8 @@ Plug 'preservim/nerdtree'
 " Plugin 'vim-airline/vim-airline'
 " Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'nathanaelkane/vim-indent-guides'
-" Plugin 'octol/vim-cpp-enhanced-highlight'
 
 call plug#end()
-""""""""""""""""""""""""""""""
-" => bufExplorer plugin
-""""""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
-
-
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
-
 
 """"""""""""""""""""""""""""""
 " => YankStack
@@ -290,7 +265,7 @@ augroup MyYCMCustom
     \ 'syntax': &filetype
     \ }
     let g:ycm_auto_hover=''
-    nmap <leader>d <plug>(YCMHover)
+    nmap <leader>dt <plug>(YCMHover)
 augroup END
 
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
