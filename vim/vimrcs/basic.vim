@@ -146,6 +146,10 @@ set pumheight=10
 
 " Activate mouse support
 set mouse=a
+
+" SignColumn (warnings, errors, git diffs, etc.) always visible
+set signcolumn=yes
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -243,8 +247,8 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+"map <leader>l :bnext<cr>
+"map <leader>h :bprevious<cr>
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
