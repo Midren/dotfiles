@@ -7,8 +7,8 @@
 *cursorColor:                     #1ABB9B
 *pointerColorBackground:          #2B2C2B
 *pointerColorForeground:          #16A085
-*.font:                       JetBrainsMono NF:style=Medium:size=11.5:antialias=true
-*.boldFont:                   JetBrainsMono NF:style=Bold:size=11.5:antialias=true
+*.font:                       JetBrainsMono Nerd Font Mono:style=Medium,Regular:size=11.5:antialias=true
+*.boldFont:                   JetBrainsMono Nerd Font Mono:style=Bold:size=11.5:antialias=true:autohint=false
 
 !! black dark/light
 *.color0: #073642
@@ -60,6 +60,7 @@ st.borderpx:    0
 st.opacity:     217
 *.alpha:        0.85
 st.termname:    st-256color
+st.fontalt0:    TerminessTTF Nerd Font Mono:style=Medium,Regular:size=18:antialias=true
 
 ! alternative font settings with 'terminus':
 ! URxvt.font:      -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
