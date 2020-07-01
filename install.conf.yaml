@@ -31,7 +31,11 @@
 
 - shell:
   - [vim/install_awesome_vimrc.sh, Installing vimrc]
-  - [vim +silent +VimEnter +PlugInstall +qall, Install plugins via Vundle]
+  - [vim +silent +VimEnter +PlugInstall +qall, Install plugins via Vim-Plug]
+
+- create:
+  - ~/.vim/temp_dirs
+  - ~/.vim/temp_dirs/undodir
 
 # Install Zsh and Oh-my-zsh
 - create:
