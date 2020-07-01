@@ -12,7 +12,7 @@ font pango:monospace 9
 floating_modifier $mod
 
 # start a terminal
-set $term '/home/midren/.dotfiles/DE/i3/i3-cwd-shell.sh st'
+set $term '~/.dotfiles/DE/i3/i3-cwd-shell.sh st'
 
 bindsym $mod+Return exec ~/.config/i3/i3-dynamic_layout.py $term
 

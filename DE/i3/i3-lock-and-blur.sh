@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/usr/bin/env bash
 
 # set the icon and a temporary location for the screenshot to be stored
 icon="$HOME/.config/i3/lock_screen.png"

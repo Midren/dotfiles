@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from i3ipc import Connection
 from sys import argv, exit
@@ -10,7 +10,6 @@ i3 = Connection()
 
 focused = i3.get_tree().find_focused()
 
-print(f"{focused.id}, {focused.type}")
 if focused.type != "workspace":
     windows = focused.workspace().leaves()
     windows[-1].command("focus")
