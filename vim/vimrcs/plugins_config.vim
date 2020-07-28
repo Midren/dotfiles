@@ -24,7 +24,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/goyo.vim' " Distraction free writing
 Plug 'amix/vim-zenroom2'
 Plug 'tpope/vim-repeat'
-Plug 'airblade/vim-gitgutter' | Plug 'jasoncodes/ctrlp-modified.vim'
+Plug 'airblade/vim-gitgutter' | Plug 'jasoncodes/ctrlp-modified.vim' | Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 Plug 'hzchirs/vim-material'
@@ -306,9 +306,11 @@ xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap <silent> ah <Plug>(GitGutterTextObjectOuterVisual)
 nnoremap <silent> <leader>d :GitGutterToggle<cr>
 " Usually you don't need to have list of all hunks, but better list of modified files
-" Even better with Fuzzy Finding )
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
+" Even better with Fuzzy Finding )
 nnoremap <silent> <leader>hl :CtrlPModified<cr>
+
+map <silent> <leader>gs :Gstatus<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
