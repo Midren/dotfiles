@@ -41,9 +41,10 @@ Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-c
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'jeaye/color_coded', {'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vhdirk/vim-cmake'
-Plug 'peterhoeg/vim-qml'
+Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
 Plug 'suy/vim-qmake'
+Plug 'peterhoeg/vim-qml'
+
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
 Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
