@@ -37,7 +37,9 @@ Plug 'vim-utils/vim-man'
 
 Plug 'skywind3000/asyncrun.vim'
 
-Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'}
+Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'}  
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+Plug 'jeaye/color_coded', {'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vhdirk/vim-cmake'
 Plug 'peterhoeg/vim-qml'
@@ -316,6 +318,31 @@ set background=light
 try
    colorscheme vim-material
    highlight! link SignColumn Conceal
+
+   autocmd FileType cpp call s:cpp_highlight_settings()
+   function! s:cpp_highlight_settings()
+       highlight! Variable guifg=foreground
+       highlight! link cppStructure javascriptFuncKeyword
+       highlight! link cStructure javascriptFuncKeyword
+       highlight! link Member javascriptMethod
+       highlight! link Type jsFuncBraces
+       highlight! link cppExceptions cppModifier
+       highlight! link cppModifier cppStorageClass
+       highlight! link cStorageClass cppStorageClass
+       highlight! link cppStorageClass jsClassDefinition
+       highlight! link Namespace Identifier
+       highlight! link ClassDecl Identifier
+    endfunction
+
+   "hi Type guifg=purple
+   "highlight! link Member javascriptIdentifierName 
+   "highlight! link Variable javascriptIdentifierName 
+   "highlight! link Namespace javascriptIdentifierName 
+   "hi EnumConstant
+   "highlight! link StructDecl Function
+   "highlight! link UnionDecl Function
+   "highlight! link ClassDecl Function
+   "highlight! link EnumDecl Function
 catch
 endtry
 
