@@ -42,6 +42,7 @@ Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-c
 Plug 'vhdirk/vim-cmake'
 Plug 'peterhoeg/vim-qml'
 Plug 'suy/vim-qmake'
+Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
 Plug 'preservim/nerdtree'
 
@@ -56,6 +57,86 @@ Plug 'preservim/nerdtree'
 " Plugin 'nathanaelkane/vim-indent-guides'
 
 call plug#end()
+
+""""""""""""""""""""""""""""""
+" => Gutentags
+""""""""""""""""""""""""""""""
+let g:gutentags_define_advanced_commands = 1
+" remove auto maps
+let g:gutentags_plus_nomap = 1
+
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+"let g:gutentags_modules = ['ctags']
+
+" config project root markers.
+let g:gutentags_project_root = ['.git', '.root']
+
+" generate datebases in my cache directory, prevent gtags files polluting my project
+let g:gutentags_cache_dir = expand('~/.cache/tags')
+
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
+
+let g:gutentags_ctags_extra_args = [
+      \ '--tag-relative=yes',
+      \ '--fields=+ailmnS',
+      \ '--c++-kinds=+p',
+      \ '--extra=+q',
+      \ '--language-force=C++'
+      \ ]
+
+if executable('rg')
+  let g:gutentags_file_list_command = 'rg --files'
+endif
+
+let g:gutentags_ctags_exclude = [
+      \ '*.git', '*.svg', '*.hg',
+      \ '*/tests/*',
+      \ '.*build.*',
+      \ 'dist',
+      \ '*sites/*/files/*',
+      \ 'bin',
+      \ 'node_modules',
+      \ 'bower_components',
+      \ 'cache',
+      \ 'compiled',
+      \ 'docs',
+      \ 'example',
+      \ 'bundle',
+      \ 'vendor',
+      \ '*.md',
+      \ '*-lock.json',
+      \ '*.lock',
+      \ '*bundle*.js',
+      \ '*build*.js',
+      \ '.*rc*',
+      \ '*.json',
+      \ '*.min.*',
+      \ '*.map',
+      \ '*.bak',
+      \ '*.zip',
+      \ '*.pyc',
+      \ '*.class',
+      \ '*.sln',
+      \ '*.Master',
+      \ '*.csproj',
+      \ '*.tmp',
+      \ '*.csproj.user',
+      \ '*.cache',
+      \ '*.pdb',
+      \ 'tags*',
+      \ 'cscope.*',
+      \ '*.css',
+      \ '*.less',
+      \ '*.scss',
+      \ '*.exe', '*.dll',
+      \ '*.mp3', '*.ogg', '*.flac',
+      \ '*.swp', '*.swo',
+      \ '*.bmp', '*.gif', '*.ico', '*.jpg', '*.png',
+      \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
+      \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
+      \ ]
 
 """"""""""""""""""""""""""""""
 " => YankStack
@@ -75,6 +156,7 @@ let g:ctrlp_map = '<C-f>'
 map <leader>f :CtrlP<cr>
 map <leader>r :CtrlPMRU<CR>
 map <C-b> :CtrlPBuffer<cr>
+map <leader>k :CtrlPTag<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
