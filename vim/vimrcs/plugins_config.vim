@@ -44,6 +44,8 @@ Plug 'peterhoeg/vim-qml'
 Plug 'suy/vim-qmake'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
+Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
 Plug 'preservim/nerdtree'
 
 " Plugin 'vim-syntastic/syntastic'
@@ -269,7 +271,7 @@ let g:ale_lint_on_enter = 0
 " => Vim-clang-format
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:clang_format#detect_style_file = 1
-"let g:clang_format#auto_format_on_insert_leave = 1
+let g:clang_format#auto_format_on_insert_leave = 1
 let g:clang_format#style_options = {
  \ "BasedOnStyle": "LLVM",
  \ "IndentWidth":  4
