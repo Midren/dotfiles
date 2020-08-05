@@ -194,6 +194,9 @@ bindsym $mod+Shift+S exec dbus-send --system --print-reply --dest=org.freedeskto
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &
 for_window [class="polkit-gnome-authentication-agent-1"] focus
 
+# Enable prime-offloading, which is used by optimus-manager.
+exec --no-startup-id "prime-offload"
+
 # Auto startup of basic programs
 exec --no-startup-id firefox
 exec --no-startup-id telegram-desktop
