@@ -1,0 +1,68 @@
+configuration {
+  show-icons:         true;
+  font:               "Open Sans 13";
+  icon-theme:         "Papirus";
+  modi:               "";
+  sorting-method:     "fzf";
+  kb-row-down:        "Control+j,Control+n";
+  kb-accept-entry:    "Return";
+  kb-remove-to-eol:   "";
+  kb-row-up:          "Control+k,Control+p";
+  kb-clear-line:      "Control+l";
+}
+
+/** Design based on slate theme: https://github.com/davatorium/rofi-themes/blob/master/User%20Themes/slate.rasi **/
+
+* {
+  background-color: #3d3c3b;
+  border-color: #2e343f;
+  text-color: #b6a49b;
+  spacing: 0;
+  width: 768px;
+}
+
+window {
+  location: center;
+  y-offset: -50;
+  transparency: 0.8;
+}
+
+inputbar {
+  border: 0 0 1px 0;
+  children: [prompt,entry];
+}
+
+prompt {
+  padding: 16px;
+  border: 0 1px 0 0;
+}
+
+textbox {
+  background-color: #2e343f;
+  border: 0 0 1px 0;
+  border-color: #282C33;
+  padding: 8px 16px;
+}
+
+entry {
+  padding: 16px;
+}
+
+listview {
+  cycle: false;
+  margin: 0 0 -1px 0;
+  scrollbar: true;
+  dynamic: false;
+  fixed-height: false;
+  lines: 8;
+}
+
+element {
+  border: 0 0 1px 0;
+  padding: 8px;
+}
+
+element selected {
+  background-color: #444;
+}
+

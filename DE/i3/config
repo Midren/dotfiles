@@ -101,15 +101,9 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-mode "exit: [l]ogout, [r]eboot, [s]hutdown" {
-  bindsym l exec i3-msg exit
-  bindsym r exec reboot
-  bindsym s exec shutdown -P now
-  bindsym Escape mode "default"
-  bindsym Return mode "default"
-}
-
-bindsym $mod+x mode "exit: [l]ogout, [r]eboot, [s]hutdown"
+bindsym $mod+x exec ~/.config/i3/scripts/menu-power.sh
+bindsym $mod+Tab exec rofi -show window -modi 'window' -window-format '{c} {t}'
+bindsym $mod+b exec ~/.config/i3/scripts/menu-bluetooth.sh
 
 # resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -165,10 +159,8 @@ exec --no-startup-id nm-applet
 # Composite manager
 exec_always --no-startup-id ~/.config/compton/launch.sh
 
-# Replacement for dmenu
-exec --no-startup-id albert
-for_window [class="albert"] border pixel 0
-for_window [class="albert"] focus
+# Replacement for dmen
+bindsym Mod1+space exec ~/.config/i3/scripts/menu-launcher.sh
 
 # Top bar
 exec_always --no-startup-id exec $HOME/.config/polybar/launch.sh
