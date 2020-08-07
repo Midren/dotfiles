@@ -179,8 +179,8 @@ bindsym $mod+Control+l exec "$HOME/.config/i3/i3-lock-and-blur.sh"
 #exec --no-startup-id xautolock -time 10 -locker ~/.dotfiles/DE/i3/i3-lock-and-blur.sh &
 
 # Screenshots
-bindsym Print exec flameshot screen -p "$HOME/Pictures"
-bindsym Control+Print exec flameshot screen -c
+bindsym Print exec "if [[ $(xrandr | grep 'connected' | grep -v 'disconnected' | wc -l) -eq 1 ]]; then flameshot full -p '~/Pictures'; else flameshot screen -p '~/Pictures'; fi"
+bindsym Control+Print exec "if [[ $(xrandr | grep 'connected' | grep -v 'disconnected' | wc -l) -eq 1 ]]; then flameshot full -c; else flameshot screen -c; fi"
 bindsym Control+Shift+Print exec flameshot gui
 
 # Hide program to scratchpad
