@@ -18,15 +18,15 @@ if [ -n "$PID" ]; then
   TREE=$(pstree -lpA $PID | tail -n 1)
   PID=$(echo $TREE | awk -F'---' '{print $NF}' | sed -re 's/[^0-9]//g')
 
-  echo $PID
   # If we find the working directory, run the command in that directory
   if [ -e "/proc/$PID/cwd" ]; then
     CWD=$(readlink /proc/$PID/cwd)
-    echo $CWD
   fi
 fi
+unset 'args[0]'
+args="${args[@]}"
 if [ -n "$CWD" ]; then
-  cd $CWD && $TERM
+  cd $CWD && $TERM $args
 else
-  $TERM
+  $TERM $args
 fi

@@ -12,7 +12,7 @@ font pango:monospace 9
 floating_modifier $mod
 
 # start a terminal
-set $term '~/.dotfiles/DE/i3/i3-cwd-shell.sh st'
+set $term "~/.dotfiles/DE/i3/i3-cwd-shell.sh st"
 
 bindsym $mod+Return exec ~/.config/i3/i3-dynamic_layout.py $term
 
@@ -213,7 +213,8 @@ for_window [class="Mailspring"] move to workspace $ws9
 for_window [title="Microsoft Teams Notification"] floating enable
 for_window [title="Microsoft Teams Notification"] sticky enable
 
-bindsym $mod+o exec $term -x ranger
+bindsym $mod+o exec --no-startup-id i3-msg "exec $term -e ranger"
+bindsym $mod+v exec --no-startup-id i3-msg "exec $term -e vim"
 
 # Dual monitor window managing
 bindsym $mod+m move workspace to output right
