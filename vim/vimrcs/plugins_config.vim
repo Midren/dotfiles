@@ -34,6 +34,7 @@ Plug 'nvie/vim-flake8'
 Plug 'kien/ctrlp.vim'
 Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'vim-utils/vim-man'
+Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc' | Plug 'toddfoster/ctrlp-notes'
 
 Plug 'skywind3000/asyncrun.vim'
 
@@ -156,12 +157,14 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 " => CTRL-P
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_extensions = ['notes']
 
 let g:ctrlp_map = '<C-f>'
-map <leader>f :CtrlP<cr>
-map <leader>r :CtrlPMRU<CR>
-map <C-b> :CtrlPBuffer<cr>
-map <leader>k :CtrlPTag<cr>
+map <leader>lf :CtrlP<cr>
+map <leader>lr :CtrlPMRU<CR>
+map <leader>lb :CtrlPBuffer<cr>
+map <leader>ls :CtrlPTag<cr>
+map <leader>ln :CtrlPNotes<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
@@ -424,4 +427,12 @@ nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 
-set updatetime=300
+nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
+
+set updatetime=250
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => xolox/vim-notes
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:notes_directories = ['~/Documents/Notes']
+let g:notes_suffix = '.txt'
