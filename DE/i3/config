@@ -71,17 +71,20 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+set $us_lang 0
+set $ua_lang 1
+
 # switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1 workspace $ws1; exec xkblayout-state set $us_lang
+bindsym $mod+2 workspace $ws2; exec xkblayout-state set $us_lang
+bindsym $mod+3 workspace $ws3; exec xkblayout-state set $us_lang
+bindsym $mod+4 workspace $ws4; exec xkblayout-state set $us_lang
+bindsym $mod+5 workspace $ws5; exec xkblayout-state set $us_lang
+bindsym $mod+6 workspace $ws6; exec xkblayout-state set $us_lang
+bindsym $mod+7 workspace $ws7; exec xkblayout-state set $us_lang
+bindsym $mod+8 workspace $ws8; exec xkblayout-state set $us_lang
+bindsym $mod+9 workspace $ws9; exec xkblayout-state set $us_lang
+bindsym $mod+0 workspace $ws10; exec xkblayout-state set $ua_lang
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -175,7 +178,7 @@ for_window [title="Battery Warning"] sticky enable
 exec --no-startup-id exec $HOME/.config/i3/i3-battery-popup.sh -n -L 25 -l 15 -t 3m
 
 # Locking
-bindsym $mod+Control+l exec "$HOME/.config/i3/i3-lock-and-blur.sh"
+bindsym $mod+Control+l exec xkblayout-state set $us_lang; exec "$HOME/.config/i3/i3-lock-and-blur.sh"
 #exec --no-startup-id xautolock -time 10 -locker ~/.dotfiles/DE/i3/i3-lock-and-blur.sh &
 
 # Screenshots
