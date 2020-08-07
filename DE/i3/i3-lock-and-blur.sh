@@ -18,9 +18,16 @@ for RES in $SR; do
             "$icon" -gravity center -composite - | \
             convert - "$tmpbg" +append "$tmpbg"
     else
-        flameshot screen -r -n $I | convert - -draw "fill black fill-opacity 0.4 $rectangle" \
-            -filter Gaussian -thumbnail 20% -sample 500% \
-            "$icon" -gravity center -composite "$tmpbg"
+
+        if [[ ${#SR[@]} -eq 1 ]]; then
+            flameshot full -r | convert - -draw "fill black fill-opacity 0.4 $rectangle" \
+                -filter Gaussian -thumbnail 20% -sample 500% \
+                "$icon" -gravity center -composite "$tmpbg"
+        else
+            flameshot screen -r -n $I | convert - -draw "fill black fill-opacity 0.4 $rectangle" \
+                -filter Gaussian -thumbnail 20% -sample 500% \
+                "$icon" -gravity center -composite "$tmpbg"
+        fi
     fi
     I=$((I+1))
 done
@@ -28,5 +35,5 @@ done
 # It is actually using i3lock
 i3lock -ei "$tmpbg" -f \
      -k --pass-media-keys --pass-screen-keys --indpos='x+0.58*w:y+0.55*h' --datecolor=FFFFFFFF --timecolor=FFFFFFFF --wrongcolor=FFFFFFFF --verifcolor=FFFFFFFF
-sleep 5
+sleep 3
 xset dpms force off
