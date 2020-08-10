@@ -157,6 +157,7 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 " => CTRL-P
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_by_filename = 1
 let g:ctrlp_extensions = ['notes']
 
 let g:ctrlp_map = '<C-f>'
@@ -167,7 +168,6 @@ map <leader>ls :CtrlPTag<cr>
 map <leader>ln :CtrlPNotes<cr>
 
 let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  'node_modules\|^\.DS_Store\|\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
@@ -193,6 +193,9 @@ set grepprg=/bin/grep\ -nH
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let NERDTreeQuitOnOpen=1
+" Auto close vim if NERDTree is only open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeWinSize=35
 map <leader>t :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
@@ -277,7 +280,7 @@ let g:ale_lint_on_enter = 0
 " => Vim-clang-format
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:clang_format#detect_style_file = 1
-let g:clang_format#auto_format_on_insert_leave = 1
+"let g:clang_format#auto_format_on_insert_leave = 1
 let g:clang_format#style_options = {
  \ "BasedOnStyle": "LLVM",
  \ "IndentWidth":  4
@@ -356,6 +359,7 @@ endtry
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => scrooloose/nerdcommenter
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:NERDCreateDefaultMappings = 0
 let g:NERDDefaultAlign = 'left'
 let g:NERDCompactSexyComs = 1
 nmap <C-_>   <Plug>NERDCommenterToggle
@@ -373,10 +377,27 @@ let g:tex_conceal='abdmg'
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => lervag/vimtex
+" => ilyachur/cmake4vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:livepreview_previewer = 'zathura'
-let g:livepreview_cursorhold_recompile=1
+let g:cmake_compile_commands=1
+let g:asyncrun_open = 8
+
+nmap <silent> <leader>cb :CMakeBuild<cr>
+nmap <silent> <leader>cc :CMakeClean<cr>
+nmap <silent> <leader>ct :CtrlPCMakeTarget<cr>
+function! RunProgram()
+    if !exists('g:cmake_build_target')
+        echom "Please select target first"
+        return
+    endif
+    let s:exec_path = findfile(g:cmake_build_target, cmake4vim#DetectBuildDir())
+    if strlen(s:exec_path)
+        execute 'AsyncRun ' . s:exec_path
+    else
+        echom "Target in not runnable"
+    endif
+endfunction
+nmap <silent> <leader>cr :call RunProgram()<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

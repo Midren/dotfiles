@@ -32,7 +32,7 @@
 
 - shell:
   - [vim/install_awesome_vimrc.sh, Installing vimrc]
-  - [vim +silent +VimEnter +PlugInstall +qall, Install plugins via Vim-Plug]
+  - [vim +'PlugInstall --sync' +qall &> /dev/null < /dev/tty, Install plugins via Vim-Plug]
 
 - create:
   - ~/.vim/temp_dirs
