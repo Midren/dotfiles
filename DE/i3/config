@@ -220,6 +220,9 @@ exec --no-startup-id redshift -l 49.5:24
 # Autohide mouse after 10 sec
 exec --no-startup-id unclutter --timeout 10 &
 
+#Update currency exchange rate
+exec --no-startup-id qalc -e -t "1 UAH"
+
 # General settings
 popup_during_fullscreen smart
 
