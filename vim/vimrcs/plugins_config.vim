@@ -25,7 +25,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " ==> Navigating
 Plug 'preservim/nerdtree'
-Plug 'kien/ctrlp.vim' | Plug 'JazzCore/ctrlp-cmatcher', {'do': './install.sh' }
+Plug 'kien/ctrlp.vim' | Plug 'nixprime/cpsm', {'do': './install.sh' }
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
 " ==> Linting
@@ -182,8 +182,9 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_use_caching=1
 let g:ctrlp_cache_dir = expand('~/.cache/ctrlp')
-" For really fast searchin
-let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+" For really fast searching
+let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+let g:cpsm_max_threads = 4
 "let g:ctrlp_lazy_update = 1
 
 
