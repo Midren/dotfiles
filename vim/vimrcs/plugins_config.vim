@@ -38,6 +38,7 @@ Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc' | Plug 'toddfoster/ctrlp-notes'
 
 Plug 'skywind3000/asyncrun.vim'
 
+Plug 'kkoomen/vim-doge'
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'}  
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'jeaye/color_coded', {'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
@@ -457,3 +458,9 @@ set updatetime=250
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:notes_directories = ['~/Documents/Notes']
 let g:notes_suffix = '.txt'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => kkoomen/vim-doge
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:doge_enable_mappings=0
+let g:doge_doc_standard_cpp='doxygen_qt'
