@@ -8,61 +8,66 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdcommenter'
-Plug 'lervag/vimtex'
-Plug 'xuhdev/vim-latex-live-preview'
-Plug 'jiangmiao/auto-pairs'
-Plug 'dense-analysis/ale'
-Plug 'maxbrunsfeld/vim-yankstack'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'tomtom/tlib_vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'tpope/vim-surround'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'junegunn/goyo.vim' " Distraction free writing
-Plug 'amix/vim-zenroom2'
-Plug 'tpope/vim-repeat'
-Plug 'airblade/vim-gitgutter' | Plug 'jasoncodes/ctrlp-modified.vim' | Plug 'tpope/vim-fugitive'
+"""""""""""""""""""""""""""""
+" => Lookie
+"""""""""""""""""""""""""""""
+Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
-Plug 'hzchirs/vim-material'
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
-Plug 'nvie/vim-flake8'
-Plug 'kien/ctrlp.vim' | Plug 'JazzCore/ctrlp-cmatcher', {'do': './install.sh' }
-Plug 'PotatoesMaster/i3-vim-syntax'
-Plug 'vim-utils/vim-man'
-Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc' | Plug 'toddfoster/ctrlp-notes'
 
-Plug 'skywind3000/asyncrun.vim'
-
-Plug 'kkoomen/vim-doge'
-Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'}  
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'jeaye/color_coded', {'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
+""""""""""""""""""""""""""""""
+" => Development
+""""""""""""""""""""""""""""""
+" ==> Completition
+Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
-Plug 'suy/vim-qmake'
-Plug 'peterhoeg/vim-qml'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
+" ==> Navigating
+Plug 'preservim/nerdtree'
+Plug 'kien/ctrlp.vim' | Plug 'JazzCore/ctrlp-cmatcher', {'do': './install.sh' }
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
+" ==> Linting
+Plug 'dense-analysis/ale'
 Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
-Plug 'preservim/nerdtree'
-Plug 'thaerkh/vim-workspace'
+" ==> Git
+Plug 'airblade/vim-gitgutter' | Plug 'jasoncodes/ctrlp-modified.vim'
+Plug 'tpope/vim-fugitive'
 
-" Plugin 'vim-syntastic/syntastic'
-" Plugin 'xolox/vim-misc'
-" Plugin 'xolox/vim-easytags'
-" Plugin 'majutsushi/tagbar'
-" Plugin 'vim-scripts/a.vim' 
-" Plugin 'Raimondi/delimitMate' 
-" Plugin 'vim-airline/vim-airline'
-" Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'nathanaelkane/vim-indent-guides'
+" ==> Syntax highlightning
+Plug 'suy/vim-qmake'
+Plug 'peterhoeg/vim-qml'
+Plug 'bfrg/vim-cuda-syntax'
+Plug 'PotatoesMaster/i3-vim-syntax'
+
+" ==> Misc
+Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
+Plug 'scrooloose/nerdcommenter'
+" Doxygen documentation
+Plug 'kkoomen/vim-doge'
+" Semantic syntax highlightling
+Plug 'jeaye/color_coded', {'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
+" Intersession open buffers saving
+Plug 'thaerkh/vim-workspace'
+" Easier management of clipboard
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+
+"""""""""""""""""""""""""""""
+" => Writing
+"""""""""""""""""""""""""""""
+Plug 'lervag/vimtex'
+Plug 'plasticboy/vim-markdown'
+Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2'
+Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc' | Plug 'toddfoster/ctrlp-notes'
+"""""""""""""""""""""""""""""
+" => Misc
+"""""""""""""""""""""""""""""
+Plug 'skywind3000/asyncrun.vim'
+Plug 'tpope/vim-repeat'
 
 call plug#end()
 
