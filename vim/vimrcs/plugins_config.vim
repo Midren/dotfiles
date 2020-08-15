@@ -31,7 +31,7 @@ Plug 'hzchirs/vim-material'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'nvie/vim-flake8'
-Plug 'kien/ctrlp.vim'
+Plug 'kien/ctrlp.vim' | Plug 'JazzCore/ctrlp-cmatcher', {'do': './install.sh' }
 Plug 'PotatoesMaster/i3-vim-syntax'
 Plug 'vim-utils/vim-man'
 Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc' | Plug 'toddfoster/ctrlp-notes'
@@ -171,9 +171,15 @@ map <leader>ln :CtrlPNotes<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  'node_modules\|^\.DS_Store\|\v[\/]\.(git|hg|svn)$',
+  \ 'dir':  'build\|node_modules\|^\.DS_Store\|\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ }
+
+let g:ctrlp_use_caching=1
+let g:ctrlp_cache_dir = expand('~/.cache/ctrlp')
+" For really fast searchin
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+"let g:ctrlp_lazy_update = 1
 
 
 """"""""""""""""""""""""""""""
