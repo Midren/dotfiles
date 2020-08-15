@@ -52,6 +52,7 @@ Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 Plug 'preservim/nerdtree'
+Plug 'thaerkh/vim-workspace'
 
 " Plugin 'vim-syntastic/syntastic'
 " Plugin 'xolox/vim-misc'
@@ -464,3 +465,10 @@ let g:notes_suffix = '.txt'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:doge_enable_mappings=0
 let g:doge_doc_standard_cpp='doxygen_qt'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => thaerkh/vim-workspace
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:workspace_session_directory = $HOME . '/.vim/temp_dirs/sessions/'
+let g:workspace_session_disable_on_args = 1
+let g:workspace_autosave = 0
