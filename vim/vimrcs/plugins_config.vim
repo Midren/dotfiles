@@ -470,7 +470,10 @@ set updatetime=250
 " => xolox/vim-notes
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:notes_directories = ['~/Documents/Notes']
-let g:notes_suffix = '.txt'
+let g:notes_suffix = '.md'
+autocmd FileType notes iabbrev <buffer> ЕЩВЩ TODO
+autocmd FileType notes iabbrev <buffer> ВЩТУ DONE
+autocmd FileType notes iabbrev <buffer> ЧЧЧ XXX
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => kkoomen/vim-doge
