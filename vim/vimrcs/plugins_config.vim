@@ -25,6 +25,8 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'dimatura/ultisnip-sn
 
 " ==> Navigating
 Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
+Plug 'stsewd/fzf-checkout.vim'
 Plug 'kien/ctrlp.vim' | Plug 'nixprime/cpsm', {'do': './install.sh' }
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
@@ -159,6 +161,42 @@ let g:yankstack_yank_keys = ['y', 'd']
 nmap <C-p> <Plug>yankstack_substitute_older_paste
 nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
+""""""""""""""""""""""""""""""
+" => junegunn/fzf
+""""""""""""""""""""""""""""""
+let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
+let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+let $FZF_DEFAULT_OPTS="--reverse"
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+
+let g:fzf_colors =
+              \ { 'fg':      ['fg', 'Normal'],
+              \ 'bg':      ['bg', 'Normal'],
+              \ 'hl':      ['fg', 'Comment'],
+              \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+              \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+              \ 'hl+':     ['fg', 'Statement'],
+              \ 'info':    ['fg', 'PreProc'],
+              \ 'border':  ['fg', 'Ignore'],
+              \ 'prompt':  ['fg', 'Conditional'],
+              \ 'pointer': ['fg', 'Exception'],
+              \ 'marker':  ['fg', 'Keyword'],
+              \ 'spinner': ['fg', 'Label'],
+              \ 'header':  ['fg', 'Comment'] }
+
+augroup fzf
+  autocmd!
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
 
 """"""""""""""""""""""""""""""
 " => CTRL-P
@@ -167,12 +205,11 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_by_filename = 1
 let g:ctrlp_extensions = ['notes']
 
-let g:ctrlp_map = '<C-f>'
-map <leader>lf :CtrlP<cr>
-map <leader>lr :CtrlPMRU<CR>
-map <leader>lb :CtrlPBuffer<cr>
-map <leader>ls :CtrlPTag<cr>
-map <leader>ln :CtrlPNotes<cr>
+let g:ctrlp_map = ''
+nnoremap <leader>lf :Files<cr>
+nnoremap <leader>lr :History<CR>
+nnoremap <leader>lb :Buffers<cr>
+nnoremap <leader>ls :Tags<cr>
 
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = {
@@ -328,9 +365,9 @@ nnoremap <silent> <leader>d :GitGutterToggle<cr>
 " Usually you don't need to have list of all hunks, but better list of modified files
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
 " Even better with Fuzzy Finding )
-nnoremap <silent> <leader>hl :CtrlPModified<cr>
-
-map <silent> <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>lh :CtrlPModified<cr>
+nnoremap <silent> <leader>gb :GCheckout<CR>
+nnoremap <silent> <leader>gs :Gstatus<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -413,10 +450,6 @@ function! RunProgram()
 endfunction
 nmap <silent> <leader>cr :call RunProgram()<cr>
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vhdirk/vim-cmake
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ycm-core/YouCompleteMe
