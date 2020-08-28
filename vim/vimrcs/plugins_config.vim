@@ -21,7 +21,7 @@ Plug 'maximbaz/lightline-ale'
 " ==> Completition
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'dimatura/ultisnip-snippets'
 
 " ==> Navigating
 Plug 'preservim/nerdtree'
@@ -422,15 +422,13 @@ nmap <silent> <leader>cr :call RunProgram()<cr>
 " => ycm-core/YouCompleteMe
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup MyYCMCustom
-    let g:ycm_filetype_whitelist= { 'c': 1, 
-                                  \ 'cpp': 1,
-                                  \ 'python': 1
-                                  \ }
     let g:ycm_add_preview_to_completeopt = 1
     let g:ycm_key_invoke_completion = '<C-Space>'
-    let g:ycm_key_list_select_completion = ['<TAB>', '<Enter>']
+    let g:ycm_key_list_stop_completion = ['<C-y>', '<Esc>']
+
     let g:ycm_semantic_triggers =  {
-      \   'c,cpp,objc,python': [ 're!\w{4}', '_'  ],
+      \   'c,cpp': [ 're!\w{3}', '_', '.', '->', '::' ],
+      \   'python': [ 're!\w{3}', '_'  ],
       \ }
     set completeopt+=popup
     let g:ycm_autoclose_preview_window_after_completion = 1
@@ -438,31 +436,57 @@ augroup MyYCMCustom
     let g:ycm_python_binary_path = '/bin/python3'
     let g:ycm_clangd_binary_path= 'clangd'
     let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf/ycm_extra_conf.py'
+    let g:ycm_confirm_extra_conf = 0
 
-    let g:ycm_key_list_select_completion=[]
-    let g:ycm_key_list_previous_completion=[]
+    let g:ycm_key_list_select_completion = []
+    let g:ycm_key_list_previous_completion = []
+    let g:ycm_key_detailed_diagnostics = ''
     "let g:ycm_echo_current_diagnostic=0
+    
+    " Enable tabbing through list of results
+    function! g:UltiSnips_Complete()
+        call UltiSnips#ExpandSnippet()
+        if g:ulti_expand_res == 0
+            if pumvisible()
+                return "\<C-n>"
+            else
+                call UltiSnips#JumpForwards()
+                if g:ulti_jump_forwards_res == 0
+                   return "\<tab>"
+                endif
+            endif
+        endif
+        return ""
+    endfunction
 
-    let g:UltiSnipsEditSplit='horizontal'
-    let g:UltiSnipsExpandTrigger = '<tab>'
-    let g:UltiSnipsJumpForwardTrigger = '<tab>'
-    let g:UltiSnipsJumpBackwardTrigger = '<S-tab>'
+    let g:UltiSnipsExpandTrigger = "<nop>"
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    let g:ulti_expand_or_jump_res = 0
+    function ExpandSnippetOrCarriageReturn()
+        let snippet = UltiSnips#ExpandSnippet()
+        if g:ulti_expand_res > 0
+            return snippet
+        else
+            return pumvisible() ? "\<C-y>" : "\<CR>"
+        endif
+    endfunction
 
+    inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
-  autocmd!
-  autocmd FileType c,cpp,python let b:ycm_hover = {
-    \ 'command': 'GetDoc',
-    \ 'syntax': &filetype
-    \ }
+    autocmd!
+    autocmd FileType c,cpp,python,cuda let b:ycm_hover = {
+      \ 'command': 'GetDoc',
+      \ 'syntax': &filetype
+      \ }
     let g:ycm_auto_hover=''
-    nmap <leader>dt <plug>(YCMHover)
 augroup END
 
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
-
 nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
+nnoremap <silent> <leader>dt <plug>(YCMHover)
 
 set updatetime=250
 
