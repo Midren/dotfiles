@@ -347,6 +347,31 @@ autocmd FileType c,cpp vnoremap <buffer><Leader>cl :ClangFormat<CR>
 let g:gitgutter_enabled=0
 let g:gitgutter_highlight_lines = 1
 let g:gitgutter_map_keys = 0
+let g:gitgutter_preview_win_floating = 1
+
+function! s:in_last_hunk_line(lnum) abort
+  " Hunks are sorted in the order they appear in the buffer.
+  for hunk in gitgutter#hunk#hunks(bufnr(''))
+    " if in a hunk on first line of buffer
+    if a:lnum == 1 && hunk[2] == 0
+      return 1
+    endif
+
+    " if in a hunk generally
+    if a:lnum >= hunk[2] && a:lnum == hunk[2] + (hunk[3] == 0 ? 1 : hunk[3]) - 1
+      return 1
+    endif
+
+    " if hunk starts after the given line
+    if a:lnum < hunk[2]
+      return 0
+    endif
+  endfor
+
+  return 0
+endfunction
+
+autocmd CursorMoved * if s:in_last_hunk_line(line(".")) | GitGutterPreviewHunk | else | pclose | endif
 
 highlight! link GitGutterAdd SignColumn
 highlight! link GitGutterChange SignColumn
