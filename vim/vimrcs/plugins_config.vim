@@ -63,8 +63,8 @@ Plug 'terryma/vim-multiple-cursors'
 """""""""""""""""""""""""""""
 Plug 'lervag/vimtex'
 Plug 'plasticboy/vim-markdown'
-Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2'
-Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc' | Plug 'toddfoster/ctrlp-notes'
+Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.vim'
+Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc'
 """""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""
@@ -307,6 +307,22 @@ let g:lightline = {
 let g:goyo_width=100
 let g:goyo_margin_top = 2
 let g:goyo_margin_bottom = 2
+
+function! s:goyo_enter()
+    Limelight
+endfunction
+
+function! s:goyo_leave()
+    Limelight!
+    " Quit Vim if this is the only remaining buffer
+    if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+      qa
+    endif
+endfunction
+
+autocmd! User GoyoEnter call <SID>goyo_enter()
+autocmd! User GoyoLeave call <SID>goyo_leave()
+
 nnoremap <silent> <leader>z :Goyo<cr>
 
 
