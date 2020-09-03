@@ -40,25 +40,18 @@ Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" ==> Syntax highlightning
-Plug 'suy/vim-qmake'
-Plug 'peterhoeg/vim-qml'
-Plug 'bfrg/vim-cuda-syntax'
-Plug 'PotatoesMaster/i3-vim-syntax'
-
 " ==> Misc
 Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
 Plug 'scrooloose/nerdcommenter'
-" Doxygen documentation
-Plug 'kkoomen/vim-doge'
-" Semantic syntax highlightling
-Plug 'jeaye/color_coded', {'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
-" Intersession open buffers saving
-Plug 'thaerkh/vim-workspace'
-" Easier management of clipboard
-Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'kkoomen/vim-doge'                     " Doxygen documentation
+Plug 'sheerun/vim-polyglot'                 " Syntax highlightning
+Plug 'jeaye/color_coded',                   " Semantic syntax highlightling
+     \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
+Plug 'thaerkh/vim-workspace'                " Intersession open buffers saving
+Plug 'maxbrunsfeld/vim-yankstack'           " Easier management of clipboard
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -71,6 +64,7 @@ Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc'
 " => Misc
 """""""""""""""""""""""""""""
 Plug 'skywind3000/asyncrun.vim'
+Plug 'markonm/traces.vim' " Highlighting default ex substitute
 Plug 'tpope/vim-repeat'
 
 call plug#end()
@@ -91,9 +85,6 @@ let g:gutentags_project_root = ['.git', '.root']
 
 " generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
-
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
 
 let g:gutentags_ctags_extra_args = [
       \ '--tag-relative=yes',
