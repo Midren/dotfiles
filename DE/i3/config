@@ -70,20 +70,17 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-set $us_lang 0
-set $ua_lang 1
-
 # switch to workspace
-bindsym $mod+1 workspace $ws1; exec xkblayout-state set $us_lang
-bindsym $mod+2 workspace $ws2; exec xkblayout-state set $us_lang
-bindsym $mod+3 workspace $ws3; exec xkblayout-state set $us_lang
-bindsym $mod+4 workspace $ws4; exec xkblayout-state set $us_lang
-bindsym $mod+5 workspace $ws5; exec xkblayout-state set $us_lang
-bindsym $mod+6 workspace $ws6; exec xkblayout-state set $us_lang
-bindsym $mod+7 workspace $ws7; exec xkblayout-state set $us_lang
-bindsym $mod+8 workspace $ws8; exec xkblayout-state set $us_lang
-bindsym $mod+9 workspace $ws9; exec xkblayout-state set $us_lang
-bindsym $mod+0 workspace $ws10; exec xkblayout-state set $ua_lang
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -103,6 +100,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+x exec ~/.config/i3/scripts/menu-power.sh
 bindsym $mod+Tab exec rofi -show window -modi 'window' -window-format '{c} {t}'
 bindsym $mod+b exec ~/.config/i3/scripts/menu-bluetooth.sh
+bindsym $mod+p exec ~/.config/i3/scripts/menu-projects.sh
 bindsym $mod+n exec ~/.config/i3/scripts/menu-notes.sh
 
 # resize window (you can also use the mouse for that)
@@ -218,7 +216,7 @@ exec --no-startup-id udiskie -an --no-tray &
 exec --no-startup-id redshift -l 49.5:24
 
 # Autohide mouse after 10 sec
-exec --no-startup-id unclutter --timeout 10 &
+#exec --no-startup-id unclutter --timeout 10 &
 
 #Update currency exchange rate
 exec --no-startup-id qalc -e -t "1 UAH"
@@ -229,6 +227,7 @@ popup_during_fullscreen smart
 for_window [title="Preferences$"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Organizer"] floating enable
 
 # Open all floating windows at the center of screen
 for_window [floating] move position center

@@ -198,6 +198,7 @@ augroup fzf
 augroup END
 
 nnoremap <leader>lf :Files<cr>
+nnoremap <leader>lg :GFiles?<cr>
 nnoremap <leader>lr :History<CR>
 nnoremap <leader>lb :Buffers<cr>
 nnoremap <leader>ll :BTags<cr>
@@ -392,11 +393,10 @@ omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
 omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
 xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap <silent> ah <Plug>(GitGutterTextObjectOuterVisual)
-nnoremap <silent> <leader>d :GitGutterToggle<cr>
+nnoremap <silent> <leader>df :GitGutterToggle<cr>
 " Usually you don't need to have list of all hunks, but better list of modified files
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
 " Even better with Fuzzy Finding )
-nnoremap <silent> <leader>gl :GFiles?<cr>
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gc :GCheckout<CR>
 nnoremap <silent> <leader>gs :Gstatus<cr>
@@ -498,8 +498,9 @@ augroup MyYCMCustom
     set completeopt+=popup
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_python_binary_path = '/bin/python3'
+    let g:ycm_python_binary_path = '/usr/bin/python3'
     let g:ycm_clangd_binary_path= 'clangd'
+    let g:ycm_confirm_extra_conf = 0
     let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf/ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0
 
@@ -540,7 +541,7 @@ augroup MyYCMCustom
     inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
     autocmd!
-    autocmd FileType c,cpp,python,cuda let b:ycm_hover = {
+    autocmd FileType c,cpp let b:ycm_hover = {
       \ 'command': 'GetDoc',
       \ 'syntax': &filetype
       \ }
@@ -551,7 +552,7 @@ nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
-nnoremap <silent> <leader>dt <plug>(YCMHover)
+nmap <silent> <leader>dt <plug>(YCMHover)
 
 set updatetime=250
 
