@@ -30,6 +30,7 @@ Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
+Plug 'mileszs/ack.vim'
 
 " ==> Linting
 Plug 'dense-analysis/ale'
@@ -222,6 +223,43 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_use_caching=1
 let g:ctrlp_cache_dir = expand('~/.cache/ctrlp')
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => mileszs/ack.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use the the_silver_searcher if possible (much faster than Ack)
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep --smart-case'
+endif
+
+" When you press gv you Ack after the selected text
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+
+" Open Ack and put the cursor in the right position
+map <leader>fd :Ack! 
+
+" When you press <leader>r you can search and replace the selected text
+vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+
+nnoremap ]q :cn<cr>
+nnoremap [q :cp<cr>
+
+" Make sure that enter is never overriden in the quickfix window
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
+" When using `dd` in the quickfix list, remove the item from the quickfix list.
+" https://stackoverflow.com/questions/42905008/quickfix-list-how-to-add-and-remove-entries
+
+function! RemoveQuickfixItem()
+  let curqfidx = line('.') - 1
+  let qfall = getqflist()
+  call remove(qfall, curqfidx)
+  call setqflist(qfall, 'r')
+  execute curqfidx + 1
+endfunction
+
+autocmd FileType qf map <buffer> dd :call RemoveQuickfixItem()<cr>
 
 
 """"""""""""""""""""""""""""""
