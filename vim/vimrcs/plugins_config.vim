@@ -206,23 +206,6 @@ nnoremap <leader>ll :BTags<cr>
 nnoremap <leader>ls :Tags<cr>
 
 
-""""""""""""""""""""""""""""""
-" => CTRL-P
-""""""""""""""""""""""""""""""
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_by_filename = 1
-
-let g:ctrlp_map = ''
-let g:ctrlp_max_height = 20
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  'build\|node_modules\|^\.DS_Store\|\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
-
-let g:ctrlp_use_caching=1
-let g:ctrlp_cache_dir = expand('~/.cache/ctrlp')
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => mileszs/ack.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
