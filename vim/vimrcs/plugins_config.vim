@@ -27,7 +27,6 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'dimatura/ultisnip-sn
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
-Plug 'kien/ctrlp.vim' | Plug 'nixprime/cpsm', {'do': './install.sh' }
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 
 " ==> Linting
@@ -35,7 +34,7 @@ Plug 'dense-analysis/ale'
 Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " ==> Git
-Plug 'airblade/vim-gitgutter' | Plug 'jasoncodes/ctrlp-modified.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 " ==> Syntax highlightning
@@ -98,11 +97,11 @@ let g:gutentags_ctags_extra_args = [
       \ '--fields=+ailmnS',
       \ '--c++-kinds=+p',
       \ '--extra=+q',
-      \ '--language-force=C++'
+      \ '--languages=C++,Python,C'
       \ ]
 
-if executable('rg')
-  let g:gutentags_file_list_command = 'rg --files'
+if executable('ag')
+  let g:gutentags_file_list_command = 'ag -g ""'
 endif
 
 let g:gutentags_ctags_exclude = [
@@ -165,7 +164,7 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 " => junegunn/fzf
 """"""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
-let $FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+let $FZF_DEFAULT_COMMAND='ag -g ""'
 let $FZF_DEFAULT_OPTS="--reverse"
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
@@ -198,19 +197,21 @@ augroup fzf
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
+nnoremap <leader>lf :Files<cr>
+nnoremap <leader>lg :GFiles?<cr>
+nnoremap <leader>lr :History<CR>
+nnoremap <leader>lb :Buffers<cr>
+nnoremap <leader>ll :BTags<cr>
+nnoremap <leader>ls :Tags<cr>
+
+
 """"""""""""""""""""""""""""""
 " => CTRL-P
 """"""""""""""""""""""""""""""
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_by_filename = 1
-let g:ctrlp_extensions = ['notes']
 
 let g:ctrlp_map = ''
-nnoremap <leader>lf :Files<cr>
-nnoremap <leader>lr :History<CR>
-nnoremap <leader>lb :Buffers<cr>
-nnoremap <leader>ls :Tags<cr>
-
 let g:ctrlp_max_height = 20
 let g:ctrlp_custom_ignore = {
   \ 'dir':  'build\|node_modules\|^\.DS_Store\|\v[\/]\.(git|hg|svn)$',
@@ -219,10 +220,6 @@ let g:ctrlp_custom_ignore = {
 
 let g:ctrlp_use_caching=1
 let g:ctrlp_cache_dir = expand('~/.cache/ctrlp')
-" For really fast searching
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-let g:cpsm_max_threads = 4
-"let g:ctrlp_lazy_update = 1
 
 
 """"""""""""""""""""""""""""""
@@ -230,13 +227,6 @@ let g:cpsm_max_threads = 4
 """"""""""""""""""""""""""""""
 " Enable all functions in all modes
 let g:user_zen_mode='a'
-
-
-""""""""""""""""""""""""""""""
-" => Vim grep
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
-set grepprg=/bin/grep\ -nH
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
@@ -348,13 +338,14 @@ let g:ale_lint_on_enter = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:clang_format#detect_style_file = 1
 "let g:clang_format#auto_format_on_insert_leave = 1
+let g:clang_format#auto_formatexpr = 0
 let g:clang_format#style_options = {
  \ "BasedOnStyle": "LLVM",
  \ "IndentWidth":  4
  \ }
 
-autocmd FileType c,cpp nnoremap <buffer><Leader>cl :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp vnoremap <buffer><Leader>cl :ClangFormat<CR>
+autocmd FileType c,cpp nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp vnoremap <buffer><Leader>cf :ClangFormat<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -402,12 +393,12 @@ omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
 omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
 xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)
 xmap <silent> ah <Plug>(GitGutterTextObjectOuterVisual)
-nnoremap <silent> <leader>d :GitGutterToggle<cr>
+nnoremap <silent> <leader>df :GitGutterToggle<cr>
 " Usually you don't need to have list of all hunks, but better list of modified files
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
 " Even better with Fuzzy Finding )
-nnoremap <silent> <leader>lh :CtrlPModified<cr>
-nnoremap <silent> <leader>gb :GCheckout<CR>
+nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gc :GCheckout<CR>
 nnoremap <silent> <leader>gs :Gstatus<cr>
 
 
@@ -474,9 +465,9 @@ let g:tex_conceal='abdmg'
 let g:cmake_compile_commands=1
 let g:asyncrun_open = 8
 
-nmap <silent> <leader>cb :CMakeBuild<cr>
-nmap <silent> <leader>cc :CMakeClean<cr>
-nmap <silent> <leader>ct :CtrlPCMakeTarget<cr>
+nnoremap <silent> <leader>cb :CMakeBuild<cr>
+nnoremap <silent> <leader>cc :CMakeClean<cr>
+nnoremap <silent> <leader>ct :FZFCMakeSelectTarget<cr>
 function! RunProgram()
     if !exists('g:cmake_build_target')
         echom "Please select target first"
@@ -489,7 +480,7 @@ function! RunProgram()
         echom "Target in not runnable"
     endif
 endfunction
-nmap <silent> <leader>cr :call RunProgram()<cr>
+nnoremap <silent> <leader>cr :call RunProgram()<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -549,7 +540,7 @@ augroup MyYCMCustom
     inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 
     autocmd!
-    autocmd FileType c,cpp,python,cuda let b:ycm_hover = {
+    autocmd FileType c,cpp let b:ycm_hover = {
       \ 'command': 'GetDoc',
       \ 'syntax': &filetype
       \ }
@@ -560,7 +551,7 @@ nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
-nnoremap <silent> <leader>dt <plug>(YCMHover)
+nmap <silent> <leader>dt <plug>(YCMHover)
 
 set updatetime=250
 
@@ -583,5 +574,6 @@ let g:doge_doc_standard_cpp='doxygen_qt'
 " => thaerkh/vim-workspace
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:workspace_session_directory = $HOME . '/.vim/temp_dirs/sessions/'
+let g:workspace_persist_undo_history = 0
 let g:workspace_session_disable_on_args = 1
 let g:workspace_autosave = 0
