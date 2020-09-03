@@ -21,7 +21,9 @@ Plug 'maximbaz/lightline-ale'
 " ==> Completition
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' | Plug 'dimatura/ultisnip-snippets'
+Plug 'SirVer/ultisnips' | Plug 'dimatura/ultisnip-snippets'
+Plug 'derekwyatt/vim-fswitch'
+Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
 
 " ==> Navigating
 Plug 'preservim/nerdtree'
@@ -578,3 +580,21 @@ let g:workspace_session_directory = $HOME . '/.vim/temp_dirs/sessions/'
 let g:workspace_persist_undo_history = 0
 let g:workspace_session_disable_on_args = 1
 let g:workspace_autosave = 0
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => derekwyatt/vim-protodef
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:protodefprotogetter='~/.vim/plugged/vim-protodef/pullproto.pl'
+let g:disable_protodef_sorting=1
+let g:disable_protodef_mapping=1
+
+nmap <silent> <leader>gp :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer({})<cr><esc>='[:set nopaste<cr>
+" Add functions to generate prototypes
+"nmap <buffer> <silent> <leader>gn :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer({'includeNS' : 0})<cr><esc>='[:set nopaste<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => derekwyatt/vim-fswitch
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" quick switch between header and source file
+nnoremap <silent> <F4> :FSHere<cr>
