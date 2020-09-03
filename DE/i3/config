@@ -100,6 +100,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+x exec ~/.config/i3/scripts/menu-power.sh
 bindsym $mod+Tab exec rofi -show window -modi 'window' -window-format '{c} {t}'
 bindsym $mod+b exec ~/.config/i3/scripts/menu-bluetooth.sh
+bindsym $mod+p exec ~/.config/i3/scripts/menu-projects.sh
 bindsym $mod+n exec ~/.config/i3/scripts/menu-notes.sh
 
 # resize window (you can also use the mouse for that)
