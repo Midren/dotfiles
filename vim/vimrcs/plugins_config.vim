@@ -30,7 +30,7 @@ Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
-Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 
 " ==> Linting
 Plug 'dense-analysis/ale'
@@ -159,10 +159,17 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 """"""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
 let $FZF_DEFAULT_COMMAND='ag -g ""'
-let $FZF_DEFAULT_OPTS="--reverse"
+let $FZF_DEFAULT_OPTS="--reverse --bind ctrl-a:select-all"
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
 let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
@@ -228,7 +235,7 @@ endif
 vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 " Open Ack and put the cursor in the right position
-map <leader>fd :Ack! 
+map <leader>fd :Ag<cr>
 
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
