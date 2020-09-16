@@ -31,6 +31,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
+Plug 'chaoren/vim-wordmotion'                
 
 " ==> Linting
 Plug 'dense-analysis/ale'
@@ -617,3 +618,13 @@ nmap <silent> <leader>gp :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromProtot
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " quick switch between header and source file
 nnoremap <silent> <F4> :FSHere<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => chaoren/vim-wordmotion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:wordmotion_disable_default_mappings=1
+nmap W          <Plug>WordMotion_w
+nmap E          <Plug>WordMotion_e
+nmap B          <Plug>WordMotion_b
+omap aW         <Plug>WordMotion_aw
+omap iW         <Plug>WordMotion_iw
