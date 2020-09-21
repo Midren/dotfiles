@@ -429,7 +429,7 @@ try
    colorscheme vim-material
    highlight! link SignColumn Conceal
 
-   autocmd FileType cpp call s:cpp_highlight_settings()
+   autocmd FileType c,cpp call s:cpp_highlight_settings()
    function! s:cpp_highlight_settings()
        highlight! link cBlock cppBlock
        highlight! link cppBlock Type
