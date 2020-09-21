@@ -435,31 +435,41 @@ try
 
    autocmd FileType cpp call s:cpp_highlight_settings()
    function! s:cpp_highlight_settings()
-       highlight! Variable guifg=foreground
-       highlight! link cppStructure javascriptFuncKeyword
-       highlight! link cStructure javascriptFuncKeyword
-       highlight! link Member javascriptMethod
-       highlight! link Type jsFuncBraces
+       highlight! link cBlock cppBlock
+       highlight! link cppBlock Type
        highlight! link cppExceptions cppModifier
        highlight! link cppModifier cppStorageClass
        highlight! link cStorageClass cppStorageClass
-       highlight! link cppStorageClass jsClassDefinition
-       highlight! link Namespace Identifier
-       highlight! link ClassDecl Identifier
+       highlight! link cppStorageClass javascriptClassSuperName
+       highlight! link FunctionDecl javascriptFuncKeyword
+       highlight! link CXXMethod javascriptMethod
+       highlight! link Variable Normal
+       highlight! link EnumConstant Member
+       highlight! link Member javascriptProperty
+       highlight! link Namespace ClassDecl
+       highlight! link StructDecl ClassDecl
+       highlight! link UnionDecl ClassDecl
+       highlight! link EnumDecl ClassDecl
+       highlight! link ClassDecl javascriptClassName
+       highlight! link cStructure cppStructure
+       highlight! link cppStructure javascriptOperator
+       highlight! link NamespaceRef Type
+       highlight! link TypeRef javascriptVariable
+       highlight! link cParen javascriptBraces
+       highlight! link cppType Type
     endfunction
-
-   "hi Type guifg=purple
-   "highlight! link Member javascriptIdentifierName 
-   "highlight! link Variable javascriptIdentifierName 
-   "highlight! link Namespace javascriptIdentifierName 
-   "hi EnumConstant
-   "highlight! link StructDecl Function
-   "highlight! link UnionDecl Function
-   "highlight! link ClassDecl Function
-   "highlight! link EnumDecl Function
 catch
 endtry
 
+function! SynStack ()
+    for i1 in synstack(line("."), col("."))
+        let i2 = synIDtrans(i1)
+        let n1 = synIDattr(i1, "name")
+        let n2 = synIDattr(i2, "name")
+        echo n1 "->" n2
+    endfor
+endfunction
+map gm :call SynStack()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => scrooloose/nerdcommenter
