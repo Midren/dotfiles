@@ -59,8 +59,8 @@ Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
 """""""""""""""""""""""""""""
 Plug 'lervag/vimtex'
 Plug 'plasticboy/vim-markdown'
+Plug 'aserebryakov/vim-todo-lists'
 Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.vim'
-Plug 'xolox/vim-notes' | Plug 'xolox/vim-misc'
 """""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""
@@ -326,10 +326,6 @@ endfunction
 
 function! s:goyo_leave()
     Limelight!
-    " Quit Vim if this is the only remaining buffer
-    if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-      qa
-    endif
 endfunction
 
 autocmd! User GoyoEnter call <SID>goyo_enter()
