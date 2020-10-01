@@ -501,7 +501,7 @@ function! RunProgram()
         echom "Please select target first"
         return
     endif
-    let s:exec_path = findfile(g:cmake_build_target, cmake4vim#DetectBuildDir())
+    let s:exec_path = findfile(g:cmake_build_target, utils#cmake#getBuildDir())
     if strlen(s:exec_path)
         execute 'AsyncRun ' . s:exec_path
     else
