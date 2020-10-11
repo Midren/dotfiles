@@ -44,7 +44,8 @@ Plug 'tpope/vim-fugitive'
 " ==> Misc
 Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
 Plug 'scrooloose/nerdcommenter'
-Plug 'kkoomen/vim-doge'                     " Doxygen documentation
+Plug 'kkoomen/vim-doge',                    " Doxygen documentation
+    \{ 'do': { -> doge#install() } } 
 Plug 'sheerun/vim-polyglot'                 " Syntax highlightning
 Plug 'jeaye/color_coded',                   " Semantic syntax highlightling
      \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
