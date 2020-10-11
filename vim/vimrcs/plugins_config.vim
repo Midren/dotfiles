@@ -53,6 +53,7 @@ Plug 'maxbrunsfeld/vim-yankstack'           " Easier management of clipboard
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
+Plug 'hrsh7th/vim-eft'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -634,3 +635,23 @@ nmap E          <Plug>WordMotion_e
 nmap B          <Plug>WordMotion_b
 omap aW         <Plug>WordMotion_aw
 omap iW         <Plug>WordMotion_iw
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => hrsh7th/vim-eft
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap ; <Plug>(eft-repeat)
+xmap ; <Plug>(eft-repeat)
+
+nmap f <Plug>(eft-f)
+xmap f <Plug>(eft-f)
+omap f <Plug>(eft-f)
+nmap F <Plug>(eft-F)
+xmap F <Plug>(eft-F)
+omap F <Plug>(eft-F)
+
+nmap t <Plug>(eft-t)
+xmap t <Plug>(eft-t)
+omap t <Plug>(eft-t)
+nmap T <Plug>(eft-T)
+xmap T <Plug>(eft-T)
+omap T <Plug>(eft-T)
