@@ -62,7 +62,7 @@ au BufEnter * set noreadonly
 set so=7
 
 " Add langmap for ukrainian language
-set langmap=ФИСВУАПРШОЛДЬТЩЗЙКІЫЕГМЦЧНЯЖЮЇфисвуапршолдьтщзйкыіегмцчняжюї\\;?;ABCDEFGHIJKLMNOPQRSSTUVWXYZ:>}abcdefghijklmnopqrsstuvwxyz\;.]$&
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКІЫЕГМЦЧНЯЖЮХЇфисвуапршолдьтщзйкыіегмцчняжюхї;ABCDEFGHIJKLMNOPQRSSTUVWXYZ:>{}abcdefghijklmnopqrsstuvwxyz\;.[]
 
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
@@ -149,6 +149,21 @@ set mouse=a
 
 " SignColumn (warnings, errors, git diffs, etc.) always visible
 set signcolumn=yes
+
+" Wait for mapping to finish
+set notimeout
+set nottimeout
+
+" Make navigation more intuitive
+nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
+nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+
+" Keep selection
+xnoremap < <gv
+xnoremap > >gv
+
+" Don't copy single letter deletes
+nnoremap x "_x
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -272,7 +287,7 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
-  set switchbuf=useopen,usetab,newtab
+  set switchbuf=useopen,usetab,uselast
   set stal=2
 catch
 endtry

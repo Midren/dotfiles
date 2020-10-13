@@ -94,7 +94,7 @@ let g:gutentags_ctags_extra_args = [
       \ '--fields=+ailmnS',
       \ '--c++-kinds=+p',
       \ '--extra=+q',
-      \ '--languages=C++,Python,C'
+      \ '--languages=C++,Python,C,vim'
       \ ]
 
 if executable('ag')
@@ -477,6 +477,8 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCompactSexyComs = 1
 nmap <C-_>   <Plug>NERDCommenterToggle
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+" Delete comment character when joining commented lines
+autocmd FileType * set formatoptions+=j
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
