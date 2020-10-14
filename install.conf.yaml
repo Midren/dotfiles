@@ -16,6 +16,7 @@
     ~/.config/compton: DE/compton
     ~/.config/gtk-3.0: DE/gtk-3.0
     ~/.config/rofi:    DE/rofi
+    ~/.config/gsimplecal: DE/gsimplecal
     ~/.Xresources:     DE/Xresources
     ~/.fonts:
       create: true

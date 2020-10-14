@@ -199,10 +199,6 @@ for_window [class="TelegramDesktop"] move to workspace $ws10
 for_window [class="Slack"] move to workspace $ws10
 for_window [class="Mailspring"] move to workspace $ws9
 
-#Floating notifications fix
-for_window [title="Microsoft Teams Notification"] floating enable
-for_window [title="Microsoft Teams Notification"] sticky enable
-
 bindsym $mod+o exec --no-startup-id i3-msg "exec $term -e ranger"
 bindsym $mod+v exec --no-startup-id i3-msg "exec $term -e vim"
 
@@ -228,7 +224,15 @@ for_window [title="Preferences$"] floating enable
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
 for_window [window_role="Organizer"] floating enable
+for_window [title="Microsoft Teams Notification"] floating enable
+for_window [class="firefox" title="Google Pay - Mozilla Firefox"] floating enable
 
 # Open all floating windows at the center of screen
 for_window [floating] move position center
-# vim:filetype=i3
+
+#Floating notifications fix
+for_window [title="Microsoft Teams Notification"] sticky enable
+for_window [title="Microsoft Teams Notification"] resize set 350 200
+
+for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down 40 px
+# vim:filetype=i3config

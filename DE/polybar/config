@@ -48,7 +48,7 @@ font-3 = "Noto Sans Symbols2:size=13;4"
 
 modules-left = i3 temperature cpu memory
 modules-center =
-modules-right = date volume xkeyboard battery
+modules-right = clock volume xkeyboard battery
 module-margin = 2
 
 left - center - right - none
@@ -160,6 +160,13 @@ date = %a %d %b
 time = %l:%M %p
 label = %{T3}%{T-} %date% %{T3}%{T-} %time%
 format-padding = 1
+
+[module/clock]
+type = custom/script
+interval = 30
+exec = /usr/bin/date '+%a %d %b %l:%M: %p'
+label = %{T3}%{T-} %output%
+click-left = /usr/bin/gsimplecal
 
 [module/volume]
 type = custom/script
