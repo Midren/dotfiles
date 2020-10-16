@@ -146,6 +146,9 @@ set pumheight=10
 
 " Activate mouse support
 set mouse=a
+if $TERM == 'st-256color'
+    set ttymouse=sgr
+endif
 
 " SignColumn (warnings, errors, git diffs, etc.) always visible
 set signcolumn=yes
