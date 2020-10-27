@@ -118,6 +118,11 @@ mode "resize" {
         bindsym k resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
 
+        bindsym H resize shrink width 40 px or 40 ppt
+        bindsym J resize grow height 40 px or 40 ppt
+        bindsym K resize shrink height 40 px or 40 ppt
+        bindsym L resize grow width 40 px or 40 ppt
+
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
@@ -236,8 +241,12 @@ for_window [class="firefox" title="Google Pay - Mozilla Firefox"] floating enabl
 for_window [floating] move position center
 
 #Floating notifications fix
+for_window [title="zoom_linux_float_video_window"] sticky enable
 for_window [title="Microsoft Teams Notification"] sticky enable
 for_window [title="Microsoft Teams Notification"] resize set 350 200
+for_window [title="Microsoft Teams Notification"] move position -20 -49
+no_focus [title="zoom_linux_float_video_window"]
+no_focus [title="Microsoft Teams Notification"]
 
 for_window [class="(?i)gsimplecal"] floating enable, move position mouse, move down 40 px
 # vim:filetype=i3config
