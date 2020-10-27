@@ -40,6 +40,7 @@ Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " ==> Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'oguzbilgic/vim-gdiff'
 
 " ==> Misc
 Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
@@ -258,11 +259,10 @@ let g:user_zen_mode='a'
 let g:NERDTreeWinPos = "left"
 let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-let NERDTreeQuitOnOpen=1
 " Auto close vim if NERDTree is only open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:NERDTreeWinSize=35
-map <leader>t :NERDTreeToggle<cr>
+map <leader>nt :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
 
@@ -418,8 +418,11 @@ nnoremap <silent> <leader>df :GitGutterToggle<cr>
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
 " Even better with Fuzzy Finding )
 nnoremap <silent> <leader>gb :Gblame<CR>
-nnoremap <silent> <leader>gc :GCheckout<CR>
-nnoremap <silent> <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>gc :GBranches<CR>
+nnoremap <silent> <leader>gs :Gstatus<cr>:resize 12<cr>
+
+nmap <leader>gf :diffget //2<cr>
+nmap <leader>gj :diffget //3<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -581,7 +584,8 @@ augroup MyYCMCustom
 augroup END
 
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>gr :YcmCompleter GoToReferences<CR>
+nnoremap <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
+nnoremap <silent> <leader>fr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
 nmap <silent> <leader>dt <plug>(YCMHover)
