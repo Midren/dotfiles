@@ -102,6 +102,7 @@ bindsym $mod+Tab exec rofi -show window -modi 'window' -window-format '{c} {t}'
 bindsym $mod+b exec ~/.config/rofi/scripts/menu-bluetooth.sh
 bindsym $mod+p exec ~/.config/rofi/scripts/menu-projects.sh
 bindsym $mod+n exec ~/.config/rof:/scripts/menu-notes.sh
+bindsym $mod+t exec SOURCE=uk TARGET=en ~/.dotfiles/DE/rofi/scripts/rofitr/rofitr
 
 # resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -122,7 +123,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+t split toggle
+bindsym $mod+Shift+t split toggle
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/i3-volume/volume up 5 -n -p -y -x 130 -N volnoti -e 250
