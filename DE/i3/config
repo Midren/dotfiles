@@ -157,8 +157,8 @@ exec --no-startup-id nm-applet
 # Composite manager
 exec_always --no-startup-id ~/.config/compton/launch.sh
 
-# Replacement for dmen
-bindsym Mod1+space exec ~/.config/i3/scripts/menu-launcher.sh
+# Replacement for dmenu
+bindsym Mod1+space exec ~/.config/rofi/scripts/menu-launcher.sh
 
 # Top bar
 exec_always --no-startup-id exec $HOME/.config/polybar/launch.sh
