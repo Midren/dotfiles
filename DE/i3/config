@@ -125,9 +125,9 @@ mode "resize" {
 bindsym $mod+t split toggle
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/pactl_volume.sh +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/pactl_volume.sh -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/pactl_volume.sh M # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/i3-volume/volume up 5 -n -p -y -x 130 -N volnoti -e 250
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/i3-volume/volume down 5 -n -p -y -x 130 -N volnoti -e 250
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/i3-volume/volume mute
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec light -k -A 15 # increase screen brightness
@@ -216,6 +216,10 @@ exec --no-startup-id redshift -l 49.5:24
 
 #Update currency exchange rate
 exec --no-startup-id qalc -e -t "1 UAH"
+
+exec --no-startup-id libinput-gestures &
+
+exec --no-startup-id volnoti -t 2 -a 0.8
 
 # General settings
 popup_during_fullscreen smart
