@@ -56,6 +56,8 @@ Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
 Plug 'hrsh7th/vim-eft'
+Plug 'AndrewRadev/sideways.vim'
+Plug 'alepez/vim-gtest'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -662,3 +664,32 @@ omap t <Plug>(eft-t)
 nmap T <Plug>(eft-T)
 xmap T <Plug>(eft-T)
 omap T <Plug>(eft-T)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => AndrewRadev/sideways.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <leader><c-h> :SidewaysLeft<cr>
+nnoremap <leader><c-l> :SidewaysRight<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => alepez/vim-gtest
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup GTest
+	autocmd FileType cpp nnoremap <silent> <leader>tt :GTestRun<CR>
+	autocmd FileType cpp nnoremap <silent> <leader>tu :GTestRunUnderCursor<CR>
+	autocmd FileType cpp nnoremap          <leader>tc :GTestCase<space>
+	autocmd FileType cpp nnoremap <silent> <leader>td :GTestToggleEnabled<CR>
+	autocmd FileType cpp nnoremap <silent> ]t         :GTestNext<CR>
+	autocmd FileType cpp nnoremap <silent> [t         :GTestPrev<CR>
+	autocmd FileType cpp nnoremap <silent> <leader>tf :FZFGTest<CR>
+	autocmd FileType cpp nnoremap          <leader>ti :GTestNewTest<CR>i
+    let g:gtest#print_time = 1
+    let g:gtest#test_filename_suffix = "test"
+    let g:gtest#gtest_command = "/home/rmilishc/build-GreenPAKDesigner-Desktop_Qt_5_12_3_GCC_64bit-Debug/deploy/bin/gtest_gpd6_unittests"
+    let g:gtest#highlight_failing_tests = 1
+augroup END
+
+nnoremap ]r :%bd<CR>:cnext<CR>:Gvdiffsplit master<CR>
+nnoremap [r :%bd<CR>:cprevious<CR>:Gvdiffsplit master<CR>
+nnoremap ]R :%bd<CR>:clast<CR>:Gvdiffsplit master<CR>
+nnoremap [R :%bd<CR>:cfirst<CR>:Gvdiffsplit master<CR>
