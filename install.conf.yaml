@@ -59,5 +59,4 @@
 
 # Install other application configs
 - link:
-    ~/.config/albert: albert
     ~/.config/zathura: zathura
