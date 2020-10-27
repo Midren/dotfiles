@@ -43,8 +43,10 @@
 Xcursor.theme:  xcursor-breeze
 Xcursor.size:   0
 
+Xft.dpi: 96
+
 st.termname:    st-256color
 st.alpha:        0.85
 st.borderpx:    0
-st.font:                       JetBrainsMono Nerd Font Mono:size=11.5
+st.font:                       JetBrainsMono Nerd Font Mono:size=10.5:dpi=96
 st.fontalt0:                   TerminessTTF Nerd Font Mono:size=18
