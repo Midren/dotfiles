@@ -164,7 +164,7 @@ format-padding = 1
 [module/clock]
 type = custom/script
 interval = 30
-exec = /usr/bin/date '+%a %d %b %l:%M: %p'
+exec = date '+%a %d %b %l:%M %p'
 label = %{T3}%{T-} %output%
 click-left = /usr/bin/gsimplecal
 
