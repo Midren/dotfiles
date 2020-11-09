@@ -52,12 +52,12 @@ Plug 'jeaye/color_coded',                   " Semantic syntax highlightling
      \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
 Plug 'thaerkh/vim-workspace'                " Intersession open buffers saving
 Plug 'maxbrunsfeld/vim-yankstack'           " Easier management of clipboard
-Plug 'tpope/vim-surround'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
 Plug 'hrsh7th/vim-eft'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'alepez/vim-gtest'
+Plug 'tmsvg/pear-tree'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -693,3 +693,17 @@ nnoremap ]r :%bd<CR>:cnext<CR>:Gvdiffsplit master<CR>
 nnoremap [r :%bd<CR>:cprevious<CR>:Gvdiffsplit master<CR>
 nnoremap ]R :%bd<CR>:clast<CR>:Gvdiffsplit master<CR>
 nnoremap [R :%bd<CR>:cfirst<CR>:Gvdiffsplit master<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => tmsvg/pear-tree
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:pear_tree_pairs = {
+            \ '(': {'closer': ')'},
+            \ '[': {'closer': ']'},
+            \ '{': {'closer': '}'},
+            \ "'": {'closer': "'"},
+            \ '"': {'closer': '"'},
+            \ }
+let g:pear_tree_repeatable_expand = 0
+let g:pear_tree_map_special_keys = 0
+imap <BS> <Plug>(PearTreeBackspace)
