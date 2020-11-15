@@ -19,9 +19,8 @@ bindsym $mod+Return exec ~/.config/i3/i3-dynamic_layout.py $term
 # kill focused window
 bindsym $mod+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-
+# do not disturb mode
+bindsym $mod+d exec "if [[ $(dunstctl is-paused) == 'false' ]]; then notify-send 'Do not disturb mode on' && /usr/bin/sleep 3s; else notify-send 'Do not disturb mode off'; fi; dunstctl set-paused toggle"
 # don't steal focus
 focus_on_window_activation smart
 
