@@ -100,8 +100,10 @@ bindsym $mod+x exec ~/.config/rofi/scripts/menu-power.sh
 bindsym $mod+Tab exec rofi -show window -modi 'window' -window-format '{c} {t}'
 bindsym $mod+b exec ~/.config/rofi/scripts/menu-bluetooth.sh
 bindsym $mod+p exec ~/.config/rofi/scripts/menu-projects.sh
-bindsym $mod+n exec ~/.config/rof:/scripts/menu-notes.sh
-bindsym $mod+t exec SOURCE=uk TARGET=en ~/.dotfiles/DE/rofi/scripts/rofitr/rofitr
+bindsym $mod+n exec ~/.config/rofi/scripts/menu-notes.sh
+bindsym $mod+Shift+t exec SOURCE=uk TARGET=en ~/.dotfiles/DE/rofi/scripts/rofitr/rofitr
+bindsym $mod+t exec "~/.config/i3/scripts/dropdown_term.sh toggle"
+
 
 # resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
@@ -127,7 +129,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+Shift+t split toggle
+bindsym $mod+Shift+s split toggle
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/i3-volume/volume up 5 -n -p -y -x 130 -N volnoti -e 250
@@ -226,6 +228,7 @@ exec --no-startup-id libinput-gestures &
 
 exec --no-startup-id volnoti -t 2 -a 0.8
 
+exec '~/.config/i3/scripts/dropdown_term.sh start'
 # General settings
 popup_during_fullscreen smart
 
