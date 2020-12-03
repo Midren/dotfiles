@@ -32,6 +32,7 @@ Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'chaoren/vim-wordmotion'                
+Plug 'tpope/vim-rsi'
 
 " ==> Linting
 Plug 'dense-analysis/ale'
@@ -58,6 +59,7 @@ Plug 'hrsh7th/vim-eft'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'alepez/vim-gtest'
 Plug 'tmsvg/pear-tree'
+Plug 'tpope/vim-surround'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -66,6 +68,8 @@ Plug 'lervag/vimtex'
 Plug 'plasticboy/vim-markdown'
 Plug 'aserebryakov/vim-todo-lists'
 Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.vim'
+Plug 'psliwka/vim-smoothie'
+
 """""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""
