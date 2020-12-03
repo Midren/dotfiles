@@ -527,6 +527,7 @@ augroup MyYCMCustom
     let g:ycm_add_preview_to_completeopt = 1
     let g:ycm_key_invoke_completion = '<C-Space>'
     let g:ycm_key_list_stop_completion = ['<C-y>', '<Esc>']
+    let g:ycm_always_populate_location_list = 1
 
     let g:ycm_semantic_triggers =  {
       \   'c,cpp': [ 're!\w{3}', '_', '.', '->', '::' ],
@@ -536,7 +537,7 @@ augroup MyYCMCustom
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
     let g:ycm_python_binary_path = '/usr/bin/python3'
-    let g:ycm_clangd_binary_path= 'clangd'
+    let g:ycm_clangd_args = ['-cross-file-rename']
     let g:ycm_confirm_extra_conf = 0
     let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf/ycm_extra_conf.py'
     let g:ycm_confirm_extra_conf = 0

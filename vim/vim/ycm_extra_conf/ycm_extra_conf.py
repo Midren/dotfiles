@@ -153,3 +153,9 @@ def PythonSysPath(**kwargs):
     sys_path = kwargs["sys_path"]
 
     return sys_path
+
+def Settings( **kwargs ):
+    return {
+        'flags': BASE_FLAGS
+    }
+
