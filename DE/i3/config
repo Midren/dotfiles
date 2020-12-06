@@ -162,7 +162,7 @@ exec_always --no-startup-id feh --bg-scale ~/.config/i3/wallpaper.jpg --no-fehbg
 exec --no-startup-id nm-applet
 
 # Composite manager
-exec_always --no-startup-id ~/.config/compton/launch.sh
+exec_always --no-startup-id ~/.config/picom/launch.sh
 
 # Replacement for dmenu
 bindsym Mod1+space exec ~/.config/rofi/scripts/menu-launcher.sh
