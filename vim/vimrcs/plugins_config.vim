@@ -676,6 +676,12 @@ omap T <Plug>(eft-T)
 nnoremap <leader><c-h> :SidewaysLeft<cr>
 nnoremap <leader><c-l> :SidewaysRight<cr>
 
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => alepez/vim-gtest
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
