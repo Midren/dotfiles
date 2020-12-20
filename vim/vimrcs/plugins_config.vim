@@ -22,8 +22,8 @@ Plug 'maximbaz/lightline-ale'
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips' | Plug 'dimatura/ultisnip-snippets'
-Plug 'derekwyatt/vim-fswitch'
 Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
+Plug 'pchynoweth/vim-gencode-cpp' | Plug 'pchynoweth/a.vim'
 
 " ==> Navigating
 Plug 'preservim/nerdtree'
@@ -718,3 +718,9 @@ let g:pear_tree_pairs = {
 let g:pear_tree_repeatable_expand = 0
 let g:pear_tree_map_special_keys = 0
 imap <BS> <Plug>(PearTreeBackspace)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => tenfyzhong/vim-gencode-cpp
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:cpp_gencode_function_attach_statement = [ '' ]
+nnoremap <leader>ad :GenDefinition<CR>
