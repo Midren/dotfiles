@@ -636,10 +636,10 @@ nmap <silent> <leader>gp :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromProtot
 "nmap <buffer> <silent> <leader>gn :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromPrototypesForCurrentBuffer({'includeNS' : 0})<cr><esc>='[:set nopaste<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => derekwyatt/vim-fswitch
+" => pchynoweth/a.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " quick switch between header and source file
-nnoremap <silent> <F4> :FSHere<cr>
+nnoremap <silent> <F4> :A<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => chaoren/vim-wordmotion
