@@ -571,16 +571,20 @@ augroup MyYCMCustom
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
     let g:ulti_expand_or_jump_res = 0
-    function ExpandSnippetOrCarriageReturn()
-        let snippet = UltiSnips#ExpandSnippet()
-        if g:ulti_expand_res > 0
+
+    function ExpandSnippetOrReturn()
+        let snippet = UltiSnips#ExpandSnippetOrJump()
+        if g:ulti_expand_or_jump_res > 0
             return snippet
         else
-            return pumvisible() ? "\<C-y>" : "\<CR>"
+            return "\<C-y>"
         endif
     endfunction
 
-    inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+    inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrReturn()<CR>" : "\<CR>"
+
+    let g:UltiSnipsSnippetsDir        = $HOME.'/.vim/UltiSnips/'
+    let g:UltiSnipsSnippetDirectories = ["UltiSnips"]
 
     autocmd!
     autocmd FileType c,cpp let b:ycm_hover = {
