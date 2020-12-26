@@ -4,11 +4,11 @@ configuration {
   icon-theme:         "Papirus";
   modi:               "";
   sorting-method:     "fzf";
-  kb-row-down:        "Control+j,Control+n";
+  kb-row-down:        "Control+j,Control+n,Down";
   kb-accept-entry:    "Return";
   kb-remove-to-eol:   "";
-  kb-row-up:          "Control+k,Control+p";
-  kb-clear-line:      "Control+l";
+  kb-row-up:          "Control+k,Control+p,Up";
+  terminal:           "st";
 }
 
 /** Design based on slate theme: https://github.com/davatorium/rofi-themes/blob/master/User%20Themes/slate.rasi **/
