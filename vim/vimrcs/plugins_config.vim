@@ -27,6 +27,7 @@ Plug 'pchynoweth/vim-gencode-cpp' | Plug 'pchynoweth/a.vim'
 
 " ==> Navigating
 Plug 'preservim/nerdtree'
+Plug 'lambdalisue/fern.vim' 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
@@ -259,19 +260,52 @@ autocmd FileType qf map <buffer> dd :call RemoveQuickfixItem()<cr>
 " Enable all functions in all modes
 let g:user_zen_mode='a'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => lambdalisue/fern.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeWinPos = "left"
-let NERDTreeShowHidden=1
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
-" Auto close vim if NERDTree is only open
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:NERDTreeWinSize=35
-map <leader>nt :NERDTreeToggle<cr>
-map <leader>nb :NERDTreeFromBookmark<Space>
-map <leader>nf :NERDTreeFind<cr>
+let g:fern#disable_default_mappings = 1
+let g:fern#disable_drawer_smart_quit = 0
 
+map <silent> <leader>nt :Fern . -stay -reveal= -drawer -toggle -width=50<cr>
+map <silent> <leader>nf :Fern . -stay -reveal=% -drawer -toggle -width=50<cr>
+
+function! s:init_fern() abort
+  nmap <buffer><expr> <Plug>(fern-my-open-or-expand)
+      \ fern#smart#leaf(
+      \   "\<Plug>(fern-action-open)",
+      \   "\<Plug>(fern-action-expand:stay)",
+      \   "\<Plug>(fern-action-collapse)",
+      \ )
+  nmap <buffer> <cr>  <Plug>(fern-my-open-or-expand)
+
+  nmap <buffer> o <Plug>(fern-action-open:edit)
+  nmap <buffer> i <Plug>(fern-action-open:bottom)
+  nmap <buffer> s <Plug>(fern-action-open:right)
+  nmap <buffer> N <Plug>(fern-action-new-path)
+  nmap <buffer> m <Plug>(fern-action-move)
+
+  nmap <buffer> h <Plug>(fern-action-leave)
+  nmap <buffer> r <Plug>(fern-action-rename)
+  nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
+  nmap <buffer> cd <Plug>(fern-action-cd)
+
+  nmap <buffer> I <Plug>(fern-action-hide-toggle)
+  nmap <buffer> dd <Plug>(fern-action-trash)
+  nmap <buffer> zh <Plug>(fern-action-hidden:toggle)
+  nmap <buffer> t <Plug>(fern-action-mark:toggle)j
+
+  nmap <buffer> q :<C-u>quit<CR>
+endfunction
+
+function s:is_fern_open() abort
+      return fern#internal#window#find( { w -> fern#internal#drawer#is_drawer(bufname(winbufnr(w))) }, )
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+  autocmd QuitPre * if (winnr('$') == 2 && s:is_fern_open()) | FernDo close | endif
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-multiple-cursors
