@@ -31,6 +31,7 @@ Plug 'lambdalisue/fern.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
+Plug 'wsdjeg/FlyGrep.vim'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'chaoren/vim-wordmotion'                
 Plug 'tpope/vim-rsi'
@@ -763,3 +764,18 @@ imap <BS> <Plug>(PearTreeBackspace)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:cpp_gencode_function_attach_statement = [ '' ]
 nnoremap <leader>ad :GenDefinition<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => 'wsdjeg/FlyGrep.vim'
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('lua')
+  let s:plugin_dir = fnamemodify(expand('<sfile>'), ':h').'\lua'
+  let s:str = s:plugin_dir . '\?.lua;' . s:plugin_dir . '\?\init.lua;'
+  silent! lua package.path=vim.eval("s:str") .. package.path
+  if empty(v:errmsg)
+      let g:_spacevim_if_lua = 1
+  endif
+endif
+
+let g:FlyGrep_input_delay=300
+nmap <silent> <C-f> :FlyGrep<cr>
