@@ -106,8 +106,8 @@ let g:gutentags_ctags_extra_args = [
       \ '--languages=C++,Python,C,vim'
       \ ]
 
-if executable('ag')
-  let g:gutentags_file_list_command = 'ag -g ""'
+if executable('rg')
+  let g:gutentags_file_list_command = 'rg -l ""'
 endif
 
 let g:gutentags_ctags_exclude = [
@@ -170,7 +170,7 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 " => junegunn/fzf
 """"""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
-let $FZF_DEFAULT_COMMAND='ag -g ""'
+let $FZF_DEFAULT_COMMAND='rg -l ""'
 let $FZF_DEFAULT_OPTS="--reverse --bind ctrl-a:select-all"
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
@@ -222,8 +222,8 @@ nnoremap <leader>ls :Tags<cr>
 " => mileszs/ack.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use the the_silver_searcher if possible (much faster than Ack)
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep --smart-case'
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep --smart-case'
 endif
 
 " When you press gv you Ack after the selected text
