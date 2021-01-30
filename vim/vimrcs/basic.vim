@@ -174,13 +174,8 @@ nnoremap x "_x
 " Enable syntax highlighting
 syntax enable 
 
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
-
-" Enable 256 colors palette in Simple Terminal
-if $TERM == 'st-256color'
+" Enable 256 colors palette for true color
+if $COLORTERM == 'truecolor'
     set t_Co=256
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"

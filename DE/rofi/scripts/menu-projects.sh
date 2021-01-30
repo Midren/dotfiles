@@ -10,7 +10,7 @@ fi
 
 function get_projects()
 {
-    projects=$(ls -cx ${PROJECTS_DIR} )
+    projects=$(ls -c ${PROJECTS_DIR} )
     projects=${projects//%/\/}
     projects=${projects// / }
     echo "$projects"
@@ -24,10 +24,10 @@ function main()
     if [[ $rofi_exit -eq 1 ]]; then
         exit
     elif [[ $rofi_exit -eq 10 ]]; then
-        cd "${project}" && st
+        cd "${project}" && alacritty
     elif [[ $rofi_exit -eq 0 ]]; then
         export LC_ALL=en_US.UTF-8
-        cd "${project}" && st -e vim
+        cd "${project}" && alacritty -e vim
     fi
 }
 

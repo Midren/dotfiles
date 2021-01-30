@@ -26,3 +26,6 @@
 [submodule "DE/rofi/scripts/rofitr"]
 	path = DE/rofi/scripts/rofitr
 	url = https://github.com/yusufaktepe/rofitr
+[submodule "DE/polybar/scripts/polybar-spotify"]
+	path = DE/polybar/scripts/polybar-spotify
+	url = https://github.com/PrayagS/polybar-spotify

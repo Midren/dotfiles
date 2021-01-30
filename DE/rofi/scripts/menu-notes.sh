@@ -22,10 +22,10 @@ function main()
     local matching=$( (echo "${all_notes}") | grep "^${note}$")
 
     if [[ -n "${matching}" ]]; then
-        PROGRAM="st -e vim +Goyo \"$NOTES_DIR/${matching}\""
+        PROGRAM="alacritty -e vim +Goyo \"$NOTES_DIR/${matching}\""
     else
         if [[ -n "${note}" ]]; then
-            PROGRAM="st -e vim +edit +Goyo \"$NOTES_DIR/${note}.md\""
+            PROGRAM="alacritty -e vim +edit +Goyo \"$NOTES_DIR/${note}.md\""
         else
             exit 1
         fi

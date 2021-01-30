@@ -61,3 +61,4 @@
 # Install other application configs
 - link:
     ~/.config/zathura: zathura
+    ~/.config/alacritty.yml: alacritty.yml
