@@ -62,6 +62,7 @@ Plug 'AndrewRadev/sideways.vim'
 Plug 'alepez/vim-gtest'
 Plug 'tmsvg/pear-tree'
 Plug 'tpope/vim-surround'
+Plug 'moll/vim-bbye'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -778,3 +779,12 @@ endif
 
 let g:FlyGrep_input_delay=300
 nmap <silent> <C-f> :FlyGrep<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => moll/vim-bbye
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Close the current buffer
+map <leader>bd :Bdelete<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo :Bdelete<cr>
