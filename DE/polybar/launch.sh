@@ -19,7 +19,7 @@ done
 
 
 # Launch example
-echo "---" | tee -a /tmp/topbar.log /tmp/topbar.log
+echo "---" | tee -a /tmp/full.log /tmp/full.log
 for m in $outputs; do
     echo $m
     TRAY_POSITION=none
@@ -27,7 +27,7 @@ for m in $outputs; do
       TRAY_POSITION=center
     fi
     export TRAY_POSITION
-    MONITOR=$m polybar --reload topbar  >>/tmp/topbar.log 2>&1 &
+    MONITOR=$m polybar --reload full  >>/tmp/full.log 2>&1 &
     disown
 done
 
