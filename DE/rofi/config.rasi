@@ -9,6 +9,9 @@ configuration {
   kb-remove-to-eol:   "";
   kb-row-up:          "Control+k,Control+p,Up";
   terminal:           "st";
+  hover-select:       true;
+  me-select-entry:    "";
+  me-accept-entry:    "MousePrimary";
 }
 
 /** Design based on slate theme: https://github.com/davatorium/rofi-themes/blob/master/User%20Themes/slate.rasi **/

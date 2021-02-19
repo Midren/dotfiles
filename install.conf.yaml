@@ -13,7 +13,7 @@
     ~/.config/i3:      DE/i3
     ~/.config/polybar: DE/polybar
     ~/.config/dunst:   DE/dunst
-    ~/.config/compton: DE/compton
+    ~/.config/picom: DE/picom
     ~/.config/gtk-3.0: DE/gtk-3.0
     ~/.config/rofi:    DE/rofi
     ~/.config/gsimplecal: DE/gsimplecal
