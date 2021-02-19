@@ -172,11 +172,18 @@ type = custom/script
 tail = true
 label=%output%
 
-exec = ~/.config/polybar/scripts/pulseaudio-control.bash listen
-click-right = exec pavucontrol &
-click-left = ~/.config/polybar/scripts/pulseaudio-control.bash togmute
+[module/volume]
+type =internal/pulseaudio
+internal=2
+click-right = pavucontrol
 click-middle = ~/.config/polybar/scripts/pulseaudio-control.bash next-sink
-scroll-up = ~/.config/polybar/scripts/pulseaudio-control.bash up
-scroll-down = ~/.config/polybar/scripts/pulseaudio-control.bash down
+
+format-volume="<ramp-volume> <label-volume>"
+ramp-volume-0="🔈"
+ramp-volume-1="🔉"
+ramp-volume-2="🔉"
+ramp-volume-3="🔊"
+
+label-muted="%{F#bd2c40}🔇 %percentage%%"
 
 # vim:filetype=dosini
