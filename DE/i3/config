@@ -96,7 +96,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-bindsym $mod+x exec ~/.config/rofi/scripts/menu-power.sh
+bindsym $mod+x exec ~/.config/polybar/scripts/polybar_wrapper options
 bindsym $mod+Tab exec rofi -show window -modi 'window' -window-format '{c} {t}'
 bindsym $mod+b exec ~/.config/rofi/scripts/menu-bluetooth.sh
 bindsym $mod+p exec ~/.config/rofi/scripts/menu-projects.sh

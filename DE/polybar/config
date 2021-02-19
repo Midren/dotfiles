@@ -11,16 +11,35 @@
 ;==========================================================
 
 [colors]
-background = #222
-background-alt = #444
-foreground = #dfdfdf
-foreground-alt = #555
-primary = #ffb52a
-secondary = #e60053
-alert = #bd2c40
+include-file = ~/.config/polybar/colors
 
-[bar/topbar]
-monitor = ${env:MONITOR:eDP-1-1}
+[section/base_panel]
+monitor = ${env:MONITOR:HDMI-0}
+enable-ipc=true
+override-redirect=true
+bottom = false
+
+height                   = 390
+offset-y                 = -330
+fixed-center             = true
+radius-bottom            = 15
+
+background = #3d3c3b
+foreground = #b6a49b
+
+border-bottom-size       = 0
+module-margin-left       = 5
+module-margin-right      = 0
+
+
+# Very large offset to move the text to the bottom of the bar
+font-0 = "SF Pro Display:size=12;184"
+font-1 = "3270Medium Nerd Font:size=12:style=Medium:antialias=true;184"
+font-2 = "TerminessTTF Nerd Font Mono:size=19:style=Medium:antialias=true;184"
+font-3 = "Noto Sans Symbols2:size=13:antialias=true;184"
+
+[bar/full]
+monitor = ${env:MONITOR:HDMI-0}
 background = #D93d3c3b
 foreground = #b6a49b
 width                    = 100%
@@ -30,10 +49,10 @@ border-right-size        = 20
 radius                   = 15
 line-size                = 0
 border-bottom-size       = 0
-padding-left             = 5
+padding-left             = 3
 padding-right            = 5
-module-margin-left       = 1
-module-margin-right      = 1
+module-margin-left       = 5
+module-margin-right      = 0
 
 enable-ipc=true
 override-redirect=true
@@ -53,10 +72,23 @@ module-margin = 2
 
 tray-position = ${env:TRAY_POSITION:center}
 tray-detached = false
+tray-offset-x = -200
 tray-padding = 5
 tray-scale = 1.0
+tray-fixed-center = false
 
 wm-name = bar
+
+#-----------------------------------------------------------------------------#
+#------------------------------- Right panel ---------------------------------#
+#-----------------------------------------------------------------------------#
+
+[bar/right]
+inherit = section/base_panel
+padding-right = 5
+width = 600
+offset-x = 100%:-620
+modules-right = volume xkeyboard battery options_close
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -185,5 +217,15 @@ ramp-volume-2="🔉"
 ramp-volume-3="🔊"
 
 label-muted="%{F#bd2c40}🔇 %percentage%%"
+
+[module/options_open]
+type = custom/text
+content = ""
+click-left = ~/.config/polybar/scripts/polybar_wrapper options
+
+[module/options_close]
+type = custom/text
+content = ""
+click-left = ~/.config/polybar/scripts/polybar_wrapper options
 
 # vim:filetype=dosini
