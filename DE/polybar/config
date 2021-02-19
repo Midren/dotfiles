@@ -228,4 +228,35 @@ type = custom/text
 content = ""
 click-left = ~/.config/polybar/scripts/polybar_wrapper options
 
+; Spotify related
+
+[module/spotify]
+type = custom/script
+tail = true
+format = <label>
+exec = ~/.config/polybar/scripts/polybar-spotify/scroll_spotify_status.sh
+click-left = ~/.config/i3/scripts/spotify.sh toggle
+
+[module/spotify-prev]
+type = custom/script
+exec = echo "玲"
+format = <label>
+click-left = playerctl previous
+
+[module/spotify-play-pause]
+;type = custom/ipc
+;hook-0 = echo ""
+;hook-1 = echo "契"
+;initial = 1
+type = custom/script
+format = <label>
+exec = if [[ $(playerctl status 2>&1) == 'Playing' ]]; then echo ""; else echo "契"; fi
+click-left = playerctl play-pause
+
+[module/spotify-next]
+type = custom/script
+exec = echo "怜"
+format = <label>
+click-left = playerctl next
+format-suffix = "   "
 # vim:filetype=dosini
