@@ -60,15 +60,14 @@ offset-y = 10
 wm-restack=i3
 
 fixed-center = true
-font-0 = San Francisco Display Regular:size=11;2
+font-0 = "SF Pro Display:size=12:style=Regular;2"
 font-1 = "3270Medium Nerd Font:size=12:style=Medium;2"
 font-2 = "TerminessTTF Nerd Font Mono:size=19:style=Medium;4"
 font-3 = "Noto Sans Symbols2:size=13;4"
 
 modules-left = i3 temperature cpu memory
-modules-center =
-modules-right = clock volume xkeyboard battery
-module-margin = 2
+modules-center = clock
+modules-right = spotify spotify-prev spotify-play-pause spotify-next volume xkeyboard battery options_open
 
 tray-position = ${env:TRAY_POSITION:center}
 tray-detached = false
@@ -96,20 +95,20 @@ modules-right = volume xkeyboard battery options_close
 type = internal/cpu
 
 format = <label>
-label =   %percentage-sum%%
+label = %{T3}%{T-}  %percentage-sum%%
 interval = 3
 
 [module/temperature]
 type = internal/temperature
-label =  %temperature-c%
+label = %{T4}%{T-}  %temperature-c%
 warn-temperature = 70
-label-warn =  %temperature-c%
+label-warn = ${self.label}
 label-warn-foreground = ${colors.alert}
 interval = 3
 
 [module/memory]
 type = internal/memory
-label =   %percentage_used%%
+label = %{T3}%{T-}  %percentage_used%%
 interval = 3
 
 [module/battery]
@@ -155,9 +154,15 @@ type = internal/i3
 
 ws-icon-0 = "1;"
 ws-icon-1 = "2;"
-ws-icon-2 = "9;"
-ws-icon-3 = "10;"
-ws-icon-4 = ";a"
+ws-icon-2 = "2;"
+ws-icon-3 = "3;"
+ws-icon-4 = "4;"
+ws-icon-5 = "5;"
+ws-icon-6 = "6;"
+ws-icon-7 = "7;"
+ws-icon-8 = "8;"
+ws-icon-9 = "9;"
+ws-icon-10 = "10;"
 
 label-focused-font = 3
 label-unfocused-font = ${self.label-focused-font}
@@ -168,29 +173,29 @@ format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
 
-label-mode-padding = 2
+label-mode-padding = 3
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %{T2}%index%: %{T3}%icon%%{T-}
+label-focused = %{T1}%index%:  %{T3}%icon%%{T-}
 label-focused-background = ${colors.background-alt}
- label-focused-underline= ${colors.primary}
-label-focused-padding = 2
+label-focused-underline= ${colors.primary}
+label-focused-padding = 3
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %{T2}%index%: %{T3}%icon%%{T-}
-label-unfocused-padding = 2
+label-unfocused = ${self.label-focused}
+label-unfocused-padding = ${self.label-focused-padding}
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %{T2}%index%: %{T3}%icon%%{T-}
+label-visible = ${self.label-focused}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-unfocused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %{T2}%index%: %{T3}%icon%%{T-}
+label-urgent = ${self.label-focused}
 label-urgent-background = ${colors.alert}
-label-urgent-padding = 2
+label-urgent-padding = ${self.label-focused-padding}
 
 [module/clock]
 type = custom/script
@@ -199,10 +204,14 @@ exec = date '+%a %d %b %l:%M %p'
 label = %{T3}%{T-} %output%
 click-left = /usr/bin/gsimplecal
 
-[module/volume]
-type = custom/script
-tail = true
-label=%output%
+[module/wireless-network]
+type = internal/network
+interface=wlo1
+interval=3.0
+format-connected = <ramp-signal> <label-connected>
+label-connected="%{A1:nm-connection-editor:}%essid%%{A}"
+ramp-signal-0="%{T3}%{T-}"
+label-disconnected="%{A1:nm-connection-editor:}not connected%{A}"
 
 [module/volume]
 type =internal/pulseaudio
@@ -259,4 +268,5 @@ exec = echo "怜"
 format = <label>
 click-left = playerctl next
 format-suffix = "   "
+
 # vim:filetype=dosini
