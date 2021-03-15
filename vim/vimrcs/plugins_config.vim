@@ -20,20 +20,17 @@ call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""
 Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
 
 """"""""""""""""""""""""""""""
 " => Development
 """"""""""""""""""""""""""""""
 " ==> Completition
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'SirVer/ultisnips' | Plug 'dimatura/ultisnip-snippets'
 Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
 Plug 'pchynoweth/vim-gencode-cpp' | Plug 'pchynoweth/a.vim'
 
 " ==> Navigating
-Plug 'preservim/nerdtree'
 Plug 'lambdalisue/fern.vim' 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
@@ -44,7 +41,6 @@ Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-rsi'
 
 " ==> Linting
-Plug 'dense-analysis/ale'
 Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " ==> Git
@@ -61,10 +57,7 @@ Plug 'sheerun/vim-polyglot'                 " Syntax highlightning
 Plug 'jeaye/color_coded',                   " Semantic syntax highlightling
      \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
 Plug 'thaerkh/vim-workspace'                " Intersession open buffers saving
-Plug 'maxbrunsfeld/vim-yankstack'           " Easier management of clipboard
-Plug 'terryma/vim-multiple-cursors'
 Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
-Plug 'hrsh7th/vim-eft'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'alepez/vim-gtest'
 Plug 'tmsvg/pear-tree'
@@ -76,9 +69,7 @@ Plug 'moll/vim-bbye'
 """""""""""""""""""""""""""""
 Plug 'lervag/vimtex'
 Plug 'plasticboy/vim-markdown'
-Plug 'aserebryakov/vim-todo-lists'
 Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.vim'
-Plug 'psliwka/vim-smoothie'
 
 """""""""""""""""""""""""""""
 " => Misc
@@ -165,14 +156,6 @@ let g:gutentags_ctags_exclude = [
       \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
       \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
       \ ]
-
-""""""""""""""""""""""""""""""
-" => YankStack
-""""""""""""""""""""""""""""""
-let g:yankstack_yank_keys = ['y', 'd']
-
-nmap <C-p> <Plug>yankstack_substitute_older_paste
-nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
 """"""""""""""""""""""""""""""
 " => junegunn/fzf
@@ -384,23 +367,6 @@ autocmd! User GoyoLeave call <SID>goyo_leave()
 nnoremap <silent> <leader>z :Goyo<cr>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Ale (syntax checker and linter)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ale_linters = {
-\   'javascript': ['jshint'],
-\   'python': ['flake8'],
-\   'go': ['go', 'golint', 'errcheck']
-\}
-
-nmap <silent> <leader>a <Plug>(ale_next_wrap)
-
-" Disabling highlighting
-let g:ale_set_highlights = 0
-
-" Only run linting when saving the file
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_enter = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim-clang-format
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -701,26 +667,6 @@ nmap E          <Plug>WordMotion_e
 nmap B          <Plug>WordMotion_b
 omap aW         <Plug>WordMotion_aw
 omap iW         <Plug>WordMotion_iw
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => hrsh7th/vim-eft
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap ; <Plug>(eft-repeat)
-xmap ; <Plug>(eft-repeat)
-
-nmap f <Plug>(eft-f)
-xmap f <Plug>(eft-f)
-omap f <Plug>(eft-f)
-nmap F <Plug>(eft-F)
-xmap F <Plug>(eft-F)
-omap F <Plug>(eft-F)
-
-nmap t <Plug>(eft-t)
-xmap t <Plug>(eft-t)
-omap t <Plug>(eft-t)
-nmap T <Plug>(eft-T)
-xmap T <Plug>(eft-T)
-omap T <Plug>(eft-T)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => AndrewRadev/sideways.vim
