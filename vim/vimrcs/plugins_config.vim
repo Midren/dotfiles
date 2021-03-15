@@ -70,6 +70,7 @@ Plug 'tmsvg/pear-tree'                      " pairs completition
 Plug 'Midren/splitjoin.vim'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-bbye'
+Plug 'romainl/vim-qf', { 'for': ['qf'] }
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -233,26 +234,6 @@ vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 "
 vnoremap <silent> <leader>fd :call VisualSelection('Rg', '')<cr>
 nmap              <leader>fd :Rg<cr>
-
-nnoremap ]q :cn<cr>
-nnoremap [q :cp<cr>
-
-" Make sure that enter is never overriden in the quickfix window
-autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
-
-" When using `dd` in the quickfix list, remove the item from the quickfix list.
-" https://stackoverflow.com/questions/42905008/quickfix-list-how-to-add-and-remove-entries
-
-function! RemoveQuickfixItem()
-  let curqfidx = line('.') - 1
-  let qfall = getqflist()
-  call remove(qfall, curqfidx)
-  call setqflist(qfall, 'r')
-  execute curqfidx + 1
-endfunction
-
-autocmd FileType qf map <buffer> dd :call RemoveQuickfixItem()<cr>
-
 
 """"""""""""""""""""""""""""""
 " => ZenCoding
@@ -755,3 +736,19 @@ map <leader>bd :Bdelete<cr>:tabclose<cr>gT
 
 " Close all the buffers
 map <leader>ba :bufdo :Bdelete<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => romainl/vim-qf
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"nnoremap <leader>q <Plug>(qf_qf_toggle)
+"nnoremap <leader>e <Plug>(qf_loc_toggle)
+nnoremap <silent> <leader>q :<C-u> call qf#toggle#ToggleQfWindow(0)<cr>
+nnoremap <silent> <leader>e :<C-u> call qf#toggle#ToggleLocWindow(0)<cr>
+nnoremap <silent> ]q :cn<cr>
+nnoremap <silent> [q :cp<cr>
+nnoremap <silent> ]e :lnext<cr>
+nnoremap <silent> [e :lprev<cr>
+
+autocmd FileType qf nnoremap <buffer> <silent> <C-H> <Plug>(qf_older)
+autocmd FileType qf nnoremap <buffer> <silent> <C-L> <Plug>(qf_newer)
+
