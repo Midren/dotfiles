@@ -505,29 +505,25 @@ let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
 
+autocmd FileType tex nnoremap <silent> <leader>cb :VimtexCompile<cr>
+autocmd FileType tex nnoremap <silent> <leader>cc :VimtexClean<cr>
+autocmd FileType tex nnoremap <silent> <leader>cr :VimtexView<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ilyachur/cmake4vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:cmake_compile_commands=1
+let g:cmake_compile_commands_link='.'
+let g:cmake_reload_after_save=0
 let g:asyncrun_open = 8
 
-nnoremap <silent> <leader>cb :CMakeBuild<cr>
-nnoremap <silent> <leader>cc :CMakeClean<cr>
-nnoremap <silent> <leader>ct :FZFCMakeSelectTarget<cr>
-function! RunProgram()
-    if !exists('g:cmake_build_target')
-        echom "Please select target first"
-        return
-    endif
-    let s:exec_path = findfile(g:cmake_build_target, utils#cmake#getBuildDir())
-    if strlen(s:exec_path)
-        execute 'AsyncRun ' . s:exec_path
-    else
-        echom "Target in not runnable"
-    endif
-endfunction
-nnoremap <silent> <leader>cr :call RunProgram()<cr>
+autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
+autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cc :CMakeClean<cr>
+autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :call fzf#run(fzf#wrap({
+                    \ 'source': cmake4vim#GetAllTargets(),
+                    \ 'options': '+m -n 1 --prompt CMakeTarget\>\ ',
+                    \ 'sink':    function('cmake4vim#SelectTarget')}))<cr>
+autocmd FileType c,cpp,cmake nnoremap <silent> <leader>cr :CMakeRun<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
