@@ -1,9 +1,16 @@
 """"""""""""""""""""""""""""""
 " => Install using Vim-plug
 """"""""""""""""""""""""""""""
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+if has('nvim')
+      if empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
+            silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs 
+                  \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 
+      endif
+else
+      if empty(glob('~/.vim/autoload/plug.vim'))
+            silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                  \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      endif
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -572,7 +579,12 @@ augroup MyYCMCustom
       \   'c,cpp': [ 're!\w{3}', '_', '.', '->', '::' ],
       \   'python': [ 're!\w{3}', '_'  ],
       \ }
-    set completeopt+=popup
+    if !has('nvim')
+      set completeopt+=popup
+    else
+      set completeopt+=preview
+    endif
+
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
     let g:ycm_python_binary_path = '/usr/bin/python3'

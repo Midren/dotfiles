@@ -146,7 +146,7 @@ set pumheight=10
 
 " Activate mouse support
 set mouse=a
-if $TERM == 'st-256color'
+if !has('nvim') && ($TERM == 'st-256color' || $TERM == 'alacritty')
     set ttymouse=sgr
 endif
 
