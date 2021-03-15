@@ -32,6 +32,7 @@ Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.
 
 " ==> Navigating
 Plug 'lambdalisue/fern.vim' 
+Plug 'tweekmonster/fzf-filemru'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
@@ -47,6 +48,7 @@ Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp']} | Plug 'Shougo/vimproc.vim
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'oguzbilgic/vim-gdiff'
+Plug 'will133/vim-dirdiff'
 
 " ==> Misc
 Plug 'ilyachur/cmake4vim',                    " Cmake support
@@ -99,10 +101,9 @@ let g:gutentags_plus_nomap = 1
 
 " enable gtags module
 let g:gutentags_modules = ['ctags', 'gtags_cscope']
-"let g:gutentags_modules = ['ctags']
 
 " config project root markers.
-let g:gutentags_project_root = ['.git', '.root']
+let g:gutentags_project_root = ['.git', '.root', '.color_coded']
 
 " generate datebases in my cache directory, prevent gtags files polluting my project
 let g:gutentags_cache_dir = expand('~/.cache/tags')
@@ -114,6 +115,8 @@ let g:gutentags_ctags_extra_args = [
       \ '--extra=+q',
       \ '--languages=C++,Python,C,vim'
       \ ]
+
+let g:fzf_tags_command = 'ctags -R --tag-relative=yes --fields=+ailmnS --c++-kinds=+p --extra=+q --languages=C++,Python,C,vim'
 
 if executable('rg')
   let g:gutentags_file_list_command = 'rg -l ""'
@@ -171,8 +174,8 @@ let g:gutentags_ctags_exclude = [
 " => junegunn/fzf
 """"""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
-let $FZF_DEFAULT_COMMAND='rg -l ""'
-let $FZF_DEFAULT_OPTS="--reverse --bind ctrl-a:select-all"
+let $FZF_DEFAULT_COMMAND='rg -l "" --sort path'
+let $FZF_DEFAULT_OPTS="--reverse --tiebreak=length,end,index"
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 function! s:build_quickfix_list(lines)
@@ -211,12 +214,11 @@ augroup fzf
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
-nnoremap <leader>lf :Files<cr>
-nnoremap <leader>lg :GFiles?<cr>
-nnoremap <leader>lr :History<CR>
-nnoremap <leader>lb :Buffers<cr>
-nnoremap <leader>ll :BTags<cr>
-nnoremap <leader>ls :Tags<cr>
+nnoremap <silent> <leader>lf :FilesMru --tiebreak=end<cr>
+nnoremap <silent> <leader>lr :History<CR>
+nnoremap <silent> <leader>lb :Buffers<cr>
+nnoremap <silent> <leader>ll :BTags<cr>
+nnoremap <silent> <leader>ls :Tags<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -232,8 +234,8 @@ vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
 
 " Open Ack and put the cursor in the right position
 "
-vnoremap <silent> <leader>fd :call VisualSelection('Rg', '')<cr>
-nmap              <leader>fd :Rg<cr>
+vnoremap <silent> <leader>fd :call VisualSelection('gv', '')<CR>
+nmap              <leader>fd :Ack!
 
 """"""""""""""""""""""""""""""
 " => ZenCoding
@@ -258,6 +260,7 @@ function! s:init_fern() abort
       \   "\<Plug>(fern-action-collapse)",
       \ )
   nmap <buffer> <cr>  <Plug>(fern-my-open-or-expand)
+  nmap <buffer> l  <Plug>(fern-my-open-or-expand)
 
   nmap <buffer> o <Plug>(fern-action-open:edit)
   nmap <buffer> i <Plug>(fern-action-open:bottom)
@@ -268,7 +271,7 @@ function! s:init_fern() abort
   nmap <buffer> h <Plug>(fern-action-leave)
   nmap <buffer> r <Plug>(fern-action-rename)
   nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
-  nmap <buffer> cd <Plug>(fern-action-cd)
+  nmap <buffer> cd <Plug>(fern-action-cd:cursor)
 
   nmap <buffer> I <Plug>(fern-action-hide-toggle)
   nmap <buffer> dd <Plug>(fern-action-trash)
@@ -368,8 +371,8 @@ let g:clang_format#style_options = {
  \ "IndentWidth":  4
  \ }
 
-autocmd FileType c,cpp nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp vnoremap <buffer><Leader>cf :ClangFormat<CR>
+autocmd FileType c,cpp nnoremap <silent> <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp vnoremap <silent> <buffer><Leader>cf :ClangFormat<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -465,6 +468,8 @@ try
     endfunction
 catch
 endtry
+
+au BufEnter * call color_coded#moved()
 
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
@@ -594,11 +599,16 @@ augroup MyYCMCustom
       \ 'command': 'GetDoc',
       \ 'syntax': &filetype
       \ }
+    autocmd FileType python let b:ycm_hover = {
+      \ 'command': 'GetType',
+      \ 'syntax': &filetype
+      \ }
     let g:ycm_auto_hover=''
 augroup END
 
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
-nnoremap <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
+autocmd FileType c,cpp nnoremap <silent> <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
+autocmd FileType c,cpp nnoremap <silent> <C-]> :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>fr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>

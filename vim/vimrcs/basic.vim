@@ -72,6 +72,7 @@ source $VIMRUNTIME/menu.vim
 
 " Turn on the Wild menu
 set wildmenu
+set wildmode=longest:full,full
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -323,10 +324,8 @@ fun! CleanExtraSpaces()
     call setreg('/', old_query)
 endfun
 
-if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
-endif
-
+autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+autocmd Filetype markdown setlocal com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,b:- | set formatoptions=tcroqln
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
@@ -335,6 +334,7 @@ endif
 map <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
+nnoremap <leader>sc ea<C-X><C-S>
 map <leader>sa zg
 map <leader>s? z=
 
@@ -362,7 +362,7 @@ function! VisualSelection(direction, extra_filter) range
     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
     if a:direction == 'gv'
-        call CmdLine("Ack '" . l:pattern . "' " )
+        call CmdLine("Ack! '" . l:pattern . "' \<CR>" )
     elseif a:direction == 'Rg'
         call CmdLine("Rg " . l:pattern)
     elseif a:direction == 'replace'

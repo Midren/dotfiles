@@ -1,10 +1,8 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Important: 
-"       This requries that you install https://github.com/amix/vimrc !
-"
+" => Debugging
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:termdebug_popup = 0
+let g:termdebug_wide = 100
 
 " Disable scrollbars (real hackers don't use scrollbars for navigation!)
 set guioptions-=r
