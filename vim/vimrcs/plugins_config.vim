@@ -534,6 +534,8 @@ augroup MyYCMCustom
     let g:ycm_key_invoke_completion = '<C-Space>'
     let g:ycm_key_list_stop_completion = ['<C-y>', '<Esc>']
     let g:ycm_always_populate_location_list = 1
+    let g:ycm_open_loclist_on_ycm_diags = 1
+    let g:ycm_allow_changing_updatetime = 0
 
     let g:ycm_semantic_triggers =  {
       \   'c,cpp': [ 're!\w{3}', '_', '.', '->', '::' ],
@@ -556,23 +558,6 @@ augroup MyYCMCustom
     let g:ycm_key_list_select_completion = []
     let g:ycm_key_list_previous_completion = []
     let g:ycm_key_detailed_diagnostics = ''
-    "let g:ycm_echo_current_diagnostic=0
-    
-    " Enable tabbing through list of results
-    function! g:UltiSnips_Complete()
-        call UltiSnips#ExpandSnippet()
-        if g:ulti_expand_res == 0
-            if pumvisible()
-                return "\<C-n>"
-            else
-                call UltiSnips#JumpForwards()
-                if g:ulti_jump_forwards_res == 0
-                   return "\<tab>"
-                endif
-            endif
-        endif
-        return ""
-    endfunction
 
     let g:UltiSnipsExpandTrigger = "<nop>"
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
