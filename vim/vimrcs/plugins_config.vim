@@ -27,8 +27,8 @@ Plug 'itchyny/lightline.vim'
 " ==> Completition
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 Plug 'SirVer/ultisnips' | Plug 'dimatura/ultisnip-snippets'
-Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp', 'objc'] }
-Plug 'pchynoweth/vim-gencode-cpp' | Plug 'pchynoweth/a.vim'
+Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp'] }
+Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.vim', { 'for': ['c', 'cpp']}
 
 " ==> Navigating
 Plug 'lambdalisue/fern.vim' 
@@ -41,7 +41,7 @@ Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-rsi'
 
 " ==> Linting
-Plug 'rhysd/vim-clang-format' | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp']} | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " ==> Git
 Plug 'airblade/vim-gitgutter'
@@ -49,26 +49,35 @@ Plug 'tpope/vim-fugitive'
 Plug 'oguzbilgic/vim-gdiff'
 
 " ==> Misc
-Plug 'ilyachur/cmake4vim' | Plug 'tpope/vim-dispatch'
+Plug 'ilyachur/cmake4vim',                    " Cmake support
+      \{ 'for': ['c', 'cpp']} | Plug 'tpope/vim-dispatch'
 Plug 'scrooloose/nerdcommenter'
 Plug 'kkoomen/vim-doge',                    " Doxygen documentation
-    \{ 'do': { -> doge#install() } } 
+      \{ 'do': { -> doge#install() }, 'for': ['c', 'cpp', 'python'] } 
 Plug 'sheerun/vim-polyglot'                 " Syntax highlightning
 Plug 'jeaye/color_coded',                   " Semantic syntax highlightling
-     \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install'}
+      \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install', 'for': ['c', 'cpp']}
 Plug 'thaerkh/vim-workspace'                " Intersession open buffers saving
+Plug 'goerz/jupytext.vim',                  " Open jupyter notebooks as markdown
+      \{ 'do': 'pip3 install jupytext'}
+Plug 'metakirby5/codi.vim',                 " realtime interpreter
+      \{ 'for': ['python', 'cpp']} 
 Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
-Plug 'AndrewRadev/sideways.vim'
-Plug 'alepez/vim-gtest'
-Plug 'tmsvg/pear-tree'
+Plug 'AndrewRadev/sideways.vim'             " argument objects
+Plug 'alepez/vim-gtest',                    " Google Test support
+      \{'for': ['c', 'cpp']}
+Plug 'tmsvg/pear-tree'                      " pairs completition
+Plug 'Midren/splitjoin.vim'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-bbye'
 
 """""""""""""""""""""""""""""
 " => Writing
 """""""""""""""""""""""""""""
-Plug 'lervag/vimtex'
-Plug 'plasticboy/vim-markdown'
+Plug 'lervag/vimtex',                       " latex
+      \{'for': ['tex']}
+Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'dhruvasagar/vim-table-mode'
 Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.vim'
 
 """""""""""""""""""""""""""""
