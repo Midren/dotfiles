@@ -1,0 +1,2 @@
+#!/bin/sh
+yabai -m query --windows --display

@@ -1,0 +1,129 @@
+####### Shortcut Hotkeys #############
+# open terminal
+alt - return : $HOME/.config/skhd/open_terminal.sh
+
+# restart Yabi, SpaceBar, and SKHD
+alt + shift - r : \
+    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"; \
+    skhd --reload
+
+
+####### Application Blacklists #############
+#.blacklist [
+#  "IntelliJ IDEA"
+#]
+
+
+####### Window Management Hotkeys #############
+# change focus
+alt - h : yabai -m window --focus west || yabai -m display --focus west
+alt - j : yabai -m window --focus south || yabai -m display --focus south
+alt - k : yabai -m window --focus north || yabai -m display --focus north
+alt - l : yabai -m window --focus east || yabai -m display --focus east
+
+# shift window in current workspace
+#alt + shift - h : yabai -m window --warp west
+#alt + shift - j : yabai -m window --warp south
+#alt + shift - k : yabai -m window --warp north
+#alt + shift - l : yabai -m window --warp east
+alt + shift - h : yabai -m window --swap west || $(yabai -m window --display west; yabai -m display --focus west)
+alt + shift - j : yabai -m window --swap south || $(yabai -m window --display south; yabai -m display --focus south)
+alt + shift - k : yabai -m window --swap north || $(yabai -m window --display north; yabai -m display --focus north)
+alt + shift - l : yabai -m window --swap east || $(yabai -m window --display east; yabai -m display --focus east)
+
+# set insertion point in focused container
+alt + ctrl - h : yabai -m window --insert west
+alt + ctrl - j : yabai -m window --insert south
+alt + ctrl - k : yabai -m window --insert north
+alt + ctrl - l : yabai -m window --insert east
+
+# (alt) set insertion point in focused container using arrows
+alt + ctrl - left  : yabai -m window --insert west
+alt + ctrl - down  : yabai -m window --insert south
+alt + ctrl - up    : yabai -m window --insert north
+alt + ctrl - right : yabai -m window --insert east
+
+# navigate to specific workspace (with back and forth support)
+# # Note: script fails when workspace is empty due to Yabai not reporting the workspace (bug?)
+# #       best to use the create + move window command instead of creating a blank window
+#alt - 1 : $HOME/.config/skhd/switch_workspace.sh 4
+#alt - 2 : $HOME/.config/skhd/switch_workspace.sh 5
+#alt - 3 : $HOME/.config/skhd/switch_workspace.sh 6
+#alt - 4 : $HOME/.config/skhd/switch_workspace.sh 7
+#alt - 5 : $HOME/.config/skhd/switch_workspace.sh 8
+#alt - 6 : $HOME/.config/skhd/switch_workspace.sh 9
+#alt - 7 : $HOME/.config/skhd/switch_workspace.sh 10
+#alt - 8 : $HOME/.config/skhd/switch_workspace.sh 1
+#alt - 9 : $HOME/.config/skhd/switch_workspace.sh 2
+#alt - 0 : $HOME/.config/skhd/switch_workspace.sh 3
+
+# Move focused window to specific workspace (with back and forth support)
+alt + shift - 1 : $HOME/.config/skhd/move_to_workspace.sh 4
+alt + shift - 2 : $HOME/.config/skhd/move_to_workspace.sh 5
+alt + shift - 3 : $HOME/.config/skhd/move_to_workspace.sh 6
+alt + shift - 4 : $HOME/.config/skhd/move_to_workspace.sh 7
+alt + shift - 5 : $HOME/.config/skhd/move_to_workspace.sh 8
+alt + shift - 6 : $HOME/.config/skhd/move_to_workspace.sh 9
+alt + shift - 7 : $HOME/.config/skhd/move_to_workspace.sh 10
+alt + shift - 8 : $HOME/.config/skhd/move_to_workspace.sh 1
+alt + shift - 9 : $HOME/.config/skhd/move_to_workspace.sh 2
+alt + shift - 0 : $HOME/.config/skhd/move_to_workspace.sh 3
+
+# change layout of desktop
+alt - e : yabai -m space --layout bsp
+alt - s : yabai -m space --layout float
+
+# float / unfloat window and center on screen
+#alt - t : yabai -m window --toggle float;\
+#          yabai -m window --grid 4:4:1:1:2:2
+# float / unfloat window and leave in its current location
+alt + shift - space : yabai -m window --toggle float
+#alt + ctrl - space : yabai -m window --toggle float
+
+# make floating window fill screen
+alt + cmd - up     : yabai -m window --grid 1:1:0:0:1:1
+
+# make floating window fill left-half of screen
+alt + cmd - left   : yabai -m window --grid 1:2:0:0:1:1
+
+# make floating window fill right-half of screen
+alt + cmd - right  : yabai -m window --grid 1:2:1:0:1:1
+
+# create desktop, move window and follow focus
+#alt + shift + cmd - n : yabai -m space --create;\
+#                 index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')"; \
+#                 yabai -m window --space "${index}";\
+#                 yabai -m space --focus "${index}"
+
+# create desktop, move window and stay in current workspace
+#alt + shift - n : yabai -m space --create;\
+#                  index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')"; \
+#                  yabai -m window --space "${index}"
+
+# create desktop and follow focus
+# Note: script fails when workspace is empty due to Yabai not reporting the workspace (bug?)
+#       best to use the create + move window command instead of creating a blank window
+#alt - n : yabai -m space --create;\
+#                  index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')"; \
+#                  yabai -m space --focus "${index}"
+
+
+# toggle sticky
+alt + ctrl - s : yabai -m window --toggle sticky
+
+# enter fullscreen mode for the focused container
+alt + shift - f : yabai -m window --toggle zoom-fullscreen
+
+# toggle window native fullscreen
+# alt + shift - f : yabai -m window --toggle native-fullscreen
+
+# focus monitor
+alt + ctrl - x  : yabai -m display --focus recent
+alt + ctrl - z  : yabai -m display --focus prev
+alt + ctrl - c  : yabai -m display --focus next
+alt + ctrl - 1  : yabai -m display --focus 1
+alt + ctrl - 2  : yabai -m display --focus 2
+alt + ctrl - 3  : yabai -m display --focus 3
+
+# project chooser
+alt - p : /Users/roman.milishchuk/.dotfiles/DE/rofi/scripts/menu-projects-osx.sh
