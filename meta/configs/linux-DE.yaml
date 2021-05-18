@@ -1,0 +1,17 @@
+- link:
+    ~/.config/i3: DE/i3
+    ~/.config/polybar: DE/polybar
+    ~/.config/dunst: DE/dunst
+    ~/.config/picom: DE/picom
+    ~/.config/gtk-3.0: DE/gtk-3.0
+    ~/.config/rofi: DE/rofi
+    ~/.config/gsimplecal: DE/gsimplecal
+    ~/.config/udiskie: DE/udiskie
+    ~/.Xresources: DE/Xresources
+    ~/.fonts:
+      create: true
+      path: DE/fonts
+
+- shell:
+  - [xrdb ~/.Xresources, Update Xresources]
+  - [fc-cache -f -v, Update fonts]

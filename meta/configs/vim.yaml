@@ -1,0 +1,16 @@
+- create:
+  - ~/.config/nvim
+
+- link:
+    ~/.vim: vim/vim
+    ~/.ideavimrc: vim/vimrcs/ideavimrc
+    ~/.config/nvim/init.vim: vim/init.vim
+
+- shell:
+  - [vim/install_awesome_vimrc.sh, Installing vimrc]
+  - [pip3 install --user --upgrade pynvim, Install neovim plugin manager ]
+  - [nvim --headless +PlugInstall +qall, Install plugins via Vim-Plug]
+
+- create:
+  - ~/.vim/temp_dirs
+  - ~/.vim/temp_dirs/undodir

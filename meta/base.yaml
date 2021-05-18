@@ -1,0 +1,12 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- create:
+    - $HOME/.config
+
+- clean: ['~']
+
+- shell:
+  - [git submodule update --recursive --init, Installing/updating submodules]

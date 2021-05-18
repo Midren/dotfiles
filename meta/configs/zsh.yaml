@@ -1,0 +1,12 @@
+- shell:
+    - [ pip3 install --user powerline-status, Installing powerline status ]
+
+- create:
+  - ~/.config/zsh
+    ~/.config/custom
+
+- link:
+    ~/.zshenv: zsh/zshenv
+    ~/.config/zsh/.zshrc: zsh/zshrc
+    ~/.config/zsh/oh-my-zsh: zsh/oh-my-zsh
+    ~/.config/zsh/custom/plugins: zsh/plugins

@@ -1,0 +1,11 @@
+- link:
+    ~/.config/yabai: DE/yabai
+    ~/.config/skhd: DE/skhd
+    ~/.config/karabiner: DE/karabiner
+
+- shell:
+    - command: "which -s brew; if [[ $? != 0 ]]; then yes | /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"; else brew update; fi"
+      description: Installing Homebrew
+      stdin: true
+      stdout: true
+    - [ brew bundle --file Brewfile, Install dependencies]
