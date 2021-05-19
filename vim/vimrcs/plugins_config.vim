@@ -20,6 +20,9 @@ call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""
 Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
+Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
+Plug 'Luxed/ayu-vim'
 
 """"""""""""""""""""""""""""""
 " => Development
@@ -89,6 +92,15 @@ Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.v
 Plug 'skywind3000/asyncrun.vim'
 Plug 'markonm/traces.vim' " Highlighting default ex substitute
 Plug 'tpope/vim-repeat'
+Plug 'markstory/vim-zoomwin' " Maximize splits
+
+
+"""""""""""""""""""""""""""""
+" => Temp
+"""""""""""""""""""""""""""""
+Plug 'tell-k/vim-autopep8'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'dstein64/nvim-scrollview'
 
 call plug#end()
 
@@ -438,41 +450,9 @@ nmap <leader>gj :diffget //3<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim-material
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:material_style='palenight'
 set background=light
-try
-   colorscheme vim-material
-   highlight! link SignColumn Conceal
+colorscheme vim-material
 
-   autocmd FileType c,cpp call s:cpp_highlight_settings()
-   function! s:cpp_highlight_settings()
-       highlight! link cBlock cppBlock
-       highlight! link cppBlock Type
-       highlight! link cppExceptions cppModifier
-       highlight! link cppModifier cppStorageClass
-       highlight! link cStorageClass cppStorageClass
-       highlight! link cppStorageClass javascriptClassSuperName
-       highlight! link FunctionDecl javascriptFuncKeyword
-       highlight! link CXXMethod javascriptMethod
-       highlight! link Variable Normal
-       highlight! link EnumConstant Member
-       highlight! link Member javascriptProperty
-       highlight! link Namespace ClassDecl
-       highlight! link StructDecl ClassDecl
-       highlight! link UnionDecl ClassDecl
-       highlight! link EnumDecl ClassDecl
-       highlight! link ClassDecl javascriptClassName
-       highlight! link cStructure cppStructure
-       highlight! link cppStructure javascriptOperator
-       highlight! link NamespaceRef Type
-       highlight! link TypeRef javascriptVariable
-       highlight! link cParen javascriptBraces
-       highlight! link cppType Type
-    endfunction
-catch
-endtry
-
-au BufEnter * call color_coded#moved()
 
 function! SynStack ()
     for i1 in synstack(line("."), col("."))
@@ -492,6 +472,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCompactSexyComs = 1
 nmap <C-_>   <Plug>NERDCommenterToggle
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+
 " Delete comment character when joining commented lines
 autocmd FileType * set formatoptions+=j
 
@@ -591,13 +572,13 @@ augroup MyYCMCustom
 augroup END
 
 nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
-autocmd FileType c,cpp nnoremap <silent> <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
-autocmd FileType c,cpp nnoremap <silent> <C-]> :YcmCompleter GoTo<CR>
 nnoremap <silent> <leader>fr :YcmCompleter GoToReferences<CR>
 nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
 nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
 nmap <silent> <leader>dt <plug>(YCMHover)
 
+autocmd FileType c,cpp nnoremap <silent> <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
+autocmd FileType c,cpp nnoremap <silent> <C-]> :YcmCompleter GoTo<CR>
 set updatetime=250
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -640,7 +621,7 @@ nmap <silent> <leader>gp :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromProtot
 " => pchynoweth/a.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " quick switch between header and source file
-nnoremap <silent> <F4> :A<cr>
+nnoremap <silent> <leader>bs :A<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => chaoren/vim-wordmotion
