@@ -134,7 +134,11 @@ endif
 set foldcolumn=1
 
 " Change + clipboard to a default
-set clipboard=unnamedplus
+if system('uname -s') == "Darwin\n"
+  set clipboard=unnamed "OSX
+else
+  set clipboard=unnamedplus "Linux
+endif
 
 " Show numbers
 set number
@@ -207,6 +211,8 @@ set nobackup
 set nowb
 set noswapfile
 
+set sessionoptions="buffers,curdir,folds,globals,options,tabpages,terminal"
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -227,7 +233,7 @@ set tw=300
 
 set ai "Auto indent
 set si "Smart indent
-set wrap "Wrap lines
+set nowrap "Don't wrap lines
 
 
 """"""""""""""""""""""""""""""
@@ -242,9 +248,6 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <C-space> ?
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -372,3 +375,18 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+
+" Condition should identify terminal in question so
+" that it won't change anything for terminals without this problem
+if !has("gui_running") && system('uname -s') == "Darwin\n"
+    set t_SH=
+endif
+
+" Using project local vimrc
+set exrc
+set secure
+
+" Suppress opening neovim in half of screen instead of full
+if has('nvim')
+    autocmd VimEnter * silent exec "!kill -s SIGWINCH $PPID"
+endif
