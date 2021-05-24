@@ -22,7 +22,7 @@ Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
 Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
-Plug 'Luxed/ayu-vim'
+Plug 'glepnir/dashboard-nvim'
 
 """"""""""""""""""""""""""""""
 " => Development
@@ -60,9 +60,8 @@ Plug 'ilyachur/cmake4vim',                    " Cmake support
 Plug 'scrooloose/nerdcommenter'
 Plug 'kkoomen/vim-doge',                    " Doxygen documentation
       \{ 'do': { -> doge#install() }, 'for': ['c', 'cpp', 'python'] } 
-Plug 'sheerun/vim-polyglot'                 " Syntax highlightning
-Plug 'jeaye/color_coded',                   " Semantic syntax highlightling
-      \{'do': 'rm -f CMakeCache.txt && cmake . && make -j4 && make install', 'for': ['c', 'cpp']}
+Plug 'vim-scripts/modelica'
+Plug 'ekalinin/Dockerfile.vim'
 Plug 'thaerkh/vim-workspace'                " Intersession open buffers saving
 Plug 'goerz/jupytext.vim',                  " Open jupyter notebooks as markdown
       \{ 'do': 'pip3 install jupytext'}
@@ -80,6 +79,11 @@ Plug 'romainl/vim-qf', { 'for': ['qf'] }
 Plug 'elbeardmorez/vim-loclist-follow'
 Plug 'psliwka/vim-smoothie'
 Plug 'puremourning/vimspector', { 'for': ['python', 'cpp']}
+Plug 'Shougo/echodoc.vim'
+Plug 'vim-test/vim-test', { 'for': ['python']}
+"Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
+Plug 'rcarriga/vim-ultest', { 'for': ['python']} | Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'michaelb/sniprun', {'do': './install.sh'}
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -116,7 +120,7 @@ let g:gutentags_define_advanced_commands = 1
 let g:gutentags_plus_nomap = 1
 
 " enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
+let g:gutentags_modules = ['ctags', 'cscope']
 
 " config project root markers.
 let g:gutentags_project_root = ['.git', '.root', '.color_coded']
@@ -129,7 +133,8 @@ let g:gutentags_ctags_extra_args = [
       \ '--fields=+ailmnS',
       \ '--c++-kinds=+p',
       \ '--extra=+q',
-      \ '--languages=C++,Python,C,vim'
+      \ '--languages=C++,Python,C,vim',
+      \ '--python-kinds=-iv'
       \ ]
 
 let g:fzf_tags_command = 'ctags -R --tag-relative=yes --fields=+ailmnS --c++-kinds=+p --extra=+q --languages=C++,Python,C,vim'
@@ -137,6 +142,8 @@ let g:fzf_tags_command = 'ctags -R --tag-relative=yes --fields=+ailmnS --c++-kin
 if executable('rg')
   let g:gutentags_file_list_command = 'rg -l ""'
 endif
+
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
 
 let g:gutentags_ctags_exclude = [
       \ '*.git', '*.svg', '*.hg',
@@ -185,6 +192,11 @@ let g:gutentags_ctags_exclude = [
       \ '*.rar', '*.zip', '*.tar', '*.tar.gz', '*.tar.xz', '*.tar.bz2',
       \ '*.pdf', '*.doc', '*.docx', '*.ppt', '*.pptx',
       \ ]
+
+let g:gutentags_generate_on_new = 1
+let g:gutentags_generate_on_missing = 1
+let g:gutentags_generate_on_write = 1
+let g:gutentags_generate_on_empty_buffer = 0
 
 """"""""""""""""""""""""""""""
 " => junegunn/fzf
@@ -264,6 +276,7 @@ let g:user_zen_mode='a'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:fern#disable_default_mappings = 1
 let g:fern#disable_drawer_smart_quit = 0
+let g:fern#renderer = "nerdfont"
 
 map <silent> <leader>nt :Fern . -stay -reveal= -drawer -toggle -width=50<cr>
 map <silent> <leader>nf :Fern . -stay -reveal=% -drawer -toggle -width=50<cr>
@@ -293,6 +306,7 @@ function! s:init_fern() abort
   nmap <buffer> dd <Plug>(fern-action-trash)
   nmap <buffer> zh <Plug>(fern-action-hidden:toggle)
   nmap <buffer> t <Plug>(fern-action-mark:toggle)j
+  nmap <buffer> <Space> <Plug>(fern-action-mark:toggle)j
 
   nmap <buffer> q :<C-u>quit<CR>
 endfunction
@@ -304,6 +318,7 @@ endfunction
 augroup fern-custom
   autocmd! *
   autocmd FileType fern call s:init_fern()
+  autocmd FileType fern call glyph_palette#apply()
   autocmd QuitPre * if (winnr('$') == 2 && s:is_fern_open()) | FernDo close | endif
 augroup END
 
@@ -393,6 +408,14 @@ let g:clang_format#style_options = {
 autocmd FileType c,cpp nnoremap <silent> <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp vnoremap <silent> <buffer><Leader>cf :ClangFormat<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>  'tell-k/vim-autopep8'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:autopep8_disable_show_diff=1
+
+autocmd FileType json,python nnoremap <silent> <buffer><Leader>cf :<C-u>ALEFix<CR>
+autocmd FileType python vnoremap <silent> <buffer><Leader>cf :Autopep8<CR>
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
@@ -449,6 +472,7 @@ nnoremap <silent> <leader>gs :Gstatus<cr>:resize 12<cr>
 
 nmap <leader>gf :diffget //2<cr>
 nmap <leader>gj :diffget //3<cr>
+nmap <leader>gm :Gvdiffsplit!<cr>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -880,3 +904,46 @@ augroup END
 nnoremap <silent> <leader>bm :ZoomToggle<CR>
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Shougo/echodoc.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+    let g:echodoc#enable_at_startup = 1
+    let g:echodoc#type = 'virtual'
+    let g:echodoc#events = ['CompleteDone']
+    "let g:echodoc#events = ['CursorMoved', 'CompleteDone']
+else
+    let g:echodoc#enable_at_startup = 0
+    let g:echodoc#type = 'popup'
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vim-test/vim-test
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let test#strategy = "asyncrun_background"
+"let test#strategy = {
+"  \ 'nearest': 'neovim',
+"  \ 'file':    'dispatch',
+"  \ 'suite':   'basic',
+"\}
+let test#python#runner = 'pytest'
+"let test#python#runner = 'vimspectorpy'
+autocmd FileType python nnoremap <silent> <leader>tt :TestSuite<CR>
+autocmd FileType python nnoremap <silent> <leader>tu :TestNearest<CR>
+autocmd FileType python nnoremap <silent> <leader>tf :TestFile<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => weirongxu/plantuml-previewer.vim 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd FileType plantuml let g:plantuml_previewer#plantuml_jar_path = get(
+    \  matchlist(system('cat `which plantuml` | grep plantuml.jar'), '\v.*\s[''"]?(\S+plantuml\.jar).*'),
+    \  1,
+    \  0
+    \)
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => glepnir/dashboard-nvim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:dashboard_default_executive ='fzf'
