@@ -8,10 +8,6 @@
     ~/.config/gsimplecal: DE/gsimplecal
     ~/.config/udiskie: DE/udiskie
     ~/.Xresources: DE/Xresources
-    ~/.fonts:
-      create: true
-      path: DE/fonts
 
 - shell:
   - [xrdb ~/.Xresources, Update Xresources]
-  - [fc-cache -f -v, Update fonts]

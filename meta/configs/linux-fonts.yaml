@@ -1,0 +1,7 @@
+- link:
+    ~/.fonts:
+      create: true
+      path: DE/fonts
+
+- shell:
+  - [fc-cache -f -v, Update fonts]

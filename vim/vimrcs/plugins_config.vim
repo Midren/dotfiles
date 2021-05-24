@@ -500,6 +500,8 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCompactSexyComs = 1
 nmap <C-_>   <Plug>NERDCommenterToggle
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+nmap <C-/>   <Plug>NERDCommenterToggle
+vmap <C-/>   <Plug>NERDCommenterToggle<CR>gv
 
 " Delete comment character when joining commented lines
 autocmd FileType * set formatoptions+=j
@@ -536,6 +538,7 @@ autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :call fzf#run
                     \ 'sink':    function('cmake4vim#SelectTarget')}))<cr>
 autocmd FileType c,cpp,cmake nnoremap <silent> <leader>cr :CMakeRun<cr>
 
+let g:cmake_build_type = 'Debug'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ycm-core/YouCompleteMe
