@@ -45,6 +45,7 @@ Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-rsi'
 
 " ==> Linting
+Plug 'dense-analysis/ale'
 Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp']} | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " ==> Git
@@ -76,6 +77,8 @@ Plug 'Midren/splitjoin.vim'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-bbye'
 Plug 'romainl/vim-qf', { 'for': ['qf'] }
+Plug 'elbeardmorez/vim-loclist-follow'
+Plug 'psliwka/vim-smoothie'
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -726,4 +729,75 @@ nnoremap <silent> [e :lprev<cr>
 
 autocmd FileType qf nnoremap <buffer> <silent> <C-H> <Plug>(qf_older)
 autocmd FileType qf nnoremap <buffer> <silent> <C-L> <Plug>(qf_newer)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => dense-analysis/ale
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_sign_info = 'ℹ'
+
+let g:ale_linters = {
+    \ 'javascript': ['prettier'],
+    \ 'go': [ 'golangci-lint' ],
+    \ 'c': [],
+    \ 'cpp': [],
+    \ 'html': [],
+    \ 'markdown': [ 'alex', 'textlint', 'proselint', 'write-good' ],
+    \ 'rust': [],
+    \ 'python': ['flake8', 'mypy']
+    \ }
+
+let g:ale_fixers = {
+    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \ 'asciidoc': [ 'textlint' ],
+    \ 'c': [ 'clang-format' ],
+    \ 'cpp': [ 'clang-format' ],
+    \ 'css': [ 'prettier' ],
+    \ 'go': [ 'gofmt', 'goimports' ],
+    \ 'html': [ 'prettier' ],
+    \ 'less': [ 'prettier' ],
+    \ 'javascript': [ 'prettier' ],
+    \ 'json': [ 'prettier' ],
+    \ 'markdown': [ 'prettier', 'textlint' ],
+    \ 'nix': [ 'nixpkgs-fmt' ],
+    \ 'python': ['isort', 'yapf'],
+    \ 'rust': [ 'rustfmt' ],
+    \ 'scss': [ 'prettier' ],
+    \ 'sh': [ 'shfmt' ],
+    \ 'terraform': [ 'terraform' ],
+    \ 'typescript': [ 'prettier' ],
+    \ }
+
+let g:ale_python_flake8_options = '--ignore=E501,W605,W504'
+" yapf doesn't have options via ale _options variable
+"let g:ale_python_yapf_options = '--style=\'{based_on_style: pep8, column_limit: 120, spaces_before_comment: 2}\''
+let g:ale_python_pylint_options = '--rcfile=~/.config/pylint/pylint.conf --extension-pkg-allow-list=math --jobs 6'
+"let g:ale_python_mypy_options = '--no-implicit-optional --allow-untyped-globals --show-error-codes --disable-error-code=import,union-attr'
+let g:ale_python_mypy_options = '--no-implicit-optional --allow-untyped-globals --show-error-codes --disable-error-code=union-attr'
+if has('nvim')
+    "let g:ale_virtualtext_cursor = 1
+endif
+
+let g:ale_virtualenv_dir_names = []
+let b:ale_python_flake8_executable = '/usr/local/bin/flake8'
+let b:ale_python_flake8_use_global = 1
+let b:ale_python_mypy_executable = '/usr/local/bin/mypy'
+let b:ale_python_mypy_use_global = 1
+
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+highlight ALEErrorSign guifg=red
+highlight ALEWarningSign guifg=red
+highlight ALEError guisp=red gui=undercurl,bold
+highlight ALEWarning guisp=red gui=undercurl,bold
+highlight Search guibg=Yellow gui=bold
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => elbeardmorez/vim-loclist-follow
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:loclist_follow = 1
+let g:loclist_follow_target = 'next'
+
 
