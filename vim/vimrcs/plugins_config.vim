@@ -79,6 +79,7 @@ Plug 'moll/vim-bbye'
 Plug 'romainl/vim-qf', { 'for': ['qf'] }
 Plug 'elbeardmorez/vim-loclist-follow'
 Plug 'psliwka/vim-smoothie'
+Plug 'puremourning/vimspector', { 'for': ['python', 'cpp']}
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -499,6 +500,8 @@ autocmd FileType tex nnoremap <silent> <leader>cr :VimtexView<cr>
 let g:cmake_compile_commands=1
 let g:cmake_compile_commands_link='.'
 let g:cmake_reload_after_save=0
+let g:make_arguments='-j8'
+let g:cmake_vimspector_support=1
 let g:asyncrun_open = 8
 
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
@@ -524,16 +527,18 @@ augroup MyYCMCustom
     let g:ycm_semantic_triggers =  {
       \   'c,cpp': [ 're!\w{3}', '_', '.', '->', '::' ],
       \   'python': [ 're!\w{3}', '_'  ],
+      \   'VimspectorPrompt': [ '.', '->', ':', '<' ]
       \ }
     if !has('nvim')
       set completeopt+=popup
     else
       set completeopt+=preview
     endif
+    highlight YcmWarningSign ctermfg=Red guifg=Red
+    highlight YcmErrorsign ctermfg=Red guifg=Red
 
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_python_binary_path = '/usr/bin/python3'
     let g:ycm_clangd_args = ['-cross-file-rename']
     let g:ycm_confirm_extra_conf = 0
     let g:ycm_global_ycm_extra_conf='~/.vim/ycm_extra_conf/ycm_extra_conf.py'
@@ -542,6 +547,8 @@ augroup MyYCMCustom
     let g:ycm_key_list_select_completion = []
     let g:ycm_key_list_previous_completion = []
     let g:ycm_key_detailed_diagnostics = ''
+    let g:ycm_error_symbol = '✖'
+    let g:ycm_warning_symbol = '⚠'
 
     let g:UltiSnipsExpandTrigger = "<nop>"
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
@@ -563,12 +570,8 @@ augroup MyYCMCustom
     let g:UltiSnipsSnippetDirectories = ["UltiSnips"]
 
     autocmd!
-    autocmd FileType c,cpp let b:ycm_hover = {
+    autocmd FileType c,cpp,python let b:ycm_hover = {
       \ 'command': 'GetDoc',
-      \ 'syntax': &filetype
-      \ }
-    autocmd FileType python let b:ycm_hover = {
-      \ 'command': 'GetType',
       \ 'syntax': &filetype
       \ }
     let g:ycm_auto_hover=''
@@ -799,5 +802,81 @@ highlight Search guibg=Yellow gui=bold
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:loclist_follow = 1
 let g:loclist_follow_target = 'next'
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>puremourning/vimspector 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:vimspector_enable_mappings = 'HUMAN'
+
+nmap <silent> <leader>dl :call vimspector#Launch()<CR>
+nmap <silent> <leader>dr :VimspectorReset<CR>
+nmap <silent> <leader>dw :VimspectorWatch
+nmap <silent> <leader>do :VimspectorShowOutput
+nmap <silent> <leader>de <Plug>VimspectorBalloonEval
+xmap <silent> <leader>de <Plug>VimspectorBalloonEval
+nmap <silent> <leader>db :call vimspector#ToggleBreakpoint()<cr>
+let g:vimspector_install_gadgets = [ 'debugpy', 'CodeLLDB']
+
+" Custom mappings while debuggins {{{
+let s:mapped = {}
+
+function! s:OnJumpToFrame() abort
+  if has_key( s:mapped, string( bufnr() ) )
+    return
+  endif
+
+  nmap <silent> <buffer> <leader>j <Plug>VimspectorStepOver
+  nmap <silent> <buffer> <leader>l <Plug>VimspectorStepInto
+  nmap <silent> <buffer> <leader>h <Plug>VimspectorStepOut
+  nmap <silent> <buffer> <leader>dc :call vimspector#Continue()<cr>
+  nmap <silent> <buffer> <leader>df :call vimspector#RunToCursor()<cr>
+
+  let s:mapped[ string( bufnr() ) ] = { 'modifiable': &modifiable }
+
+  setlocal nomodifiable
+
+endfunction
+
+function! s:OnDebugEnd() abort
+
+  let original_buf = bufnr()
+  let hidden = &hidden
+
+  try
+    set hidden
+    for bufnr in keys( s:mapped )
+      try
+        execute 'noautocmd buffer' bufnr
+        nunmap <silent> <buffer> <leader>j
+        nunmap <silent> <buffer> <leader>l
+        nunmap <silent> <buffer> <leader>h
+        nunmap <silent> <buffer> <leader>dc
+        nunmap <silent> <buffer> <leader>df
+
+        let &l:modifiable = s:mapped[ bufnr ][ 'modifiable' ]
+      endtry
+    endfor
+  finally
+    execute 'noautocmd buffer' original_buf
+    let &hidden = hidden
+  endtry
+
+  let s:mapped = {}
+endfunction
+
+augroup TestCustomMappings
+  au!
+  autocmd User VimspectorJumpedToFrame call s:OnJumpToFrame()
+  autocmd User VimspectorDebugEnded call s:OnDebugEnd()
+augroup END
+
+" }}}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => markstory/vim-zoomwin 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <silent> <leader>bm :ZoomToggle<CR>
 
 
