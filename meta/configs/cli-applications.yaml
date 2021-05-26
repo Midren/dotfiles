@@ -5,13 +5,8 @@
   - ["find ~/.config/ranger/ -name 'plugin_*' -type d -exec make install -C {} +", Install ranger plugins]
 
 - create:
-  - ~/.config/kitty
   - ~/.config/tmux
 
-# Install other application configs
 - link:
-    ~/.config/zathura: zathura
-    ~/.config/alacritty.yml: alacritty.yml
-    ~/.config/kitty/kitty.conf: kitty.conf
     ~/.config/tmux/tmux.conf: tmux.conf
 

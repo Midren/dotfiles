@@ -1,0 +1,8 @@
+- create:
+  - ~/.config/kitty
+
+- link:
+    ~/.config/zathura: zathura
+    ~/.config/alacritty.yml: alacritty.yml
+    ~/.config/kitty/kitty.conf: kitty.conf
+
