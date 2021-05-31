@@ -78,7 +78,7 @@ Plug 'moll/vim-bbye'
 Plug 'romainl/vim-qf', { 'for': ['qf'] }
 Plug 'elbeardmorez/vim-loclist-follow'
 Plug 'psliwka/vim-smoothie'
-Plug 'puremourning/vimspector', { 'for': ['python', 'cpp']}
+Plug 'puremourning/vimspector', { 'for': ['python', 'cpp'], 'do': './install_gadget.py --enable-cpp --enable-python'}
 Plug 'Shougo/echodoc.vim'
 Plug 'vim-test/vim-test', { 'for': ['python']}
 "Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
@@ -529,6 +529,7 @@ let g:cmake_reload_after_save=0
 let g:make_arguments='-j8'
 let g:cmake_vimspector_support=1
 let g:asyncrun_open = 8
+let g:cmake_project_generator='Ninja'
 
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cc :CMakeClean<cr>
@@ -553,7 +554,7 @@ augroup MyYCMCustom
 
     let g:ycm_semantic_triggers =  {
       \   'c,cpp': [ 're!\w{3}', '_', '.', '->', '::' ],
-      \   'python': [ 're!\w{3}', '_'  ],
+      \   'python': [ 're!\w{3}', '.'  ],
       \   'VimspectorPrompt': [ '.', '->', ':', '<' ]
       \ }
     if !has('nvim')
@@ -844,7 +845,7 @@ nmap <silent> <leader>do :VimspectorShowOutput
 nmap <silent> <leader>de <Plug>VimspectorBalloonEval
 xmap <silent> <leader>de <Plug>VimspectorBalloonEval
 nmap <silent> <leader>db :call vimspector#ToggleBreakpoint()<cr>
-let g:vimspector_install_gadgets = [ 'debugpy', 'CodeLLDB']
+let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " Custom mappings while debuggins {{{
 let s:mapped = {}

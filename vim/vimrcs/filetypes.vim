@@ -76,6 +76,21 @@ let vim_markdown_folding_disabled = 1
 
 """"""""""""""""""""""""""""""
 " => Qt
-" """"""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""
 au BufNewFile,BufRead *.qml set filetype=qml
 au BufNewFile,BufRead *.qrc set filetype=xml
+
+
+""""""""""""""""""""""""""""""
+" => C++
+""""""""""""""""""""""""""""""
+au BufNewFile,BufRead *.txx set filetype=cpp
+
+
+""""""""""""""""""""""""""""""
+" => Modelica
+""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.mo  set filetype=modelica
+au BufRead,BufNewFile *.mop set filetype=modelica
+
+au BufRead,BufNewFile *.vf_json set filetype=json
