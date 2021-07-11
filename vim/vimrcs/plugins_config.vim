@@ -84,6 +84,8 @@ Plug 'vim-test/vim-test', { 'for': ['python']}
 "Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
 Plug 'rcarriga/vim-ultest', { 'for': ['python']} | Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'michaelb/sniprun', {'do': './install.sh'}
+Plug 'jpalardy/vim-slime', { 'for': 'python' }
+Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -765,7 +767,7 @@ autocmd FileType qf nnoremap <buffer> <silent> <C-L> <Plug>(qf_newer)
 " => dense-analysis/ale
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_warning = ''
 let g:ale_sign_info = 'ℹ'
 
 let g:ale_linters = {
@@ -776,7 +778,7 @@ let g:ale_linters = {
     \ 'html': [],
     \ 'markdown': [ 'alex', 'textlint', 'proselint', 'write-good' ],
     \ 'rust': [],
-    \ 'python': ['flake8', 'mypy']
+    \ 'python': ['pylint']
     \ }
 
 let g:ale_fixers = {
@@ -818,11 +820,20 @@ let b:ale_python_mypy_use_global = 1
 
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
-highlight ALEErrorSign guifg=red
-highlight ALEWarningSign guifg=red
-highlight ALEError guisp=red gui=undercurl,bold
-highlight ALEWarning guisp=red gui=undercurl,bold
-highlight Search guibg=Yellow gui=bold
+highlight! ALEErrorSign guifg=red
+highlight! ALEWarningSign guifg=red
+highlight! ALEError guisp=red gui=undercurl,bold
+highlight! ALEWarning guisp=red gui=undercurl,bold
+highlight! Search guibg=Yellow gui=bold
+
+highlight! LspDiagnosticsDefaultError guifg=red
+highlight! LspDiagnosticsDefaultWarning guifg=red
+highlight! LspDiagnosticsDefaultInformation guifg=red
+highlight! LspDiagnosticsDefaultHint guifg=red
+highlight! LspDiagnosticsUnderlineError guisp=red gui=undercurl,bold
+highlight! LspDiagnosticsUnderlineWarning guisp=red gui=undercurl,bold
+highlight! LspDiagnosticsUnderlineInformation guisp=red gui=undercurl,bold
+highlight! LspDiagnosticsUnderlineHint guisp=red gui=undercurl,bold
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -951,3 +962,37 @@ autocmd FileType plantuml let g:plantuml_previewer#plantuml_jar_path = get(
 " => glepnir/dashboard-nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:dashboard_default_executive ='fzf'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>jpalardy/vim-slime 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:slime_target = "tmux"
+let g:slime_paste_file = tempname()
+let g:slime_python_ipython = 1
+let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+let g:slime_no_mappings = 1
+let g:slime_dont_ask_default = 1
+nnoremap <silent> <Leader>rs :SlimeSend1 ipython --matplotlib<CR>
+nnoremap <silent> <Leader>rc :IPythonCellExecuteCell<CR>
+nnoremap <silent> <Leader>rq :SlimeSend1 exit<CR>
+autocmd FileType python vmap <silent> <leader>cr <Plug>SlimeRegionSend 
+autocmd FileType python nnoremap <silent> <Leader>cr :IPythonCellRun<CR>
+
+
+
+let g:terminator_clear_default_mappings = 1
+let g:terminator_split_fraction = 0.2
+let g:terminator_split_location = 'botright'
+"autocmd FileType python nnoremap <silent> <leader>co :TerminatorOpenTerminal<CR>
+"autocmd FileType python nnoremap <silent> <leader>cr :TerminatorRunFileInOutputBuffer<CR>
+"autocmd FileType python vnoremap <silent> <leader>cr :TerminatorSendSelectionToTerminal<CR>
+"autocmd FileType python nnoremap <silent> <leader>cs :TerminatorStopRun <CR>
+
+let g:terminator_runfile_map = {
+            \ "javascript": "node",
+            \ "python": "python3 -u",
+            \ "go": "go run",
+            \ "lua": "lua",
+            \ "bash": "bash",
+            \ "zsh": "zsh",
+            \ }
