@@ -28,7 +28,16 @@ Plug 'glepnir/dashboard-nvim'
 " => Development
 """"""""""""""""""""""""""""""
 " ==> Completition
-Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+if has('nvim')
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'glepnir/lspsaga.nvim'
+    Plug 'onsails/lspkind-nvim'
+    Plug 'kabouzeid/nvim-lspinstall'
+    Plug 'hrsh7th/nvim-compe'
+    "Plug 'mfussenegger/nvim-lint'
+else
+    Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+endif
 Plug 'SirVer/ultisnips' | Plug 'dimatura/ultisnip-snippets'
 Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp'] }
 Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.vim', { 'for': ['c', 'cpp']}
@@ -417,8 +426,10 @@ autocmd FileType c,cpp vnoremap <silent> <buffer><Leader>cf :ClangFormat<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:autopep8_disable_show_diff=1
 
-autocmd FileType json,python nnoremap <silent> <buffer><Leader>cf :<C-u>ALEFix<CR>
-autocmd FileType python vnoremap <silent> <buffer><Leader>cf :Autopep8<CR>
+if !has('nvim')
+    autocmd FileType json,python nnoremap <silent> <buffer><Leader>cf :<C-u>ALEFix<CR>
+    autocmd FileType python vnoremap <silent> <buffer><Leader>cf :Autopep8<CR>
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -611,14 +622,36 @@ augroup MyYCMCustom
     let g:ycm_auto_hover=''
 augroup END
 
-nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
-nnoremap <silent> <leader>fr :YcmCompleter GoToReferences<CR>
-nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
-nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
-nmap <silent> <leader>dt <plug>(YCMHover)
+if has('nvim')
+    nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
+    nnoremap <silent> <leader>fr :YcmCompleter GoToReferences<CR>
+    nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
+    nnoremap <silent> <leader>ft :YcmCompleter FixIt<CR>
+    nmap <silent> <leader>dt <plug>(YCMHover)
 
-autocmd FileType c,cpp nnoremap <silent> <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
-autocmd FileType c,cpp nnoremap <silent> <C-]> :YcmCompleter GoTo<CR>
+    autocmd FileType c,cpp nnoremap <silent> <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
+    autocmd FileType c,cpp nnoremap <silent> <C-]> :YcmCompleter GoTo<CR>
+else
+    nnoremap <silent> [e :lua vim.lsp.diagnostic.goto_prev()<CR>
+    nnoremap <silent> ]e :lua vim.lsp.diagnostic.goto_next()<CR>
+    nnoremap <silent> <leader>ce :Lspsaga show_line_diagnostics<CR>
+    nnoremap <silent> <leader>ft :Lspsaga code_action<CR>
+    vnoremap <silent> <leader>ft :<C-U>Lspsaga range_code_action<CR>
+    nnoremap <silent> <leader>dt :Lspsaga hover_doc<CR>
+    nnoremap <silent> <leader>rr :Lspsaga rename<CR>
+
+    nnoremap <silent> <leader>gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> <leader>fr :lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> <leader>cf :lua vim.lsp.buf.formatting()<CR>
+    vnoremap <silent> <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
+    nnoremap <silent> <leader>ct :lua vim.lsp.buf.type_definition()<CR>
+    " Auto import for vim-compe
+    inoremap <silent><expr> <C-Space> compe#complete()
+    inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+    inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+    inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+    inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+endif
 set updatetime=250
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -761,8 +794,10 @@ nnoremap <silent> <leader>q :<C-u> call qf#toggle#ToggleQfWindow(0)<cr>
 nnoremap <silent> <leader>e :<C-u> call qf#toggle#ToggleLocWindow(0)<cr>
 nnoremap <silent> ]q :cn<cr>
 nnoremap <silent> [q :cp<cr>
-nnoremap <silent> ]e :lnext<cr>
-nnoremap <silent> [e :lprev<cr>
+if !has('nvim')
+    nnoremap <silent> ]e :lnext<cr>
+    nnoremap <silent> [e :lprev<cr>
+endif
 
 autocmd FileType qf nnoremap <buffer> <silent> <C-H> <Plug>(qf_older)
 autocmd FileType qf nnoremap <buffer> <silent> <C-L> <Plug>(qf_newer)
@@ -770,6 +805,9 @@ autocmd FileType qf nnoremap <buffer> <silent> <C-L> <Plug>(qf_newer)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => dense-analysis/ale
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+    let g:ale_enabled = 0
+endif
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = ''
 let g:ale_sign_info = 'ℹ'
