@@ -43,6 +43,7 @@ Plug 'wsdjeg/FlyGrep.vim'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'chaoren/vim-wordmotion'                
 Plug 'tpope/vim-rsi'
+Plug 'christoomey/vim-tmux-navigator'
 
 " ==> Linting
 Plug 'dense-analysis/ale'
@@ -55,8 +56,9 @@ Plug 'oguzbilgic/vim-gdiff'
 Plug 'will133/vim-dirdiff'
 
 " ==> Misc
+Plug 'tpope/vim-dispatch'
 Plug 'ilyachur/cmake4vim',                    " Cmake support
-      \{ 'for': ['c', 'cpp']} | Plug 'tpope/vim-dispatch'
+      \{ 'for': ['c', 'cpp']}
 Plug 'scrooloose/nerdcommenter'
 Plug 'kkoomen/vim-doge',                    " Doxygen documentation
       \{ 'do': { -> doge#install() }, 'for': ['c', 'cpp', 'python'] } 
@@ -532,6 +534,8 @@ let g:make_arguments='-j8'
 let g:cmake_vimspector_support=1
 let g:asyncrun_open = 8
 let g:cmake_project_generator='Ninja'
+let g:cmake_build_executor='dispatch'
+let g:cmake_usr_args={"CMAKE_CXX_FLAGS": "'-Wno-deprecated-copy -Wno-deprecated-declarations -Wno-format'"}
 
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cc :CMakeClean<cr>
