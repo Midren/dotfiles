@@ -215,7 +215,7 @@ let g:gutentags_generate_on_empty_buffer = 0
 " => junegunn/fzf
 """"""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
-let $FZF_DEFAULT_COMMAND='rg -l "" --sort path'
+let $FZF_DEFAULT_COMMAND='rg -l "" --sort path --hidden'
 let $FZF_DEFAULT_OPTS="--reverse --tiebreak=length,end,index"
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
@@ -255,7 +255,7 @@ augroup fzf
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
-nnoremap <silent> <leader>lf :FilesMru --tiebreak=end<cr>
+nnoremap <silent> <leader>lf :Files<cr>
 nnoremap <silent> <leader>lr :History<CR>
 nnoremap <silent> <leader>lb :Buffers<cr>
 nnoremap <silent> <leader>ll :BTags<cr>
@@ -462,17 +462,17 @@ function! s:in_last_hunk_line(lnum) abort
   return 0
 endfunction
 
-autocmd CursorMoved * if s:in_last_hunk_line(line(".")) | GitGutterPreviewHunk | else | pclose | endif
+"autocmd CursorMoved * if s:in_last_hunk_line(line(".")) | GitGutterPreviewHunk | else | pclose | endif
 
 highlight! link GitGutterAdd SignColumn
 highlight! link GitGutterChange SignColumn
 highlight! link GitGutterDelete SignColumn
 
-map <silent> ]h <Plug>(GitGutterNextHunk)
-map <silent> [h <Plug>(GitGutterPrevHunk)
-map <silent> <leader>hs <Plug>(GitGutterStageHunk)
-map <silent> <leader>hu <Plug>(GitGutterUndoHunk)
-map <silent> <leader>hp <Plug>(GitGutterPreviewHunk)
+nmap <silent> ]h :GitGutterNextHunk<cr>:GitGutterPreviewHunk<cr>
+nmap <silent> [h :GitGutterPrevHunk<cr>:GitGutterPreviewHunk<cr>
+nmap <silent> <leader>hs <Plug>(GitGutterStageHunk)
+nmap <silent> <leader>hu <Plug>(GitGutterUndoHunk)
+nmap <silent> <leader>hp <Plug>(GitGutterPreviewHunk)
 omap <silent> ih <Plug>(GitGutterTextObjectInnerPending)
 omap <silent> ah <Plug>(GitGutterTextObjectOuterPending)
 xmap <silent> ih <Plug>(GitGutterTextObjectInnerVisual)
