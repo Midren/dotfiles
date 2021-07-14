@@ -1,4 +1,5 @@
 linux-fonts
 zsh
 vim
-cli-applications
+tmux
+ranger

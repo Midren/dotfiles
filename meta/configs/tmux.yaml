@@ -1,0 +1,10 @@
+- create:
+  - ~/.config/tmux/
+  - ~/.config/tmux/plugins/
+
+- shell:
+  - ["git -C ~/.config/tmux/plugins/tpm pull || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm", Install tmux plugin manager]
+
+- link:
+    ~/.config/tmux/tmux.conf: tmux.conf
+

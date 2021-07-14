@@ -3,10 +3,3 @@
 
 - shell:
   - ["find ~/.config/ranger/ -name 'plugin_*' -type d -exec make install -C {} +", Install ranger plugins]
-
-- create:
-  - ~/.config/tmux
-
-- link:
-    ~/.config/tmux/tmux.conf: tmux.conf
-
