@@ -22,7 +22,11 @@ Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
 Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
-Plug 'glepnir/dashboard-nvim'
+if has('nvim')
+    Plug 'glepnir/dashboard-nvim'
+    Plug 'lukas-reineke/indent-blankline.nvim',{ 'branch': 'lua'}
+    Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+endif
 
 """"""""""""""""""""""""""""""
 " => Development
@@ -94,7 +98,6 @@ Plug 'Shougo/echodoc.vim'
 Plug 'vim-test/vim-test', { 'for': ['python']}
 "Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
 Plug 'rcarriga/vim-ultest', { 'for': ['python']} | Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'michaelb/sniprun', {'do': './install.sh'}
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
@@ -120,7 +123,6 @@ Plug 'markstory/vim-zoomwin' " Maximize splits
 " => Temp
 """""""""""""""""""""""""""""
 Plug 'tell-k/vim-autopep8'
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'dstein64/nvim-scrollview'
 
 call plug#end()
@@ -622,7 +624,7 @@ augroup MyYCMCustom
     let g:ycm_auto_hover=''
 augroup END
 
-if has('nvim')
+if !has('nvim')
     nnoremap <silent> <leader>gd :YcmCompleter GoTo<CR>
     nnoremap <silent> <leader>fr :YcmCompleter GoToReferences<CR>
     nnoremap <silent> <leader>rr :YcmCompleter RefactorRename 
