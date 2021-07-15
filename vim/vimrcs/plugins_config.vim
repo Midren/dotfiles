@@ -1040,3 +1040,16 @@ let g:terminator_runfile_map = {
             \ "bash": "bash",
             \ "zsh": "zsh",
             \ }
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" =>lukas-reineke/indent-blankline.nvim 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
+let g:indent_blankline_enabled = v:false
+let g:indent_blankline_space_char = '.'
+let g:indent_blankline_char = '¦'
+let g:indent_blankline_show_first_indent_level = v:false
+let g:indent_blankline_buftype_exclude = ['terminal']
+
+let g:indent_blankline_use_treesitter = v:true
+let g:indent_blankline_show_current_context = v:true
