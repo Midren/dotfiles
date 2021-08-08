@@ -65,6 +65,15 @@ local lspconfig = require('lspconfig')
 local on_attach = function(client, bufnr)
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+    
+    require "lsp_signature".on_attach({
+      bind=true,
+      handler_opts ={
+        border="single",
+      },
+      hint_prefix="",
+      hint_enable=false
+    })
 
     if client.config.flags then
         client.config.flags.allow_incremental_sync = true
@@ -193,7 +202,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
         signs = true,
         update_in_insert = false
     })
-
+--[[
 require'compe'.setup {
     enabled = true;
     autocomplete = true;
@@ -220,10 +229,11 @@ require'compe'.setup {
         spell = false;
         tags = true;
         snippets_nvim = true;
-        treesitter = true;
+        treesitter = false;
         ultisnips = true;
   };
 }
+]]
 
 vim.fn.sign_define("LspDiagnosticsSignError",
     {text = "✖", texthl = "LspDiagnosticsDefaultError"})

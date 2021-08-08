@@ -37,7 +37,8 @@ if has('nvim')
     Plug 'glepnir/lspsaga.nvim'
     Plug 'onsails/lspkind-nvim'
     Plug 'kabouzeid/nvim-lspinstall'
-    Plug 'hrsh7th/nvim-compe'
+    Plug 'ray-x/lsp_signature.nvim'
+    Plug 'nvim-lua/completion-nvim'
     "Plug 'mfussenegger/nvim-lint'
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
@@ -610,8 +611,10 @@ augroup MyYCMCustom
             return "\<C-y>"
         endif
     endfunction
-
-    inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrReturn()<CR>" : "\<CR>"
+    
+    if !has('nvim')
+        inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrReturn()<CR>" : "\<CR>"
+    endif
 
     let g:UltiSnipsSnippetsDir        = $HOME.'/.vim/UltiSnips/'
     let g:UltiSnipsSnippetDirectories = ["UltiSnips"]
@@ -1053,3 +1056,28 @@ let g:indent_blankline_buftype_exclude = ['terminal']
 
 let g:indent_blankline_use_treesitter = v:true
 let g:indent_blankline_show_current_context = v:true
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => nvim-lua/completion-nvim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd BufEnter * lua require'completion'.on_attach()
+let g:completion_matching_strategy_list = ['exact', 'fuzzy']
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_matching_smart_case = 1
+let g:completion_trigger_keyword_length = 3
+let g:completion_enable_auto_paren = 1
+let g:completion_enable_auto_hover = 0
+let g:completion_enable_auto_signature = 0
+let g:completion_sorting = "none"
+"let g:completion_enable_auto_popup = 0
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
+
+augroup CompletionTriggerCharacter
+    autocmd!
+    autocmd BufEnter * let g:completion_trigger_character = ['.']
+    autocmd Filetype python let g:completion_trigger_character = ['.']
+    autocmd Filetype cpp let g:completion_trigger_character = ['.', '::', '->',]
+    autocmd Filetype VimspectorPrompt let g:completion_trigger_character = ['.', '::', '->',]
+augroup end
