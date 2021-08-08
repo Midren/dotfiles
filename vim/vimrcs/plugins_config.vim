@@ -49,7 +49,7 @@ Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.
 
 " ==> Navigating
 Plug 'lambdalisue/fern.vim' 
-Plug 'tweekmonster/fzf-filemru'
+Plug 'Midren/fzf-filemru'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
@@ -218,7 +218,7 @@ let g:gutentags_generate_on_empty_buffer = 0
 " => junegunn/fzf
 """"""""""""""""""""""""""""""
 let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
-let $FZF_DEFAULT_COMMAND='rg -l "" --sort path --hidden'
+let $FZF_DEFAULT_COMMAND='rg -l "" --sort path --hidden --glob "!**/.git/**"'
 let $FZF_DEFAULT_OPTS="--reverse --tiebreak=length,end,index"
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
@@ -258,7 +258,9 @@ augroup fzf
     \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
-nnoremap <silent> <leader>lf :Files<cr>
+let g:fzf_filemru_bufwrite = 1
+
+nnoremap <silent> <leader>lf :FilesMru --tiebreak=end<cr>
 nnoremap <silent> <leader>lr :History<CR>
 nnoremap <silent> <leader>lb :Buffers<cr>
 nnoremap <silent> <leader>ll :BTags<cr>
