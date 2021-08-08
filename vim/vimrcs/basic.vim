@@ -165,6 +165,7 @@ set nottimeout
 " Make navigation more intuitive
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+nnoremap <expr> ^ (v:count == 0 ? 'g^' : '^')
 
 " Keep selection
 xnoremap < <gv
@@ -172,6 +173,10 @@ xnoremap > >gv
 
 " Don't copy single letter deletes
 nnoremap x "_x
+
+" Keep register on paste
+xnoremap p "_dP
+xnoremap P "_dP
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -213,7 +218,7 @@ set nobackup
 set nowb
 set noswapfile
 
-set sessionoptions="buffers,curdir,folds,globals,options,tabpages,terminal"
+set sessionoptions="buffers,curdir,folds,globals,tabpages,terminal"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -339,7 +344,7 @@ autocmd Filetype markdown setlocal com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,b:
 map <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-nnoremap <leader>sc ea<C-X><C-S>
+nnoremap <leader>sf ea<C-X><C-S>
 map <leader>sa zg
 map <leader>s? z=
 
@@ -392,3 +397,6 @@ set secure
 if has('nvim')
     autocmd VimEnter * silent exec "!kill -s SIGWINCH $PPID"
 endif
+
+" Add to jump list on click
+nnoremap <LeftMouse> m'<LeftMouse>

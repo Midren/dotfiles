@@ -3,6 +3,10 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 lua <<EOF
+require'colorizer'.setup()
+EOF
+
+lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,

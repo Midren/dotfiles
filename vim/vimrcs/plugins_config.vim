@@ -24,8 +24,9 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' 
 Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
 if has('nvim')
     Plug 'glepnir/dashboard-nvim'
-    Plug 'lukas-reineke/indent-blankline.nvim',{ 'branch': 'lua'}
+    Plug 'lukas-reineke/indent-blankline.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+    Plug 'norcalli/nvim-colorizer.lua'
 endif
 
 """"""""""""""""""""""""""""""
@@ -488,7 +489,7 @@ nnoremap <silent> <leader>df :GitGutterToggle<cr>
 " Even better with Fuzzy Finding )
 nnoremap <silent> <leader>gb :Gblame<CR>
 nnoremap <silent> <leader>gc :GBranches<CR>
-nnoremap <silent> <leader>gs :Gstatus<cr>:resize 12<cr>
+nnoremap <silent> <leader>gs :Git<cr>:resize 12<cr>
 
 nmap <leader>gf :diffget //2<cr>
 nmap <leader>gj :diffget //3<cr>

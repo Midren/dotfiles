@@ -94,3 +94,9 @@ au BufRead,BufNewFile *.mo  set filetype=modelica
 au BufRead,BufNewFile *.mop set filetype=modelica
 
 au BufRead,BufNewFile *.vf_json set filetype=json
+
+
+""""""""""""""""""""""""""""""
+" => Others
+""""""""""""""""""""""""""""""
+au BufRead,BufNewFile Jenkinsfile  set filetype=groovy
