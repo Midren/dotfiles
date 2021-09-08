@@ -95,7 +95,7 @@ Plug 'moll/vim-bbye'
 Plug 'romainl/vim-qf', { 'for': ['qf'] }
 Plug 'elbeardmorez/vim-loclist-follow'
 Plug 'psliwka/vim-smoothie'
-Plug 'puremourning/vimspector', { 'for': ['python', 'cpp'], 'do': './install_gadget.py --enable-cpp --enable-python'}
+Plug 'puremourning/vimspector', { 'for': ['python', 'cpp', 'cmake'], 'do': './install_gadget.py --enable-cpp --enable-python'}
 Plug 'Shougo/echodoc.vim'
 Plug 'vim-test/vim-test', { 'for': ['python']}
 "Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
@@ -126,6 +126,8 @@ Plug 'markstory/vim-zoomwin' " Maximize splits
 """""""""""""""""""""""""""""
 Plug 'tell-k/vim-autopep8'
 Plug 'dstein64/nvim-scrollview'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'ThePrimeagen/refactoring.nvim'
 
 call plug#end()
 
@@ -137,7 +139,7 @@ let g:gutentags_define_advanced_commands = 1
 let g:gutentags_plus_nomap = 1
 
 " enable gtags module
-let g:gutentags_modules = ['ctags', 'cscope']
+let g:gutentags_modules = ['ctags']
 
 " config project root markers.
 let g:gutentags_project_root = ['.git', '.root', '.color_coded']
@@ -421,7 +423,8 @@ let g:clang_format#detect_style_file = 1
 let g:clang_format#auto_formatexpr = 0
 let g:clang_format#style_options = {
  \ "BasedOnStyle": "LLVM",
- \ "IndentWidth":  4
+ \ "IndentWidth":  4,
+ \ "ColumnLimit": 120
  \ }
 
 autocmd FileType c,cpp nnoremap <silent> <buffer><Leader>cf :<C-u>ClangFormat<CR>
@@ -550,7 +553,7 @@ let g:cmake_reload_after_save=0
 let g:make_arguments='-j8'
 let g:cmake_vimspector_support=1
 let g:asyncrun_open = 8
-let g:cmake_project_generator='Ninja'
+"let g:cmake_project_generator='Ninja'
 let g:cmake_build_executor='dispatch'
 let g:cmake_usr_args={"CMAKE_CXX_FLAGS": "'-Wno-deprecated-copy -Wno-deprecated-declarations -Wno-format'"}
 
@@ -561,6 +564,11 @@ autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :call fzf#run
                     \ 'options': '+m -n 1 --prompt CMakeTarget\>\ ',
                     \ 'sink':    function('cmake4vim#SelectTarget')}))<cr>
 autocmd FileType c,cpp,cmake nnoremap <silent> <leader>cr :CMakeRun<cr>
+
+let PYTHONUNBUFFERED=1
+"autocmd FileType python nnoremap <silent> <leader>cr :sp term://python3 '%'<cr>:resize 10<cr>
+autocmd FileType python nnoremap <silent> <leader>cr :Dispatch python3 -u "%"<cr>
+autocmd FileType python nnoremap <silent> <leader>cs :AbortDispatch<cr>
 
 let g:cmake_build_type = 'Debug'
 
@@ -652,7 +660,7 @@ else
     nnoremap <silent> <leader>fr :lua vim.lsp.buf.references()<CR>
     nnoremap <silent> <leader>cf :lua vim.lsp.buf.formatting()<CR>
     vnoremap <silent> <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
-    nnoremap <silent> <leader>ct :lua vim.lsp.buf.type_definition()<CR>
+    "nnoremap <silent> <leader>ct :lua vim.lsp.buf.type_definition()<CR>
     " Auto import for vim-compe
     inoremap <silent><expr> <C-Space> compe#complete()
     inoremap <silent><expr> <CR>      compe#confirm('<CR>')
@@ -889,7 +897,7 @@ highlight! LspDiagnosticsUnderlineHint guisp=red gui=undercurl,bold
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => elbeardmorez/vim-loclist-follow
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:loclist_follow = 1
+let g:loclist_follow = 0
 let g:loclist_follow_target = 'next'
 
 
@@ -900,12 +908,13 @@ let g:loclist_follow_target = 'next'
 let g:vimspector_enable_mappings = 'HUMAN'
 
 nmap <silent> <leader>dl :call vimspector#Launch()<CR>
-nmap <silent> <leader>dr :VimspectorReset<CR>
+nmap <silent> <leader>dr :call vimspector#Reset( { 'interactive': v:false } )<CR>
 nmap <silent> <leader>dw :VimspectorWatch
 nmap <silent> <leader>do :VimspectorShowOutput
 nmap <silent> <leader>de <Plug>VimspectorBalloonEval
 xmap <silent> <leader>de <Plug>VimspectorBalloonEval
 nmap <silent> <leader>db :call vimspector#ToggleBreakpoint()<cr>
+nmap <silent> <leader>dtc <Plug>VimspectorToggleConditionalBreakpoint()
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " Custom mappings while debuggins {{{
@@ -1068,19 +1077,32 @@ autocmd BufEnter * lua require'completion'.on_attach()
 let g:completion_matching_strategy_list = ['exact', 'fuzzy']
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_matching_smart_case = 1
-let g:completion_trigger_keyword_length = 3
-let g:completion_enable_auto_paren = 1
+let g:completion_trigger_keyword_length = 1
+let g:completion_timer_cycle = 100
+let g:completion_enable_auto_paren = 0
 let g:completion_enable_auto_hover = 0
 let g:completion_enable_auto_signature = 0
 let g:completion_sorting = "none"
 "let g:completion_enable_auto_popup = 0
 set completeopt=menuone,noinsert,noselect
 set shortmess+=c
+" Enable path completion
+let g:completion_chain_complete_list = {
+            \ 'default' : {
+            \   'default': [
+            \       {'complete_items': ['lsp', 'snippet', 'path']},
+            \       {'mode': '<c-p>'},
+            \       {'mode': '<c-n>'}],
+            \   'comment': ['path'],
+            \   'string' : [
+            \       {'complete_items': ['path']}]
+            \ } 
+            \}
 
 augroup CompletionTriggerCharacter
     autocmd!
-    autocmd BufEnter * let g:completion_trigger_character = ['.']
-    autocmd Filetype python let g:completion_trigger_character = ['.']
-    autocmd Filetype cpp let g:completion_trigger_character = ['.', '::', '->',]
-    autocmd Filetype VimspectorPrompt let g:completion_trigger_character = ['.', '::', '->',]
+    autocmd BufEnter * let g:completion_trigger_character = ['.', '/']
+    autocmd Filetype python let g:completion_trigger_character = ['.', '/']
+    autocmd Filetype cpp let g:completion_trigger_character = ['.', '/', '::', '->',]
+    autocmd Filetype VimspectorPrompt let g:completion_trigger_character = ['.', '/', '::', '->',]
 augroup end

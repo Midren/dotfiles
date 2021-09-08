@@ -117,6 +117,8 @@ set magic
 set showmatch 
 " How many tenths of a second to blink when matching brackets
 set mat=2
+" Add triangular brackets to work with %
+set matchpairs+=<:>
 
 " No annoying sound on errors
 set noerrorbells
@@ -177,6 +179,10 @@ nnoremap x "_x
 " Keep register on paste
 xnoremap p "_dP
 xnoremap P "_dP
+
+" Easier splits
+nnoremap <silent> \| :vsplit<CR>
+nnoremap <silent> - :split<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts

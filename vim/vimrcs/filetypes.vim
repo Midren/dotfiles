@@ -100,3 +100,4 @@ au BufRead,BufNewFile *.vf_json set filetype=json
 " => Others
 """"""""""""""""""""""""""""""
 au BufRead,BufNewFile Jenkinsfile  set filetype=groovy
+au BufRead,BufNewFile CMakeConfig.txt set filetype=cmake

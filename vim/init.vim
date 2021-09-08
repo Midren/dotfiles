@@ -7,7 +7,16 @@ require'colorizer'.setup()
 EOF
 
 lua <<EOF
+local refactor = require("refactoring")
+refactor.setup()
+vim.api.nvim_set_keymap("v", "<Leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<Leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<Leader>rt", [[ <Esc><Cmd>lua M.refactors()<CR>]], {noremap = true, silent = true, expr = false})
+EOF
+
+lua <<EOF
 require'nvim-treesitter.configs'.setup {
+  ensure_installed = {"cpp", "python", "comment", "dockerfile", "html", "yaml"},
   highlight = {
     enable = true,
   },
@@ -75,8 +84,8 @@ local on_attach = function(client, bufnr)
       handler_opts ={
         border="single",
       },
-      hint_prefix="",
-      hint_enable=false
+      hint_enable=false,
+      hint_prefix=""
     })
 
     if client.config.flags then
@@ -85,7 +94,7 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.snippetSupport = false
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = {
     'documentation',
@@ -187,7 +196,7 @@ end
 require('lspsaga').init_lsp_saga({
   use_saga_diagnostic_sign = false,
   code_action_keys = {
-      quit='<C-c>', exec='CR'
+      quit='<C-c>', exec='<CR>'
   },
   code_action_prompt = {
     enable = true,
