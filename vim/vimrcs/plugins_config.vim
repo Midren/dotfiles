@@ -34,7 +34,7 @@ endif
 " ==> Completition
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
-    Plug 'glepnir/lspsaga.nvim'
+    Plug 'tami5/lspsaga.nvim'
     Plug 'onsails/lspkind-nvim'
     Plug 'kabouzeid/nvim-lspinstall'
     Plug 'ray-x/lsp_signature.nvim'
