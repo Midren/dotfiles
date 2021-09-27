@@ -39,8 +39,11 @@ if has('nvim')
     Plug 'onsails/lspkind-nvim'
     Plug 'kabouzeid/nvim-lspinstall'
     Plug 'ray-x/lsp_signature.nvim'
-    Plug 'nvim-lua/completion-nvim'
+    Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+    Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+    "Plug 'nvim-lua/completion-nvim'
     "Plug 'mfussenegger/nvim-lint'
+    Plug 'ms-jpq/coq_nvim'
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
@@ -522,9 +525,10 @@ map gm :call SynStack()<CR>
 let g:NERDCreateDefaultMappings = 0
 let g:NERDDefaultAlign = 'left'
 let g:NERDCompactSexyComs = 1
-nmap <C-_>   <Plug>NERDCommenterToggle
+let g:NERDDefaultNesting = 1
+nmap <C-_>   <Plug>NERDCommenterToggle j
 vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
-nmap <C-/>   <Plug>NERDCommenterToggle
+nmap <C-/>   <Plug>NERDCommenterToggle j
 vmap <C-/>   <Plug>NERDCommenterToggle<CR>gv
 
 " Delete comment character when joining commented lines
@@ -917,7 +921,15 @@ nmap <silent> <leader>db :call vimspector#ToggleBreakpoint()<cr>
 nmap <silent> <leader>dtc <Plug>VimspectorToggleConditionalBreakpoint()
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
-" Custom mappings while debuggins {{{
+sign define vimspectorBP            text=\ ● texthl=WarningMsg
+sign define vimspectorBPCond        text=\ ◆ texthl=WarningMsg
+sign define vimspectorBPDisabled    text=\ ● texthl=LineNr
+sign define vimspectorPC            text=\ ▶ texthl=MatchParen linehl=CursorLine
+sign define vimspectorPCBP          text=●▶  texthl=MatchParen linehl=CursorLine
+sign define vimspectorCurrentThread text=▶   texthl=MatchParen linehl=CursorLine
+sign define vimspectorCurrentFrame  text=▶   texthl=Special    linehl=CursorLine
+
+" Custom mappings while debugging {{{
 let s:mapped = {}
 
 function! s:OnJumpToFrame() abort
@@ -1071,9 +1083,25 @@ let g:indent_blankline_show_current_context = v:true
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => ms-jpq/coq_nvim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:coq_settings = { 'auto_start': 'shut-up',
+                     \ 'keymap.recommended': v:false, 
+                     \ 'keymap.jump_to_mark': '<leader><tab>', 
+                     \ 'clients.tree_sitter.enabled': v:false,
+                     \ 'clients.tags.enabled': v:false,
+                     \ 'match.max_results': 10,
+                     \ 'display.ghost_text.enabled': v:false}
+
+inoremap <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
+inoremap <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
+inoremap <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
+inoremap <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => nvim-lua/completion-nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd BufEnter * lua require'completion'.on_attach()
+"autocmd BufEnter * lua require'completion'.on_attach()
 let g:completion_matching_strategy_list = ['exact', 'fuzzy']
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_matching_smart_case = 1

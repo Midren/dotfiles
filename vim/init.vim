@@ -79,6 +79,7 @@ local on_attach = function(client, bufnr)
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
     
+    --[[
     require "lsp_signature".on_attach({
       bind=true,
       handler_opts ={
@@ -87,6 +88,7 @@ local on_attach = function(client, bufnr)
       hint_enable=false,
       hint_prefix=""
     })
+    ]]
 
     if client.config.flags then
         client.config.flags.allow_incremental_sync = true
@@ -94,7 +96,13 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = false
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = {
     'documentation',
@@ -165,10 +173,8 @@ local servers = {
     },
   },
   clangd = {
+    cmd = {require"lspinstall/util".extract_config("clangd").default_config.cmd[1], "--background-index", "--suggest-missing-includes", "--cross-file-rename", "--completion-style=bundled", "--all-scopes-completion"},
     root_dir = lspconfig.util.root_pattern({'.git/', '.'}),
-    flags = {
-      allow_incremental_sync = true
-    },
     init_options = {
       clangdFileStatus = true
     },
@@ -177,12 +183,13 @@ local servers = {
 
 local function setup_servers()
   require'lspinstall'.setup()
+  local coq = require'coq'
   local installed_servers = require'lspinstall'.installed_servers()
   for _, server in pairs(installed_servers) do
     local config = servers[server] or {root_dir = lspconfig.util.root_pattern({'.git/', '.'})}
     config.on_attach = on_attach
     config.capabilities = capabilities
-    lspconfig[server].setup(config)
+    lspconfig[server].setup(coq.lsp_ensure_capabilities(config))
   end
 end
 
