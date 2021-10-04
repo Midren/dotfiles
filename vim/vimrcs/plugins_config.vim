@@ -51,7 +51,12 @@ Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp'] }
 Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.vim', { 'for': ['c', 'cpp']}
 
 " ==> Navigating
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+if has('nvim')
+    Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+else
+    Plug 'lambdalisue/fern.vim'
+    Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
+endif
 Plug 'Midren/fzf-filemru'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
@@ -295,6 +300,54 @@ nmap              <leader>fd :Ack!
 let g:user_zen_mode='a'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => lambdalisue/fern.vim
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:fern#disable_default_mappings = 1
+let g:fern#disable_drawer_smart_quit = 0
+let g:fern#renderer = "nerdfont"
+
+function! s:init_fern() abort
+  nmap <buffer><expr> <Plug>(fern-my-open-or-expand)
+      \ fern#smart#leaf(
+      \   "\<Plug>(fern-action-open)",
+      \   "\<Plug>(fern-action-expand:stay)",
+      \   "\<Plug>(fern-action-collapse)",
+      \ )
+  nmap <buffer> <cr>  <Plug>(fern-my-open-or-expand)
+  nmap <buffer> l  <Plug>(fern-my-open-or-expand)
+
+  nmap <buffer> o <Plug>(fern-action-open:edit)
+  nmap <buffer> i <Plug>(fern-action-open:bottom)
+  nmap <buffer> s <Plug>(fern-action-open:right)
+  nmap <buffer> N <Plug>(fern-action-new-path)
+  nmap <buffer> m <Plug>(fern-action-move)
+
+  nmap <buffer> h <Plug>(fern-action-leave)
+  nmap <buffer> r <Plug>(fern-action-rename)
+  nmap <buffer> R gg<Plug>(fern-action-reload)<C-o>
+  nmap <buffer> cd <Plug>(fern-action-cd:cursor)
+
+  nmap <buffer> I <Plug>(fern-action-hide-toggle)
+  nmap <buffer> dd <Plug>(fern-action-trash)
+  nmap <buffer> zh <Plug>(fern-action-hidden:toggle)
+  nmap <buffer> t <Plug>(fern-action-mark:toggle)j
+  nmap <buffer> <Space> <Plug>(fern-action-mark:toggle)j
+
+  nmap <buffer> q :<C-u>quit<CR>
+endfunction
+
+function s:is_fern_open() abort
+      return fern#internal#window#find( { w -> fern#internal#drawer#is_drawer(bufname(winbufnr(w))) }, )
+endfunction
+
+augroup fern-custom
+  autocmd! *
+  autocmd FileType fern call s:init_fern()
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd QuitPre * if (winnr('$') == 2 && s:is_fern_open()) | FernDo close | endif
+augroup END
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ms-jpq/chadtree 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:chadtree_settings = { 'keymap.primary': ['<cr>','l'],
@@ -306,8 +359,13 @@ let g:chadtree_settings = { 'keymap.primary': ['<cr>','l'],
                           \ 'keymap.toggle_hidden': ['zh'],
                           \ 'keymap.select': ['t', "<space>"]}
 
-map <silent> <leader>nt :CHADopen<cr>
-map <silent> <leader>nf :CHADopen<cr>
+if has('nvim')
+    map <silent> <leader>nt :CHADopen<cr>
+    map <silent> <leader>nf :CHADopen<cr>
+else
+    map <silent> <leader>nt :Fern . -stay -reveal= -drawer -toggle -width=50<cr>
+    map <silent> <leader>nf :Fern . -stay -reveal=% -drawer -toggle -width=50<cr>
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-multiple-cursors
