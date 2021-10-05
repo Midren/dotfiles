@@ -1,16 +1,9 @@
 """"""""""""""""""""""""""""""
 " => Install using Vim-plug
 """"""""""""""""""""""""""""""
-if has('nvim')
-      if empty(glob("~/.local/share/nvim/site/autoload/plug.vim"))
-            silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs 
-                  \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim 
-      endif
-else
-      if empty(glob('~/.vim/autoload/plug.vim'))
-            silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                  \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      endif
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
 call plug#begin('~/.vim/plugged')
@@ -24,7 +17,7 @@ Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
 if has('nvim')
     Plug 'glepnir/dashboard-nvim'
     Plug 'lukas-reineke/indent-blankline.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+    Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'norcalli/nvim-colorizer.lua'
 endif
 
@@ -337,7 +330,11 @@ function! s:init_fern() abort
 endfunction
 
 function s:is_fern_open() abort
+    try
       return fern#internal#window#find( { w -> fern#internal#drawer#is_drawer(bufname(winbufnr(w))) }, )
+    catch /^Vim\%((\a\+)\)\=:E117/
+      return v:false
+    endtry
 endfunction
 
 augroup fern-custom
@@ -526,8 +523,12 @@ nmap <leader>gm :Gvdiffsplit!<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vim-material
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set background=light
-colorscheme vim-material
+try
+    colorscheme vim-material
+    set background=light
+catch /^Vim\%((\a\+)\)\=:E185/
+    " ignore
+endtry
 
 
 function! SynStack ()
@@ -1099,7 +1100,7 @@ let g:indent_blankline_char = '¦'
 let g:indent_blankline_show_first_indent_level = v:false
 let g:indent_blankline_buftype_exclude = ['terminal']
 
-let g:indent_blankline_use_treesitter = v:true
+let g:indent_blankline_use_treesitter = v:false
 let g:indent_blankline_show_current_context = v:true
 
 
@@ -1116,7 +1117,7 @@ let g:coq_settings = { 'auto_start': 'shut-up',
 
 inoremap <silent><expr> <Esc>   pumvisible() ? "\<C-e><Esc>" : "\<Esc>"
 inoremap <silent><expr> <C-c>   pumvisible() ? "\<C-e><C-c>" : "\<C-c>"
-inoremap <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
+"inoremap <silent><expr> <BS>    pumvisible() ? "\<C-e><BS>"  : "\<BS>"
 inoremap <silent><expr> <CR>    pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
