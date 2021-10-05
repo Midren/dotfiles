@@ -108,6 +108,11 @@ export UCU="$HOME/ucu/"
 
 export SCP_PRIVKEY=c2ab96e87e7154ed4764bf5769229b892494fd944448a03e3852c5714be84a08
 
+alias ta='tmux attach-session -t'
+alias tn='tmux new-session -s'
+export LANGUAGE="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
 export GOPATH="$SKY/go"
 PATH="$HOME/.local/bin:$HOME/bin:$GOPATH/bin:$PATH"
 
