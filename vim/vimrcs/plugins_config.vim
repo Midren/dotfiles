@@ -38,7 +38,7 @@ if has('nvim')
     Plug 'onsails/lspkind-nvim'
     Plug 'kabouzeid/nvim-lspinstall'
     Plug 'ray-x/lsp_signature.nvim'
-    Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
+    Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
     Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
     "Plug 'nvim-lua/completion-nvim'
     "Plug 'mfussenegger/nvim-lint'
