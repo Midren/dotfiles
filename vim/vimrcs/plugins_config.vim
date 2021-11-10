@@ -39,7 +39,6 @@ if has('nvim')
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
-Plug 'SirVer/ultisnips' | Plug 'dimatura/ultisnip-snippets'
 Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp'] }
 Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.vim', { 'for': ['c', 'cpp']}
 
@@ -92,14 +91,15 @@ Plug 'tmsvg/pear-tree'                      " pairs completition
 Plug 'Midren/splitjoin.vim'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-bbye'
-Plug 'romainl/vim-qf', { 'for': ['qf'] }
+Plug 'romainl/vim-qf'
 Plug 'elbeardmorez/vim-loclist-follow'
 Plug 'psliwka/vim-smoothie'
 Plug 'puremourning/vimspector', { 'for': ['python', 'cpp', 'cmake'], 'do': './install_gadget.py --enable-cpp --enable-python'}
 Plug 'Shougo/echodoc.vim'
 Plug 'vim-test/vim-test', { 'for': ['python']}
 "Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
-Plug 'rcarriga/vim-ultest', { 'for': ['python']} | Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'rcarriga/vim-ultest', { 'for': ['python'], 'do': ':UpdateRemotePlugins' } | Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'mogelbrod/vim-jsonpath' " show path inside json
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
@@ -396,20 +396,15 @@ let g:lightline = {
       \ 'active': {
       \   'left': [ ['mode', 'paste'],
       \             ['readonly', 'filename', 'modified'] ],
-      \   'right': [ [ 'lineinfo' ], ['percent'], ['gitbranch'] ]
+      \   'right': [ [ 'lineinfo' ], ['percent'] ]
       \ },
       \ 'component': {
       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
       \ },
       \ 'component_visible_condition': {
       \   'readonly': '(&filetype!="help"&& &readonly)',
       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
       \ },
       \ 'separator': { 'left': ' ', 'right': ' ' },
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
@@ -539,7 +534,7 @@ function! SynStack ()
         echo n1 "->" n2
     endfor
 endfunction
-map gm :call SynStack()<CR>
+map <silent> gm :call SynStack()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => scrooloose/nerdcommenter
@@ -593,10 +588,29 @@ autocmd FileType c,cpp,cmake nnoremap <silent> <leader>cr :CMakeRun<cr>
 
 let PYTHONUNBUFFERED=1
 "autocmd FileType python nnoremap <silent> <leader>cr :sp term://python3 '%'<cr>:resize 10<cr>
-autocmd FileType python nnoremap <silent> <leader>cr :Dispatch python3 -u "%"<cr>
-autocmd FileType python nnoremap <silent> <leader>cs :AbortDispatch<cr>
+autocmd FileType python nnoremap <silent> <buffer> <leader>cr :Dispatch python3 -u "%"<cr>
+autocmd FileType python nnoremap <silent> <buffer> <leader>cs :AbortDispatch<cr>
+
+autocmd FileType sh nnoremap <silent> <buffer> <leader>cr :Dispatch bash -u "%"<cr>
+autocmd FileType sh nnoremap <silent> <buffer> <leader>cs :AbortDispatch<cr>
 
 let g:cmake_build_type = 'Debug'
+let g:cmake_vimspector_default_configuration = {
+            \  "adapter": "CodeLLDB",
+            \  "breakpoints": {
+            \    "exception": {
+            \      "cpp_catch": "N",
+            \      "cpp_throw": "Y",
+            \      }
+            \    },
+            \  "configuration": {
+            \    "type": "lldb",
+            \    "request": "launch",
+            \    "stopAtEntry": "False",
+            \    "cwd": "${workspaceRoot}",
+            \    "args": [],
+            \  }
+            \  }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ycm-core/YouCompleteMe
@@ -910,15 +924,30 @@ highlight! ALEError guisp=red gui=undercurl,bold
 highlight! ALEWarning guisp=red gui=undercurl,bold
 highlight! Search guibg=Yellow gui=bold
 
-highlight! LspDiagnosticsDefaultError guifg=red
-highlight! LspDiagnosticsDefaultWarning guifg=red
-highlight! LspDiagnosticsDefaultInformation guifg=red
-highlight! LspDiagnosticsDefaultHint guifg=red
-highlight! LspDiagnosticsUnderlineError guisp=red gui=undercurl,bold
-highlight! LspDiagnosticsUnderlineWarning guisp=red gui=undercurl,bold
-highlight! LspDiagnosticsUnderlineInformation guisp=red gui=undercurl,bold
-highlight! LspDiagnosticsUnderlineHint guisp=red gui=undercurl,bold
+if has('nvim')
+    highlight! DiagnosticDefaultError guifg=#db4b4b
+    highlight! DiagnosticDefaultWarn guifg=#e0af68
+    highlight! DiagnosticDefaultInfo guifg=#0db9d7
+    highlight! DiagnosticDefaultHint guifg=#10B981
+    highlight! DiagnosticUnderlineError guisp=#db4b4b gui=undercurl,bold
+    highlight! DiagnosticUnderlineWarn guisp=#e0af68 gui=undercurl,bold
+    highlight! DiagnosticUnderlineInfo guisp=#0db9d7 gui=undercurl,bold
+    highlight! DiagnosticUnderlineHint guisp=#10B981 gui=undercurl,bold
 
+    hi! link DiagnosticFloatingError DiagnosticDefaultError
+    hi! link DiagnosticFloatingWarn DiagnosticDefaultWarn
+    hi! link DiagnosticFloatingInfo DiagnosticDefaultInfo
+    hi! link DiagnosticFloatingHint DiagnosticDefaultHint
+    hi! link DiagnosticSignError DiagnosticDefaultError
+    hi! link DiagnosticSignWarn DiagnosticDefaultWarn
+    hi! link DiagnosticSignInfo DiagnosticDefaultInfo
+    hi! link DiagnosticSignHint DiagnosticDefaultHint
+
+    sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
+    sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
+    sign define DiagnosticSignInfo text=⚠ texthl=DiagnosticSignInfo linehl= numhl=
+    sign define DiagnosticSignHint text=⚠ texthl=DiagnosticSignHint linehl= numhl=
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => elbeardmorez/vim-loclist-follow
@@ -933,8 +962,10 @@ let g:loclist_follow_target = 'next'
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
+nnoremap <silent> <leader>ve :vsplit<CR><C-W>l:e .vimspector.json<CR>
 nmap <silent> <leader>dl :call vimspector#Launch()<CR>
 nmap <silent> <leader>dr :call vimspector#Reset( { 'interactive': v:false } )<CR>
+nmap <silent> <leader>dh :call vimspector#RunToCursor()<CR>
 nmap <silent> <leader>dw :VimspectorWatch
 nmap <silent> <leader>do :VimspectorShowOutput
 nmap <silent> <leader>de <Plug>VimspectorBalloonEval
@@ -1111,6 +1142,7 @@ let g:coq_settings = { 'auto_start': 'shut-up',
                      \ 'keymap.recommended': v:false, 
                      \ 'keymap.jump_to_mark': '<leader><tab>', 
                      \ 'clients.tree_sitter.enabled': v:false,
+                     \ 'clients.tabnine.enabled': v:true,
                      \ 'clients.tags.enabled': v:false,
                      \ 'match.max_results': 10,
                      \ 'display.ghost_text.enabled': v:false}
@@ -1156,3 +1188,10 @@ augroup CompletionTriggerCharacter
     autocmd Filetype cpp let g:completion_trigger_character = ['.', '/', '::', '->',]
     autocmd Filetype VimspectorPrompt let g:completion_trigger_character = ['.', '/', '::', '->',]
 augroup end
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => mogelbrod/vim-jsonpath 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:jsonpath_register = '*'
+let g:jsonpath_delimeter = '.'
+au FileType json noremap <buffer> <silent> <leader>pp :call jsonpath#echo()<CR>
