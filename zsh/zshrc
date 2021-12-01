@@ -16,7 +16,6 @@ CASE_SENSITIVE="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(
-    vi-mode
     git
     zsh-autosuggestions
     history-substring-search
@@ -75,6 +74,14 @@ bindkey '^n' autosuggest-accept
 
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# use vim wordstyle
+#WORDCHARS='~!#$%^&*(){}[]<>?.+;-'
+#MOTION_WORDCHARS='~!#$%^&*(){}[]<>?.+;-/'
+
+#''{back,for}ward-word() WORDCHARS=$MOTION_WORDCHARS zle .$WIDGET
+#zle -N backward-word
+#zle -N forward-word
 
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
