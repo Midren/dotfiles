@@ -8,11 +8,28 @@ function enable_colorizer()
 end
 
 function enable_refactoring()
-    local refactor = require("refactoring")
-    refactor.setup()
-    vim.api.nvim_set_keymap("v", "<Leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
-    vim.api.nvim_set_keymap("v", "<Leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
-    vim.api.nvim_set_keymap("v", "<Leader>rt", [[ <Esc><Cmd>lua M.refactors()<CR>]], {noremap = true, silent = true, expr = false})
+    local refactoring = require("refactoring")
+    refactoring.setup()
+
+    local function ui_map()
+        vim.ui.select(refactoring.get_refactors(), {
+            prompt = "refactoring",
+        }, function(refactor)
+            refactoring.refactor(refactor)
+        end)
+    end
+
+    _G.Refactor_remaps = {
+        ui_map = ui_map,
+    }
+
+    vim.api.nvim_set_keymap("v", "<Leader>ref", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
+    vim.api.nvim_set_keymap("v", "<Leader>rev", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]], {noremap = true, silent = true, expr = false})
+    vim.api.nvim_set_keymap("n", "<Leader>riv", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
+    vim.api.nvim_set_keymap("n", "<Leader>pl", "<cmd>lua require('refactoring').debug.printf({below = true})<CR>", {noremap = true, silent = true, expr = false})
+    vim.api.nvim_set_keymap("n", "<Leader>pv", "<cmd>lua require('refactoring').debug.print_var({below = true})<CR>", {noremap = true, silent = true, expr = false})
+    vim.api.nvim_set_keymap("v", "<leader>rf", "<esc><cmd>lua Refactor_remaps.ui_map()<CR>", { silent = true , silent= true, expr = false})
+    vim.api.nvim_set_keymap("n", "<leader>rf", "<esc><cmd>lua Refactor_remaps.ui_map()<CR>", { silent = true , silent= true, expr = false})
 end
 
 function enable_treesitter()
@@ -110,7 +127,7 @@ function enable_lsp()
     local servers = {
       efm = {
         init_options = {documentFormatting = true, codeAction = true},
-        root_dir = lspconfig.util.root_pattern({'.git/', '.'}),
+        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json', '.'}),
         filetypes = vim.tbl_keys(languages),
         settings = {languages = languages, log_level = 1, log_file = '~/efm.log'},
       },
@@ -125,32 +142,27 @@ function enable_lsp()
         },
       },
       clangd = {
-        cmd = {require"lspinstall/util".extract_config("clangd").default_config.cmd[1], "--background-index", "--suggest-missing-includes", "--cross-file-rename", "--completion-style=bundled", "--all-scopes-completion"},
-        root_dir = lspconfig.util.root_pattern({'.git/', '.'}),
+   --   cmd = {require"lspinstall/util".extract_config("clangd").default_config.cmd[1], "--background-index", "--suggest-missing-includes", "--cross-file-rename", "--completion-style=bundled", "--all-scopes-completion"},
+        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json', 'CMakeLists.txt'}),
         init_options = {
           clangdFileStatus = true
         },
+      },
+      pyright = {
+        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json'}),
       }
     }
 
-    local function setup_servers()
-      require'lspinstall'.setup()
-      local coq = require'coq'
-      local installed_servers = require'lspinstall'.installed_servers()
-      for _, server in pairs(installed_servers) do
-        local config = servers[server] or {root_dir = lspconfig.util.root_pattern({'.git/', '.'})}
+    -- Add automatic lsp installation
+    local lsp_installer = require("nvim-lsp-installer")
+    lsp_installer.on_server_ready(function(server)
+        local coq = require'coq'
+        local config = servers[server.name] or {root_dir = lspconfig.util.root_pattern({'.git/', '.'})}
         config.on_attach = on_attach
         config.capabilities = capabilities
-        lspconfig[server].setup(coq.lsp_ensure_capabilities(config))
-      end
-    end
-
-    setup_servers()
-
-    require'lspinstall'.post_install_hook = function ()
-      setup_servers() -- reload installed servers
-      vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-    end
+        lspconfig[server.name].setup(coq.lsp_ensure_capabilities(config))
+        server:setup(config)
+    end)
 
     require('lspsaga').init_lsp_saga({
       use_saga_diagnostic_sign = false,
@@ -165,6 +177,10 @@ function enable_lsp()
     })
 
     require('lspkind').init({})
+
+    require('calltree').setup({
+        layout_size = 60,
+    })
 
     -- LSP Enable diagnostics
     vim.lsp.handlers["textDocument/publishDiagnostics"] =
@@ -207,15 +223,6 @@ function enable_lsp()
       };
     }
     ]]
-
-    vim.fn.sign_define("LspDiagnosticsSignError",
-        {text = "✖", texthl = "LspDiagnosticsDefaultError"})
-    vim.fn.sign_define("LspDiagnosticsSignWarning",
-        {text = "", texthl = "LspDiagnosticsDefaultWarning"})
-    vim.fn.sign_define("LspDiagnosticsSignInformation",
-        {text = "ℹ", texthl = "LspDiagnosticsDefaultWarning"})
-    vim.fn.sign_define("LspDiagnosticsSignHint",
-        {text = "ℹ", texthl = "LspDiagnosticsDefaultWarning"})
 end
 
 pcall(enable_lsp)

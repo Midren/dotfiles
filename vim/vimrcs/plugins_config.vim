@@ -17,8 +17,11 @@ Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
 if has('nvim')
     Plug 'glepnir/dashboard-nvim'
     Plug 'lukas-reineke/indent-blankline.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
     Plug 'norcalli/nvim-colorizer.lua'
+    Plug 'rcarriga/nvim-notify'
+    Plug 'cormacrelf/dark-notify'
+    Plug 'stevearc/dressing.nvim' " better chooser
 endif
 
 """"""""""""""""""""""""""""""
@@ -29,13 +32,13 @@ if has('nvim')
     Plug 'neovim/nvim-lspconfig'
     Plug 'tami5/lspsaga.nvim'
     Plug 'onsails/lspkind-nvim'
-    Plug 'kabouzeid/nvim-lspinstall'
+    "Plug 'kabouzeid/nvim-lspinstall'
+    Plug 'williamboman/nvim-lsp-installer'
     Plug 'ray-x/lsp_signature.nvim'
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
     Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
     "Plug 'nvim-lua/completion-nvim'
     "Plug 'mfussenegger/nvim-lint'
-    Plug 'ms-jpq/coq_nvim'
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
@@ -44,7 +47,7 @@ Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.
 
 " ==> Navigating
 if has('nvim')
-    Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+    Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps --nvim'}
 else
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
@@ -56,7 +59,7 @@ Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'wsdjeg/FlyGrep.vim'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'chaoren/vim-wordmotion'                
-Plug 'tpope/vim-rsi'
+Plug 'vim-utils/vim-husk'
 Plug 'christoomey/vim-tmux-navigator'
 
 " ==> Linting
@@ -102,6 +105,9 @@ Plug 'rcarriga/vim-ultest', { 'for': ['python'], 'do': ':UpdateRemotePlugins' } 
 Plug 'mogelbrod/vim-jsonpath' " show path inside json
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+Plug 'CarloDePieri/pytest-vim-compiler'
+Plug 'ldelossa/calltree.nvim' " show calling functions
+Plug 'ArthurSonzogni/Diagon' " ASCII diagrams
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -354,7 +360,8 @@ let g:chadtree_settings = { 'keymap.primary': ['<cr>','l'],
                           \ 'keymap.delete': ['DD'],
                           \ 'keymap.trash': ['dD'],
                           \ 'keymap.toggle_hidden': ['zh'],
-                          \ 'keymap.select': ['t', "<space>"]}
+                          \ 'keymap.select': ['t', "<space>"],
+                          \ 'keymap.change_focus_up': ['U', "C"] }
 
 if has('nvim')
     map <silent> <leader>nt :CHADopen<cr>
@@ -506,7 +513,7 @@ nnoremap <silent> <leader>df :GitGutterToggle<cr>
 " Usually you don't need to have list of all hunks, but better list of modified files
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
 " Even better with Fuzzy Finding )
-nnoremap <silent> <leader>gb :Gblame<CR>
+nnoremap <silent> <leader>gb :Git blame<CR>
 nnoremap <silent> <leader>gc :GBranches<CR>
 nnoremap <silent> <leader>gs :Git<cr>:resize 12<cr>
 
@@ -690,14 +697,16 @@ if !has('nvim')
 else
     nnoremap <silent> [e :lua vim.lsp.diagnostic.goto_prev()<CR>
     nnoremap <silent> ]e :lua vim.lsp.diagnostic.goto_next()<CR>
-    nnoremap <silent> <leader>ce :Lspsaga show_line_diagnostics<CR>
-    nnoremap <silent> <leader>ft :Lspsaga code_action<CR>
+    nnoremap <silent> <leader>ce :lua vim.diagnostic.open_float()<CR>
+    nnoremap <silent> <leader>ft :lua vim.lsp.buf.code_action()<CR>
     vnoremap <silent> <leader>ft :<C-U>Lspsaga range_code_action<CR>
-    nnoremap <silent> <leader>dt :Lspsaga hover_doc<CR>
-    nnoremap <silent> <leader>rr :Lspsaga rename<CR>
+    nnoremap <silent> <leader>dt :lua vim.lsp.buf.hover()<CR>
+    nnoremap <silent> <leader>rr :lua vim.lsp.buf.rename()<CR>
 
     nnoremap <silent> <leader>gd :lua vim.lsp.buf.definition()<CR>
+    nnoremap <silent> <leader>gi :lua vim.lsp.buf.implementation()<CR>
     nnoremap <silent> <leader>fr :lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> <leader>fc :lua vim.lsp.buf.incoming_calls()<CR>
     nnoremap <silent> <leader>cf :lua vim.lsp.buf.formatting()<CR>
     vnoremap <silent> <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
     "nnoremap <silent> <leader>ct :lua vim.lsp.buf.type_definition()<CR>
@@ -974,13 +983,13 @@ nmap <silent> <leader>db :call vimspector#ToggleBreakpoint()<cr>
 nmap <silent> <leader>dtc <Plug>VimspectorToggleConditionalBreakpoint()
 let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
-sign define vimspectorBP            text=\ ● texthl=WarningMsg
-sign define vimspectorBPCond        text=\ ◆ texthl=WarningMsg
-sign define vimspectorBPDisabled    text=\ ● texthl=LineNr
-sign define vimspectorPC            text=\ ▶ texthl=MatchParen linehl=CursorLine
-sign define vimspectorPCBP          text=●▶  texthl=MatchParen linehl=CursorLine
-sign define vimspectorCurrentThread text=▶   texthl=MatchParen linehl=CursorLine
-sign define vimspectorCurrentFrame  text=▶   texthl=Special    linehl=CursorLine
+let g:vimspector_sign_priority = {
+    \    'vimspectorBP':         30,
+    \    'vimspectorBPCond':     20,
+    \    'vimspectorBPLog':      20,
+    \    'vimspectorBPDisabled': 10,
+    \    'vimspectorPC':         999,
+    \ }
 
 " Custom mappings while debugging {{{
 let s:mapped = {}
@@ -1194,4 +1203,8 @@ augroup end
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:jsonpath_register = '*'
 let g:jsonpath_delimeter = '.'
-au FileType json noremap <buffer> <silent> <leader>pp :call jsonpath#echo()<CR>
+au FileType json nnoremap <buffer> <silent> <leader>pp :call jsonpath#echo()<CR>
+
+au FileType Calltree nnoremap <buffer> <silent> <CR> :CTExpand<CR>
+au FileType Calltree nnoremap <buffer> <silent> <S-CR> :CTJump<CR>
+au FileType Calltree nnoremap <buffer> <silent> <leader>q :CTClose<CR>
