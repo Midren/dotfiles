@@ -15,8 +15,8 @@ Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
 Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
 if has('nvim')
-    Plug 'glepnir/dashboard-nvim'
-    Plug 'lukas-reineke/indent-blankline.nvim'
+    " Plug 'glepnir/dashboard-nvim'
+    " Plug 'lukas-reineke/indent-blankline.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'rcarriga/nvim-notify'
