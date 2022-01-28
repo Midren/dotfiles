@@ -165,7 +165,7 @@ let g:gutentags_ctags_extra_args = [
 let g:fzf_tags_command = 'ctags -R --tag-relative=yes --fields=+ailmnS --c++-kinds=+p --extra=+q --languages=C++,Python,C,vim'
 
 if executable('rg')
-  let g:gutentags_file_list_command = 'rg -l ""'
+  let g:gutentags_file_list_command = 'rg --files'
 endif
 
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitconfig', 'gitrebase', 'gitsendemail', 'git']
