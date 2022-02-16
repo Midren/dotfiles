@@ -5,6 +5,7 @@
     ~/.vim: vim/vim
     ~/.ideavimrc: vim/vimrcs/ideavimrc
     ~/.config/nvim/init.vim: vim/init.vim
+    ~/.config/nvim/lua: vim/lua
 
 - shell:
   - [vim/install_awesome_vimrc.sh, Installing vimrc]

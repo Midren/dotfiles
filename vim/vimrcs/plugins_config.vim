@@ -54,9 +54,7 @@ else
 endif
 Plug 'Midren/fzf-filemru'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
-Plug 'wsdjeg/FlyGrep.vim'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'chaoren/vim-wordmotion'                
 Plug 'vim-utils/vim-husk'
@@ -134,6 +132,7 @@ Plug 'tell-k/vim-autopep8'
 Plug 'dstein64/nvim-scrollview'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/refactoring.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 
 call plug#end()
 
@@ -269,11 +268,12 @@ augroup END
 
 let g:fzf_filemru_bufwrite = 1
 
-nnoremap <silent> <leader>lf :FilesMru --tiebreak=end<cr>
-nnoremap <silent> <leader>lr :History<CR>
-nnoremap <silent> <leader>lb :Buffers<cr>
+nnoremap <silent> <C-f> <cmd>Telescope live_grep<cr>
+nnoremap <silent> <leader>lf :lua require"nvim_plugins_setup".project_files()<cr>
+nnoremap <silent> <leader>lb <cmd>Telescope buffers<cr>
+nnoremap <silent> <leader>ls <cmd>Telescope tags<cr>
+nnoremap <silent> <leader>lr <cmd>Telescope oldfiles<cr>
 nnoremap <silent> <leader>ll :BTags<cr>
-nnoremap <silent> <leader>ls :Tags<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -361,6 +361,7 @@ let g:chadtree_settings = { 'keymap.primary': ['<cr>','l'],
                           \ 'keymap.trash': ['dD'],
                           \ 'keymap.toggle_hidden': ['zh'],
                           \ 'keymap.select': ['t', "<space>"],
+                          \ 'keymap.open_sys': ['o'],
                           \ 'keymap.change_focus_up': ['U', "C"] }
 
 if has('nvim')
@@ -514,7 +515,7 @@ nnoremap <silent> <leader>df :GitGutterToggle<cr>
 "nnoremap <silent> <leader>hl :GitGutterQuickFix<cr>:copen<cr>:cd `git rev-parse --show-toplevel`<cr>
 " Even better with Fuzzy Finding )
 nnoremap <silent> <leader>gb :Git blame<CR>
-nnoremap <silent> <leader>gc :GBranches<CR>
+nnoremap <silent> <leader>gc :Telescope git_branches<CR>
 nnoremap <silent> <leader>gs :Git<cr>:resize 12<cr>
 
 nmap <leader>gf :diffget //2<cr>
@@ -703,19 +704,15 @@ else
     nnoremap <silent> <leader>dt :lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <leader>rr :lua vim.lsp.buf.rename()<CR>
 
-    nnoremap <silent> <leader>gd :lua vim.lsp.buf.definition()<CR>
-    nnoremap <silent> <leader>gi :lua vim.lsp.buf.implementation()<CR>
-    nnoremap <silent> <leader>fr :lua vim.lsp.buf.references()<CR>
+    nnoremap <silent> <leader>gd :Telescope lsp_definitions<CR>
+    nnoremap <silent> <leader>gi :Telescope lsp_implementations<CR>
+    nnoremap <silent> <leader>fr :Telescope lsp_references<CR>
     nnoremap <silent> <leader>fc :lua vim.lsp.buf.incoming_calls()<CR>
     nnoremap <silent> <leader>cf :lua vim.lsp.buf.formatting()<CR>
     vnoremap <silent> <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
     "nnoremap <silent> <leader>ct :lua vim.lsp.buf.type_definition()<CR>
-    " Auto import for vim-compe
-    inoremap <silent><expr> <C-Space> compe#complete()
-    inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-    inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-    inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-    inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+    "vim.api.nvim_set_keymap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    nnoremap <silent> <c-s> :lua vim.lsp.buf.signature_help()<CR>
 endif
 set updatetime=250
 
@@ -827,21 +824,6 @@ let g:cpp_gencode_function_attach_statement = [ '' ]
 nnoremap <leader>ad :GenDefinition<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => 'wsdjeg/FlyGrep.vim'
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('lua')
-  let s:plugin_dir = fnamemodify(expand('<sfile>'), ':h').'\lua'
-  let s:str = s:plugin_dir . '\?.lua;' . s:plugin_dir . '\?\init.lua;'
-  silent! lua package.path=vim.eval("s:str") .. package.path
-  if empty(v:errmsg)
-      let g:_spacevim_if_lua = 1
-  endif
-endif
-
-let g:FlyGrep_input_delay=300
-nmap <silent> <C-f> :FlyGrep<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => moll/vim-bbye
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Close the current buffer
@@ -927,6 +909,7 @@ let b:ale_python_mypy_use_global = 1
 
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
+highlight clear Todo
 highlight! ALEErrorSign guifg=red
 highlight! ALEWarningSign guifg=red
 highlight! ALEError guisp=red gui=undercurl,bold
@@ -1005,10 +988,6 @@ function! s:OnJumpToFrame() abort
   nmap <silent> <buffer> <leader>dc :call vimspector#Continue()<cr>
   nmap <silent> <buffer> <leader>df :call vimspector#RunToCursor()<cr>
 
-  let s:mapped[ string( bufnr() ) ] = { 'modifiable': &modifiable }
-
-  setlocal nomodifiable
-
 endfunction
 
 function! s:OnDebugEnd() abort
@@ -1027,7 +1006,6 @@ function! s:OnDebugEnd() abort
         nunmap <silent> <buffer> <leader>dc
         nunmap <silent> <buffer> <leader>df
 
-        let &l:modifiable = s:mapped[ bufnr ][ 'modifiable' ]
       endtry
     endfor
   finally
