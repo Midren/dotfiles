@@ -15,13 +15,12 @@ Plug 'hzchirs/vim-material'
 Plug 'itchyny/lightline.vim'
 Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
 if has('nvim')
-    " Plug 'glepnir/dashboard-nvim'
-    " Plug 'lukas-reineke/indent-blankline.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
     Plug 'norcalli/nvim-colorizer.lua'
     Plug 'rcarriga/nvim-notify'
     Plug 'cormacrelf/dark-notify'
     Plug 'stevearc/dressing.nvim' " better chooser
+    Plug 'folke/todo-comments.nvim' " highlight TODO comments
 endif
 
 """"""""""""""""""""""""""""""
@@ -30,15 +29,11 @@ endif
 " ==> Completition
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
-    Plug 'tami5/lspsaga.nvim'
     Plug 'onsails/lspkind-nvim'
-    "Plug 'kabouzeid/nvim-lspinstall'
     Plug 'williamboman/nvim-lsp-installer'
     Plug 'ray-x/lsp_signature.nvim'
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
     Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-    "Plug 'nvim-lua/completion-nvim'
-    "Plug 'mfussenegger/nvim-lint'
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
@@ -52,23 +47,20 @@ else
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
 endif
-Plug 'Midren/fzf-filemru'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
-Plug 'chaoren/vim-wordmotion'                
-Plug 'vim-utils/vim-husk'
+Plug 'vim-utils/vim-husk' " bash mappings for cli
 Plug 'christoomey/vim-tmux-navigator'
 
 " ==> Linting
-Plug 'dense-analysis/ale'
-Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp']} | Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+if has('nvim')
+    Plug 'jose-elias-alvarez/null-ls.nvim'
+endif
 
 " ==> Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'oguzbilgic/vim-gdiff'
-Plug 'will133/vim-dirdiff'
 
 " ==> Misc
 Plug 'tpope/vim-dispatch'
@@ -106,6 +98,8 @@ Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 Plug 'CarloDePieri/pytest-vim-compiler'
 Plug 'ldelossa/calltree.nvim' " show calling functions
 Plug 'ArthurSonzogni/Diagon' " ASCII diagrams
+Plug 'tpope/vim-speeddating' " increment dates using <C-a> & <C-x>
+Plug 'kevinhwang91/nvim-bqf' " better quick-fix
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -223,51 +217,8 @@ let g:gutentags_generate_on_write = 1
 let g:gutentags_generate_on_empty_buffer = 0
 
 """"""""""""""""""""""""""""""
-" => junegunn/fzf
+" => nvim-telescope/telescope.nvim 
 """"""""""""""""""""""""""""""
-let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
-let $FZF_DEFAULT_COMMAND='rg -l "" --sort path --hidden --glob "!**/.git/**"'
-let $FZF_DEFAULT_OPTS="--reverse --tiebreak=length,end,index"
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
-
-autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
-
-let g:fzf_colors =
-              \ { 'fg':      ['fg', 'Normal'],
-              \ 'bg':      ['bg', 'Normal'],
-              \ 'hl':      ['fg', 'Comment'],
-              \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-              \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-              \ 'hl+':     ['fg', 'Statement'],
-              \ 'info':    ['fg', 'PreProc'],
-              \ 'border':  ['fg', 'Ignore'],
-              \ 'prompt':  ['fg', 'Conditional'],
-              \ 'pointer': ['fg', 'Exception'],
-              \ 'marker':  ['fg', 'Keyword'],
-              \ 'spinner': ['fg', 'Label'],
-              \ 'header':  ['fg', 'Comment'] }
-
-augroup fzf
-  autocmd!
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noshowmode noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-augroup END
-
-let g:fzf_filemru_bufwrite = 1
-
 nnoremap <silent> <C-f> <cmd>Telescope live_grep<cr>
 nnoremap <silent> <leader>lf :lua require"nvim_plugins_setup".project_files()<cr>
 nnoremap <silent> <leader>lb <cmd>Telescope buffers<cr>
@@ -373,22 +324,6 @@ else
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-multiple-cursors
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-s>'
-let g:multi_cursor_select_all_word_key = '<A-s>'
-let g:multi_cursor_start_key           = 'g<C-s>'
-let g:multi_cursor_select_all_key      = 'g<A-s>'
-let g:multi_cursor_next_key            = '<C-s>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => surround.vim config
 " Annotate strings with gettext 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -437,33 +372,6 @@ autocmd! User GoyoEnter call <SID>goyo_enter()
 autocmd! User GoyoLeave call <SID>goyo_leave()
 
 nnoremap <silent> <leader>z :Goyo<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vim-clang-format
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:clang_format#detect_style_file = 1
-"let g:clang_format#auto_format_on_insert_leave = 1
-let g:clang_format#auto_formatexpr = 0
-let g:clang_format#style_options = {
- \ "BasedOnStyle": "LLVM",
- \ "IndentWidth":  4,
- \ "ColumnLimit": 120
- \ }
-
-autocmd FileType c,cpp nnoremap <silent> <buffer><Leader>cf :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp vnoremap <silent> <buffer><Leader>cf :ClangFormat<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" =>  'tell-k/vim-autopep8'
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:autopep8_disable_show_diff=1
-
-if !has('nvim')
-    autocmd FileType json,python nnoremap <silent> <buffer><Leader>cf :<C-u>ALEFix<CR>
-    autocmd FileType python vnoremap <silent> <buffer><Leader>cf :Autopep8<CR>
-endif
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
@@ -700,7 +608,7 @@ else
     nnoremap <silent> ]e :lua vim.lsp.diagnostic.goto_next()<CR>
     nnoremap <silent> <leader>ce :lua vim.diagnostic.open_float()<CR>
     nnoremap <silent> <leader>ft :lua vim.lsp.buf.code_action()<CR>
-    vnoremap <silent> <leader>ft :<C-U>Lspsaga range_code_action<CR>
+    vnoremap <silent> <leader>ft :lua vim.lsp.buf.range_code_action<CR>
     nnoremap <silent> <leader>dt :lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <leader>rr :lua vim.lsp.buf.rename()<CR>
 
@@ -715,15 +623,6 @@ else
     nnoremap <silent> <c-s> :lua vim.lsp.buf.signature_help()<CR>
 endif
 set updatetime=250
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => xolox/vim-notes
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:notes_directories = ['~/Documents/Notes']
-let g:notes_suffix = '.md'
-autocmd FileType notes iabbrev <buffer> ЕЩВЩ TODO
-autocmd FileType notes iabbrev <buffer> ВЩТУ DONE
-autocmd FileType notes iabbrev <buffer> ЧЧЧ XXX
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => kkoomen/vim-doge
@@ -757,16 +656,6 @@ nmap <silent> <leader>gp :set paste<cr>i<c-r>=protodef#ReturnSkeletonsFromProtot
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " quick switch between header and source file
 nnoremap <silent> <leader>bs :A<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => chaoren/vim-wordmotion
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:wordmotion_disable_default_mappings=1
-nmap W          <Plug>WordMotion_w
-nmap E          <Plug>WordMotion_e
-nmap B          <Plug>WordMotion_b
-omap aW         <Plug>WordMotion_aw
-omap iW         <Plug>WordMotion_iw
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => AndrewRadev/sideways.vim
@@ -849,97 +738,6 @@ endif
 autocmd FileType qf nnoremap <buffer> <silent> <C-H> <Plug>(qf_older)
 autocmd FileType qf nnoremap <buffer> <silent> <C-L> <Plug>(qf_newer)
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => dense-analysis/ale
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('nvim')
-    let g:ale_enabled = 0
-endif
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = ''
-let g:ale_sign_info = 'ℹ'
-
-let g:ale_linters = {
-    \ 'javascript': ['prettier'],
-    \ 'go': [ 'golangci-lint' ],
-    \ 'c': [],
-    \ 'cpp': [],
-    \ 'html': [],
-    \ 'markdown': [ 'alex', 'textlint', 'proselint', 'write-good' ],
-    \ 'rust': [],
-    \ 'python': ['pylint']
-    \ }
-
-let g:ale_fixers = {
-    \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \ 'asciidoc': [ 'textlint' ],
-    \ 'c': [ 'clang-format' ],
-    \ 'cpp': [ 'clang-format' ],
-    \ 'css': [ 'prettier' ],
-    \ 'go': [ 'gofmt', 'goimports' ],
-    \ 'html': [ 'prettier' ],
-    \ 'less': [ 'prettier' ],
-    \ 'javascript': [ 'prettier' ],
-    \ 'json': [ 'prettier' ],
-    \ 'markdown': [ 'prettier', 'textlint' ],
-    \ 'nix': [ 'nixpkgs-fmt' ],
-    \ 'python': ['isort', 'yapf'],
-    \ 'rust': [ 'rustfmt' ],
-    \ 'scss': [ 'prettier' ],
-    \ 'sh': [ 'shfmt' ],
-    \ 'terraform': [ 'terraform' ],
-    \ 'typescript': [ 'prettier' ],
-    \ }
-
-let g:ale_python_flake8_options = '--ignore=E501,W605,W504'
-" yapf doesn't have options via ale _options variable
-"let g:ale_python_yapf_options = '--style=\'{based_on_style: pep8, column_limit: 120, spaces_before_comment: 2}\''
-let g:ale_python_pylint_options = '--rcfile=~/.config/pylint/pylint.conf --extension-pkg-allow-list=math --jobs 6'
-"let g:ale_python_mypy_options = '--no-implicit-optional --allow-untyped-globals --show-error-codes --disable-error-code=import,union-attr'
-let g:ale_python_mypy_options = '--no-implicit-optional --allow-untyped-globals --show-error-codes --disable-error-code=union-attr'
-if has('nvim')
-    "let g:ale_virtualtext_cursor = 1
-endif
-
-let g:ale_virtualenv_dir_names = []
-let b:ale_python_flake8_executable = '/usr/local/bin/flake8'
-let b:ale_python_flake8_use_global = 1
-let b:ale_python_mypy_executable = '/usr/local/bin/mypy'
-let b:ale_python_mypy_use_global = 1
-
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-highlight clear Todo
-highlight! ALEErrorSign guifg=red
-highlight! ALEWarningSign guifg=red
-highlight! ALEError guisp=red gui=undercurl,bold
-highlight! ALEWarning guisp=red gui=undercurl,bold
-highlight! Search guibg=Yellow gui=bold
-
-if has('nvim')
-    highlight! DiagnosticDefaultError guifg=#db4b4b
-    highlight! DiagnosticDefaultWarn guifg=#e0af68
-    highlight! DiagnosticDefaultInfo guifg=#0db9d7
-    highlight! DiagnosticDefaultHint guifg=#10B981
-    highlight! DiagnosticUnderlineError guisp=#db4b4b gui=undercurl,bold
-    highlight! DiagnosticUnderlineWarn guisp=#e0af68 gui=undercurl,bold
-    highlight! DiagnosticUnderlineInfo guisp=#0db9d7 gui=undercurl,bold
-    highlight! DiagnosticUnderlineHint guisp=#10B981 gui=undercurl,bold
-
-    hi! link DiagnosticFloatingError DiagnosticDefaultError
-    hi! link DiagnosticFloatingWarn DiagnosticDefaultWarn
-    hi! link DiagnosticFloatingInfo DiagnosticDefaultInfo
-    hi! link DiagnosticFloatingHint DiagnosticDefaultHint
-    hi! link DiagnosticSignError DiagnosticDefaultError
-    hi! link DiagnosticSignWarn DiagnosticDefaultWarn
-    hi! link DiagnosticSignInfo DiagnosticDefaultInfo
-    hi! link DiagnosticSignHint DiagnosticDefaultHint
-
-    sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
-    sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
-    sign define DiagnosticSignInfo text=⚠ texthl=DiagnosticSignInfo linehl= numhl=
-    sign define DiagnosticSignHint text=⚠ texthl=DiagnosticSignHint linehl= numhl=
-endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => elbeardmorez/vim-loclist-follow
@@ -951,7 +749,6 @@ let g:loclist_follow_target = 'next'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>puremourning/vimspector 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let g:vimspector_enable_mappings = 'HUMAN'
 
 nnoremap <silent> <leader>ve :vsplit<CR><C-W>l:e .vimspector.json<CR>
@@ -1046,17 +843,19 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-test/vim-test
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let test#strategy = "asyncrun_background"
-"let test#strategy = {
-"  \ 'nearest': 'neovim',
-"  \ 'file':    'dispatch',
-"  \ 'suite':   'basic',
-"\}
-let test#python#runner = 'pytest'
+let g:test#preserve_screen = 1
+let test#strategy = {
+  \ 'nearest': 'asyncrun_background',
+  \ 'file':    'dispatch',
+  \ 'suite':   'dispatch',
+\}
+let test#python#pytest#executable = 'python3 -m pytest'
+let test#python#pytest#options = '--vim-quickfix'
 "let test#python#runner = 'vimspectorpy'
-autocmd FileType python nnoremap <silent> <leader>tt :TestSuite<CR>
-autocmd FileType python nnoremap <silent> <leader>tu :TestNearest<CR>
+autocmd FileType python nnoremap <silent> <leader>ta :TestSuite<CR>
+autocmd FileType python nnoremap <silent> <leader>tl :TestNearest<CR>
 autocmd FileType python nnoremap <silent> <leader>tf :TestFile<CR>
+autocmd FileType python nnoremap <silent> <leader>tu :Ultest<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1068,11 +867,6 @@ autocmd FileType plantuml let g:plantuml_previewer#plantuml_jar_path = get(
     \  0
     \)
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => glepnir/dashboard-nvim
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:dashboard_default_executive ='fzf'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>jpalardy/vim-slime 
@@ -1107,19 +901,6 @@ let g:terminator_runfile_map = {
             \ "bash": "bash",
             \ "zsh": "zsh",
             \ }
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" =>lukas-reineke/indent-blankline.nvim 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
-let g:indent_blankline_enabled = v:false
-let g:indent_blankline_space_char = '.'
-let g:indent_blankline_char = '¦'
-let g:indent_blankline_show_first_indent_level = v:false
-let g:indent_blankline_buftype_exclude = ['terminal']
-
-let g:indent_blankline_use_treesitter = v:false
-let g:indent_blankline_show_current_context = v:true
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1175,6 +956,29 @@ augroup CompletionTriggerCharacter
     autocmd Filetype cpp let g:completion_trigger_character = ['.', '/', '::', '->',]
     autocmd Filetype VimspectorPrompt let g:completion_trigger_character = ['.', '/', '::', '->',]
 augroup end
+
+highlight! DiagnosticDefaultError guifg=#db4b4b
+highlight! DiagnosticDefaultWarn guifg=#e0af68
+highlight! DiagnosticDefaultInfo guifg=#0db9d7
+highlight! DiagnosticDefaultHint guifg=#10B981
+highlight! DiagnosticUnderlineError guisp=#db4b4b gui=undercurl,bold
+highlight! DiagnosticUnderlineWarn guisp=#e0af68 gui=undercurl,bold
+highlight! DiagnosticUnderlineInfo guisp=#0db9d7 gui=undercurl,bold
+highlight! DiagnosticUnderlineHint guisp=#10B981 gui=undercurl,bold
+
+hi! link DiagnosticFloatingError DiagnosticDefaultError
+hi! link DiagnosticFloatingWarn DiagnosticDefaultWarn
+hi! link DiagnosticFloatingInfo DiagnosticDefaultInfo
+hi! link DiagnosticFloatingHint DiagnosticDefaultHint
+hi! link DiagnosticSignError DiagnosticDefaultError
+hi! link DiagnosticSignWarn DiagnosticDefaultWarn
+hi! link DiagnosticSignInfo DiagnosticDefaultInfo
+hi! link DiagnosticSignHint DiagnosticDefaultHint
+
+sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
+sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
+sign define DiagnosticSignInfo text=⚠ texthl=DiagnosticSignInfo linehl= numhl=
+sign define DiagnosticSignHint text=⚠ texthl=DiagnosticSignHint linehl= numhl=
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => mogelbrod/vim-jsonpath 

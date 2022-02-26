@@ -129,6 +129,9 @@ function M.enable_lsp()
         local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
         buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+
         if client.config.flags then
             client.config.flags.allow_incremental_sync = true
         end
@@ -150,57 +153,26 @@ function M.enable_lsp()
       }
     }
 
-    local eslint = {
-      lintCommand = 'eslint_d -f unix --stdin --stdin-filename ${INPUT}',
-      lintIgnoreExitCode = true,
-      lintStdin = true,
-      lintFormats = {'%f:%l:%c: %m'},
-      formatCommand = 'eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}',
-      formatStdin = true,
-    }
-
-    local prettier = {formatCommand = 'prettier --stdin-filepath ${INPUT}', formatStdin = true}
-
-    local luaformatter = {formatCommand = 'lua-format -i', formatStdin = true}
-
-    local pylint = {
-      lintCommand = 'pylint --output-format text --rcfile=~/.config/pylint/pylint.conf --extension-pkg-allow-list=math --score no --msg-template {path}:{line}:{column}:{C}:{msg} ${INPUT}',
-      lintStdin = true,
-      lintFormats = {'%f:%l:%c:%t:%m'},
-      lintOffsetColumns = 1,
-      lintCategoryMap = {I = 'H', R = 'I', C = 'I', W = 'W', E = 'E', F = 'E'}
-    }
-
-    local yapf = {formatCommand = 'yapf --quiet', formatStdin = true}
-
-    local checkmake = {
-      lintCommand = 'checkmake --format "w{{.LineNumber}}:{{.Rule}}:{{.Violation}}" ${INPUT}',
-      lintFormats = {"%t%l:%m"}
-    }
-
-    local languages = {
-      make = {checkmake},
-      python = {pylint, yapf},
-      css = {prettier},
-      html = {prettier},
-      javascript = {prettier, eslint},
-      javascriptreact = {prettier, eslint},
-      json = {prettier},
-      lua = {luaformatter},
-      markdown = {prettier},
-      scss = {prettier},
-      typescript = {prettier, eslint},
-      typescriptreact = {prettier, eslint},
-      yaml = {prettier},
-    }
+    local null_ls = require("null-ls")
+    require("null-ls").setup({
+        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json', 'CMakeLists.txt', "Makefile"}),
+        sources = {
+            null_ls.builtins.formatting.yapf,
+            null_ls.builtins.formatting.isort,
+            null_ls.builtins.formatting.cmake_format,
+            null_ls.builtins.formatting.lua_format,
+            null_ls.builtins.formatting.prettier.with({
+                extra_filetypes = {'toml'}
+            }),
+            null_ls.builtins.diagnostics.checkmake,
+            null_ls.builtins.diagnostics.pylint,
+            null_ls.builtins.code_actions.refactoring.with({
+                extra_filetypes = {'cpp'}
+            })
+        },
+    })
 
     local servers = {
-      efm = {
-        init_options = {documentFormatting = true, codeAction = true},
-        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json', '.'}),
-        filetypes = vim.tbl_keys(languages),
-        settings = {languages = languages, log_level = 1, log_file = '~/efm.log'},
-      },
       sumneko_lua = {
         settings = {
           Lua = {
@@ -232,7 +204,7 @@ function M.enable_lsp()
                 update_in_insert = false
             })
         local coq = require'coq'
-        local config = servers[server.name] or {root_dir = lspconfig.util.root_pattern({'.git/', '.'})}
+        local config = servers[server.name] or {root_dir = lspconfig.util.root_pattern({'.git/', 'Makefile', '.'})}
         config.on_attach = on_attach
         config.capabilities = capabilities
         lspconfig[server.name].setup(coq.lsp_ensure_capabilities(config))
