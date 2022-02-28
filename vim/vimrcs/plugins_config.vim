@@ -47,6 +47,7 @@ else
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
 endif
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim' " Fzf for cmake4vim
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'vim-utils/vim-husk' " bash mappings for cli
@@ -215,6 +216,38 @@ let g:gutentags_generate_on_new = 1
 let g:gutentags_generate_on_missing = 1
 let g:gutentags_generate_on_write = 1
 let g:gutentags_generate_on_empty_buffer = 0
+
+""""""""""""""""""""""""""""""
+" => junegunn/fzf
+""""""""""""""""""""""""""""""
+let g:fzf_layout = { 'window': { 'width': 0.7, 'height': 0.4 } }
+let $FZF_DEFAULT_COMMAND='rg -l "" --sort path --hidden --glob "!**/.git/**"'
+let $FZF_DEFAULT_OPTS="--reverse --tiebreak=length,end,index"
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+autocmd! FileType fzf tnoremap <buffer> <esc> <c-c>
+
+let g:fzf_colors =
+              \ { 'fg':      ['fg', 'Normal'],
+              \ 'bg':      ['bg', 'Normal'],
+              \ 'hl':      ['fg', 'Comment'],
+              \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+              \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+              \ 'hl+':     ['fg', 'Statement'],
+              \ 'info':    ['fg', 'PreProc'],
+              \ 'border':  ['fg', 'Ignore'],
+              \ 'prompt':  ['fg', 'Conditional'],
+              \ 'pointer': ['fg', 'Exception'],
+              \ 'marker':  ['fg', 'Keyword'],
+              \ 'spinner': ['fg', 'Label'],
+              \ 'header':  ['fg', 'Comment'] }
+
+augroup fzf
+  autocmd!
+  autocmd! FileType fzf
+  autocmd  FileType fzf set laststatus=0 noshowmode noruler
+    \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
 
 """"""""""""""""""""""""""""""
 " => nvim-telescope/telescope.nvim 
