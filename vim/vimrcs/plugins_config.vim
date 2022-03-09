@@ -101,6 +101,8 @@ Plug 'ldelossa/calltree.nvim' " show calling functions
 Plug 'ArthurSonzogni/Diagon' " ASCII diagrams
 Plug 'tpope/vim-speeddating' " increment dates using <C-a> & <C-x>
 Plug 'kevinhwang91/nvim-bqf' " better quick-fix
+Plug 'mrjones2014/legendary.nvim' " main runner for tasks
+Plug 'chipsenkbeil/distant.nvim', { 'do': ':DistantInstall' } " work via ssh
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -127,9 +129,19 @@ Plug 'tell-k/vim-autopep8'
 Plug 'dstein64/nvim-scrollview'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/refactoring.nvim'
+
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'fcying/telescope-ctags-outline.nvim'
+Plug 'nvim-telescope/telescope-vimspector.nvim'
 
 call plug#end()
+
+""""""""""""""""""""""""""""""
+" => Legendary
+""""""""""""""""""""""""""""""
+vmap <silent> <leader>lc <esc>:Legendary commands<cr>
+nmap <silent> <leader>lc :Legendary commands<cr>
 
 """"""""""""""""""""""""""""""
 " => Gutentags
@@ -255,9 +267,10 @@ augroup END
 nnoremap <silent> <C-f> <cmd>Telescope live_grep<cr>
 nnoremap <silent> <leader>lf :lua require"nvim_plugins_setup".project_files()<cr>
 nnoremap <silent> <leader>lb <cmd>Telescope buffers<cr>
-nnoremap <silent> <leader>ls <cmd>Telescope tags<cr>
+"nnoremap <silent> <leader>ls <cmd>Telescope tags<cr>
+nnoremap <silent> <leader>ls <cmd>Tags<cr>
 nnoremap <silent> <leader>lr <cmd>Telescope oldfiles<cr>
-nnoremap <silent> <leader>ll :BTags<cr>
+nnoremap <silent> <leader>ll <cmd>Telescope ctags_outline outline<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -637,8 +650,8 @@ if !has('nvim')
     autocmd FileType c,cpp nnoremap <silent> <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
     autocmd FileType c,cpp nnoremap <silent> <C-]> :YcmCompleter GoTo<CR>
 else
-    nnoremap <silent> [e :lua vim.lsp.diagnostic.goto_prev()<CR>
-    nnoremap <silent> ]e :lua vim.lsp.diagnostic.goto_next()<CR>
+    nnoremap <silent> [e :lua vim.diagnostic.goto_prev()<CR>
+    nnoremap <silent> ]e :lua vim.diagnostic.goto_next()<CR>
     nnoremap <silent> <leader>ce :lua vim.diagnostic.open_float()<CR>
     nnoremap <silent> <leader>ft :lua vim.lsp.buf.code_action()<CR>
     vnoremap <silent> <leader>ft :lua vim.lsp.buf.range_code_action<CR>
@@ -785,7 +798,7 @@ let g:loclist_follow_target = 'next'
 let g:vimspector_enable_mappings = 'HUMAN'
 
 nnoremap <silent> <leader>ve :vsplit<CR><C-W>l:e .vimspector.json<CR>
-nmap <silent> <leader>dl :call vimspector#Launch()<CR>
+nmap <silent> <leader>dl <cmd>Telescope vimspector configurations<CR>
 nmap <silent> <leader>dr :call vimspector#Reset( { 'interactive': v:false } )<CR>
 nmap <silent> <leader>dh :call vimspector#RunToCursor()<CR>
 nmap <silent> <leader>dw :VimspectorWatch

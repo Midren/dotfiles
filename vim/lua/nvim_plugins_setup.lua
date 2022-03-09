@@ -53,7 +53,7 @@ function M.enable_colorizer()
       input = {},
       select = {
         -- Priority list of preferred vim.select implementations
-        backend = { "fzf", "builtin" },
+        backend = { "telescope", "fzf", "builtin" },
 
         fzf = {
           window = {
@@ -155,7 +155,7 @@ function M.enable_lsp()
 
     local null_ls = require("null-ls")
     require("null-ls").setup({
-        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json', 'CMakeLists.txt', "Makefile"}),
+        root_dir = lspconfig.util.root_pattern({'.vimspector.json', '.git/', 'CMakeLists.txt', "Makefile"}),
         sources = {
             null_ls.builtins.formatting.yapf,
             null_ls.builtins.formatting.isort,
@@ -256,6 +256,36 @@ function M.enable_telescope()
                 hidden = true
             }
         },
+        extensions = {
+            fzf = {
+              fuzzy = true,                    -- false will only do exact matching
+              override_generic_sorter = true,  -- override the generic sorter
+              override_file_sorter = true,     -- override the file sorter
+            },
+        }
+    })
+    require('telescope').load_extension('fzf')
+    require('telescope').load_extension('ctags_outline')
+    require('telescope').load_extension('vimspector')
+
+    require("bqf").setup({
+        auto_enable=true,
+        auto_resize_height = true,
+    })
+end
+
+function M.enable_distant()
+    require('distant').setup({
+        ['*'] = require('distant.settings').chip_default()
+    })
+end
+
+function M.enable_legendary()
+    require('legendary').setup({
+        include_builtin = false,
+        commands = {
+            {":ToArgList", ":lua require('utils').to_arglist()", description="Transform to arguments list"}
+        }
     })
 end
 
@@ -265,6 +295,7 @@ function M.setup_plugins()
     pcall(M.enable_colorizer)
     pcall(M.enable_refactoring)
     pcall(M.enable_telescope)
+    pcall(M.enable_legendary)
 end
 
 return M
