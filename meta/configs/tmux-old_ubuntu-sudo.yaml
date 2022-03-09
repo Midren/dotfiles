@@ -1,0 +1,4 @@
+- shell:
+  - [sudo apt update -y]
+  - [sudo apt install -y build-essential autoconf automake pkg-config libevent-dev libncurses5-dev bison byacc, Install tmux dependencies]
+  - [rm -rf /tmp/tmux && git clone https://github.com/tmux/tmux.git /tmp/tmux && cd /tmp/tmux && git checkout 3.2 && sh autogen.sh && ./configure && make && sudo make instal, Build tmux 3.2 from scratch]
