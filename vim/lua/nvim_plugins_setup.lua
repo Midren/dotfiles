@@ -145,6 +145,7 @@ function M.enable_lsp()
     capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
     capabilities.textDocument.completion.completionItem.deprecatedSupport = true
     capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+    capabilities.offsetEncoding = { "utf-16" }
     capabilities.textDocument.completion.completionItem.resolveSupport = {
       properties = {
         'documentation',
@@ -155,7 +156,7 @@ function M.enable_lsp()
 
     local null_ls = require("null-ls")
     require("null-ls").setup({
-        root_dir = lspconfig.util.root_pattern({'.vimspector.json', '.git/', 'CMakeLists.txt', "Makefile"}),
+        root_dir = lspconfig.util.root_pattern({'.vimspector.json', '.git/'}),
         sources = {
             null_ls.builtins.formatting.yapf,
             null_ls.builtins.formatting.isort,
@@ -182,7 +183,7 @@ function M.enable_lsp()
       },
       clangd = {
    --   cmd = {require"lspinstall/util".extract_config("clangd").default_config.cmd[1], "--background-index", "--suggest-missing-includes", "--cross-file-rename", "--completion-style=bundled", "--all-scopes-completion"},
-        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json', 'CMakeLists.txt'}),
+        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json'}),
         init_options = {
           clangdFileStatus = true
         },
