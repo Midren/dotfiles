@@ -1,2 +1,0 @@
-- shell:
-    - [ chsh -s /bin/zsh, Change default shell to zsh ]
