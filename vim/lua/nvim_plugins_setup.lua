@@ -156,7 +156,7 @@ function M.enable_lsp()
 
     local null_ls = require("null-ls")
     require("null-ls").setup({
-        root_dir = lspconfig.util.root_pattern({'.vimspector.json', '.git/'}),
+        root_dir = lspconfig.util.root_pattern({'compile_commands.json', '.vimspector.json', '.git/'}),
         sources = {
             null_ls.builtins.formatting.yapf,
             null_ls.builtins.formatting.isort,
@@ -285,7 +285,13 @@ function M.enable_legendary()
     require('legendary').setup({
         include_builtin = false,
         commands = {
-            {":ToArgList", ":lua require('utils').to_arglist()", description="Transform to arguments list"}
+            {":ToArgList", ":lua require('utils').to_arglist()", description="Transform to arguments list"},
+            {":DogeGenerate", description="Generate documentation"},
+            {":JsonPath", description="Print json path"},
+            {":LspInstall", description="Install LSP server"},
+            {":LspInfo", description="Get information about LSP server"},
+            {":FindSelected", ":call VisualSelection('gv', '')", description="Find selected text"},
+            {":ConditionalBreakpoint", ":call vimspector#ToggleAdvancedBreakpoint()", description="Add conditional breakpoint"}
         }
     })
 end

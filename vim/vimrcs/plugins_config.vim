@@ -102,7 +102,7 @@ Plug 'ArthurSonzogni/Diagon' " ASCII diagrams
 Plug 'tpope/vim-speeddating' " increment dates using <C-a> & <C-x>
 Plug 'kevinhwang91/nvim-bqf' " better quick-fix
 Plug 'mrjones2014/legendary.nvim' " main runner for tasks
-Plug 'chipsenkbeil/distant.nvim', { 'do': ':DistantInstall' } " work via ssh
+"Plug 'chipsenkbeil/distant.nvim', { 'do': ':DistantInstall' } " work via ssh
 
 """""""""""""""""""""""""""""
 " => Writing
@@ -140,8 +140,8 @@ call plug#end()
 """"""""""""""""""""""""""""""
 " => Legendary
 """"""""""""""""""""""""""""""
-vmap <silent> <leader>lc <esc>:Legendary commands<cr>
-nmap <silent> <leader>lc :Legendary commands<cr>
+vmap <silent> <leader>cc <esc>:Legendary<cr>
+nmap <silent> <leader>cc :Legendary<cr>
 
 """"""""""""""""""""""""""""""
 " => Gutentags
@@ -524,7 +524,6 @@ set conceallevel=1
 let g:tex_conceal='abdmg'
 
 autocmd FileType tex nnoremap <silent> <leader>cb :VimtexCompile<cr>
-autocmd FileType tex nnoremap <silent> <leader>cc :VimtexClean<cr>
 autocmd FileType tex nnoremap <silent> <leader>cr :VimtexView<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -541,7 +540,6 @@ let g:cmake_build_executor='dispatch'
 let g:cmake_usr_args={"CMAKE_CXX_FLAGS": "'-Wno-deprecated-copy -Wno-deprecated-declarations -Wno-format'"}
 
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
-autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cc :CMakeClean<cr>
 autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :call fzf#run(fzf#wrap({
                     \ 'source': cmake4vim#GetAllTargets(),
                     \ 'options': '+m -n 1 --prompt CMakeTarget\>\ ',
@@ -654,7 +652,7 @@ else
     nnoremap <silent> ]e :lua vim.diagnostic.goto_next()<CR>
     nnoremap <silent> <leader>ce :lua vim.diagnostic.open_float()<CR>
     nnoremap <silent> <leader>ft :lua vim.lsp.buf.code_action()<CR>
-    vnoremap <silent> <leader>ft :lua vim.lsp.buf.range_code_action<CR>
+    vnoremap <silent> <leader>ft <esc>:lua vim.lsp.buf.range_code_action<CR>
     nnoremap <silent> <leader>dt :lua vim.lsp.buf.hover()<CR>
     nnoremap <silent> <leader>rr :lua vim.lsp.buf.rename()<CR>
 
