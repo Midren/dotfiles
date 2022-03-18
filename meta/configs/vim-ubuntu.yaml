@@ -12,6 +12,7 @@
         Install ripgrep,
       ]
     - [sudo apt install -y neovim, Install neovim]
+    - [sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60, Make neovim default]
 
 - shell:
     - [
