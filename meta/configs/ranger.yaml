@@ -2,5 +2,5 @@
     ~/.config/ranger: ranger
 
 - shell:
-  - [pip3 install --user ranger-fm, Install ranger]
+  - [pip3 install ranger-fm, Install ranger]
   - ["find ~/.config/ranger/ -name 'plugin_*' -type d -exec make install -C {} +", Install ranger plugins]

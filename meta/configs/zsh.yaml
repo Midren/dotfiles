@@ -1,5 +1,5 @@
 - shell:
-    - [ pip3 install --user powerline-status, Installing powerline status ]
+    - [ pip3 install powerline-status, Installing powerline status ]
 
 - create:
   - ~/.config/zsh
