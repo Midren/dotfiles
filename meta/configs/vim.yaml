@@ -11,7 +11,12 @@
   - [vim/install_awesome_vimrc.sh, Installing vimrc]
   - [pip3 install --upgrade pynvim trash-cli, Install neovim plugin manager ]
   - [curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim, Download Plug.vim]
-  - [nvim --headless +PlugInstall +qall, Install plugins via Vim-Plug]
+  - 
+    command: nvim --headless +PlugInstall +qall
+    stdout: true
+    stderr: true
+    quiet: false
+    description: Install plugins via Vim-Plug
   - [nvim --headless +PlugUpdate +qall, Update all plugins via Vim-Plug]
 
 - create:
