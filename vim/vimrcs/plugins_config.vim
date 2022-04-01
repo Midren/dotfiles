@@ -116,6 +116,7 @@ Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.v
 """""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""
+Plug 'yutkat/osc52.nvim' " clipboard support via ssh
 Plug 'skywind3000/asyncrun.vim'
 Plug 'markonm/traces.vim' " Highlighting default ex substitute
 Plug 'tpope/vim-repeat'
