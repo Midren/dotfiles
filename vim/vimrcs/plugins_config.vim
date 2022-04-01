@@ -30,7 +30,7 @@ endif
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
     Plug 'onsails/lspkind-nvim'
-    Plug 'williamboman/nvim-lsp-installer'
+    Plug 'williamboman/nvim-lsp-installer', {'do': ':LspInstall --sync clangd pyright jsonls' }
     Plug 'ray-x/lsp_signature.nvim'
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
     Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
