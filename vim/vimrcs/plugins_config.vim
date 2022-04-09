@@ -77,7 +77,6 @@ Plug 'goerz/jupytext.vim',                  " Open jupyter notebooks as markdown
       \{ 'do': 'pip3 install jupytext'}
 Plug 'metakirby5/codi.vim',                 " realtime interpreter
       \{ 'for': ['python', 'cpp']} 
-Plug 'weirongxu/plantuml-previewer.vim' | Plug 'tyru/open-browser.vim'
 Plug 'AndrewRadev/sideways.vim'             " argument objects
 Plug 'alepez/vim-gtest',                    " Google Test support
       \{'for': ['c', 'cpp']}
@@ -110,6 +109,7 @@ Plug 'mrjones2014/legendary.nvim' " main runner for tasks
 Plug 'lervag/vimtex',                       " latex
       \{'for': ['tex']}
 Plug 'plasticboy/vim-markdown', {'for': ['markdown']}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.vim'
 
@@ -120,7 +120,7 @@ Plug 'yutkat/osc52.nvim' " clipboard support via ssh
 Plug 'skywind3000/asyncrun.vim'
 Plug 'markonm/traces.vim' " Highlighting default ex substitute
 Plug 'tpope/vim-repeat'
-Plug 'markstory/vim-zoomwin' " Maximize splits
+Plug 'yutkat/osc52.nvim' " copy text across ssh
 
 
 """""""""""""""""""""""""""""
@@ -869,6 +869,20 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => markstory/vim-zoomwin 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+
+command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <leader>bm :ZoomToggle<CR>
 
 

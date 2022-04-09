@@ -10,22 +10,23 @@ function M.enable_colorizer()
               alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
               -- signs = false, -- configure signs for some keywords individually
             },
-            TODO = { icon = " ", color = "hint", alt = { 'warning'} },
+            TODO = { icon = " ", color = "#2563EB", alt = { "todo" }},
             HACK = { icon = " ", color = "warning" },
             WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
             PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-            NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+            NOTE = { icon = " ", color = "#2563EB", alt = { "INFO" } },
         },
-        pattern = [[\b(KEYWORDS)\b]],
+        highlight = {
+            before="",
+            keyword="bg",
+            after="fg",
+            comments_only = true,
+            pattern = [[.*<(KEYWORDS):\s*]],
+        },
+        search = {
+            pattern = [[\b(KEYWORDS):\b]],
+        },
     }
-
---  require("lsp-colors").setup({
---      Error = "#db4b4b",
---      Warning = "#e0af68",
---      Information = "#0db9d7",
---      Hint = "#10B981"
---  })
-
 
     vim.notify = require("notify")
     require("notify").setup({
@@ -169,7 +170,8 @@ function M.enable_lsp()
             null_ls.builtins.diagnostics.pylint,
             null_ls.builtins.code_actions.refactoring.with({
                 extra_filetypes = {'cpp'}
-            })
+            }),
+            null_ls.builtins.formatting.clang_format,
         },
     })
 
