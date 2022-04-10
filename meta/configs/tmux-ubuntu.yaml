@@ -1,3 +1,4 @@
 - shell:
   - sudo apt update -y
   - sudo apt install -y tmux
+  - [sudo gem install tmuxinator, Install tmuxinator]
