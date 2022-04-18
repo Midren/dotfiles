@@ -305,6 +305,19 @@ function M.enable_telescope()
     })
 end
 
+function M.enable_cmake()
+    local Path = require('plenary.path')
+
+    require('cmake').setup({
+      parameters_file = '.vim.cmake.json',
+      build_dir = tostring(Path:new('{cwd}', 'cmake-build-{build_type}')),
+      configure_args = { '-D', 'CMAKE_EXPORT_COMPILE_COMMANDS=ON' },
+      build_args = {'-j8'},
+      quickfix_height = 10,
+      quickfix_only_on_error = false
+    })
+end
+
 function M.enable_distant()
     require('distant').setup({
         ['*'] = require('distant.settings').chip_default()
@@ -332,6 +345,7 @@ function M.setup_plugins()
     pcall(M.enable_colorizer)
     pcall(M.enable_refactoring)
     pcall(M.enable_telescope)
+    pcall(M.enable_cmake)
     pcall(M.enable_legendary)
 end
 

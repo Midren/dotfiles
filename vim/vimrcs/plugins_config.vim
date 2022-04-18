@@ -48,7 +48,6 @@ else
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/fern-renderer-nerdfont.vim' | Plug 'lambdalisue/nerdfont.vim' | Plug 'lambdalisue/glyph-palette.vim'
 endif
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim' " Fzf for cmake4vim
 Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'vim-utils/vim-husk' " bash mappings for cli
@@ -66,8 +65,15 @@ Plug 'oguzbilgic/vim-gdiff'
 
 " ==> Misc
 Plug 'tpope/vim-dispatch'
-Plug 'ilyachur/cmake4vim',                    " Cmake support
-      \{ 'for': ['c', 'cpp']}
+if has('nvim')
+    Plug 'mfussenegger/nvim-dap'
+    Plug 'Shatur/neovim-cmake'
+else
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim' " Fzf for cmake4vim
+
+    Plug 'ilyachur/cmake4vim',                    " Cmake support
+          \{ 'for': ['c', 'cpp']}
+end
 Plug 'scrooloose/nerdcommenter'
 Plug 'kkoomen/vim-doge',                    " Doxygen documentation
       \{ 'do': { -> doge#install() }, 'for': ['c', 'cpp', 'python'] } 
@@ -531,48 +537,53 @@ autocmd FileType tex nnoremap <silent> <leader>cr :VimtexView<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ilyachur/cmake4vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:cmake_compile_commands=1
-let g:cmake_compile_commands_link='.'
-let g:cmake_reload_after_save=0
-let g:make_arguments='-j8'
-let g:cmake_vimspector_support=1
-let g:asyncrun_open = 8
-"let g:cmake_project_generator='Ninja'
-let g:cmake_build_executor='dispatch'
-let g:cmake_usr_args={"CMAKE_CXX_FLAGS": "'-Wno-deprecated-copy -Wno-deprecated-declarations -Wno-format'"}
+if has('nvim')
+    autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :lua require('utils').cmake_build()<cr>
+    autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :CMake select_target<cr>
+else
+    let g:cmake_compile_commands=1
+    let g:cmake_compile_commands_link='.'
+    let g:cmake_reload_after_save=0
+    let g:make_arguments='-j8'
+    let g:cmake_vimspector_support=1
+    let g:asyncrun_open = 8
+    "let g:cmake_project_generator='Ninja'
+    let g:cmake_build_executor='dispatch'
+    let g:cmake_usr_args={"CMAKE_CXX_FLAGS": "'-Wno-deprecated-copy -Wno-deprecated-declarations -Wno-format'"}
 
-autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
-autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :call fzf#run(fzf#wrap({
-                    \ 'source': cmake4vim#GetAllTargets(),
-                    \ 'options': '+m -n 1 --prompt CMakeTarget\>\ ',
-                    \ 'sink':    function('cmake4vim#SelectTarget')}))<cr>
-autocmd FileType c,cpp,cmake nnoremap <silent> <leader>cr :CMakeRun<cr>
+    autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>cb :CMakeBuild<cr>
+    autocmd FileType c,cpp,cmake nnoremap <buffer> <silent> <leader>ct :call fzf#run(fzf#wrap({
+                        \ 'source': cmake4vim#GetAllTargets(),
+                        \ 'options': '+m -n 1 --prompt CMakeTarget\>\ ',
+                        \ 'sink':    function('cmake4vim#SelectTarget')}))<cr>
+    autocmd FileType c,cpp,cmake nnoremap <silent> <leader>cr :CMakeRun<cr>
 
-let PYTHONUNBUFFERED=1
-"autocmd FileType python nnoremap <silent> <leader>cr :sp term://python3 '%'<cr>:resize 10<cr>
-autocmd FileType python nnoremap <silent> <buffer> <leader>cr :Dispatch python3 -u "%"<cr>
-autocmd FileType python nnoremap <silent> <buffer> <leader>cs :AbortDispatch<cr>
+    let PYTHONUNBUFFERED=1
+    "autocmd FileType python nnoremap <silent> <leader>cr :sp term://python3 '%'<cr>:resize 10<cr>
+    autocmd FileType python nnoremap <silent> <buffer> <leader>cr :Dispatch python3 -u "%"<cr>
+    autocmd FileType python nnoremap <silent> <buffer> <leader>cs :AbortDispatch<cr>
 
-autocmd FileType sh nnoremap <silent> <buffer> <leader>cr :Dispatch bash -u "%"<cr>
-autocmd FileType sh nnoremap <silent> <buffer> <leader>cs :AbortDispatch<cr>
+    autocmd FileType sh nnoremap <silent> <buffer> <leader>cr :Dispatch bash -u "%"<cr>
+    autocmd FileType sh nnoremap <silent> <buffer> <leader>cs :AbortDispatch<cr>
 
-let g:cmake_build_type = 'Debug'
-let g:cmake_vimspector_default_configuration = {
-            \  "adapter": "CodeLLDB",
-            \  "breakpoints": {
-            \    "exception": {
-            \      "cpp_catch": "N",
-            \      "cpp_throw": "Y",
-            \      }
-            \    },
-            \  "configuration": {
-            \    "type": "lldb",
-            \    "request": "launch",
-            \    "stopAtEntry": "False",
-            \    "cwd": "${workspaceRoot}",
-            \    "args": [],
-            \  }
-            \  }
+    let g:cmake_build_type = 'Debug'
+    let g:cmake_vimspector_default_configuration = {
+                \  "adapter": "CodeLLDB",
+                \  "breakpoints": {
+                \    "exception": {
+                \      "cpp_catch": "N",
+                \      "cpp_throw": "Y",
+                \      }
+                \    },
+                \  "configuration": {
+                \    "type": "lldb",
+                \    "request": "launch",
+                \    "stopAtEntry": "False",
+                \    "cwd": "${workspaceRoot}",
+                \    "args": [],
+                \  }
+                \  }
+end
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ycm-core/YouCompleteMe
