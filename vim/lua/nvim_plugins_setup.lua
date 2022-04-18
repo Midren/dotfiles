@@ -327,6 +327,8 @@ end
 function M.enable_legendary()
     require('legendary').setup({
         include_builtin = false,
+        include_legendary_cmds = false,
+        autocmds = {},
         commands = {
             {":ToArgList", ":lua require('utils').to_arglist()", description="Transform to arguments list"},
             {":DogeGenerate", description="Generate documentation"},
@@ -334,7 +336,8 @@ function M.enable_legendary()
             {":LspInstall", description="Install LSP server"},
             {":LspInfo", description="Get information about LSP server"},
             {":FindSelected", ":call VisualSelection('gv', '')", description="Find selected text"},
-            {":ConditionalBreakpoint", ":call vimspector#ToggleAdvancedBreakpoint()", description="Add conditional breakpoint"}
+            {":ConditionalBreakpoint", ":call vimspector#ToggleAdvancedBreakpoint()", description="Add conditional breakpoint"},
+            {":MarkdownPreviewToggle", description="Toggle preview of markdown file"},
         }
     })
 end
