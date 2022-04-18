@@ -115,6 +115,21 @@ function M.enable_treesitter()
     }
 end
 
+local clangd_commands = [[
+if !exists(':ClangdAST')
+  function s:memuse_compl(_a,_b,_c)
+      return ['expand_preamble']
+  endfunction
+  command ClangdSetInlayHints lua require('clangd_extensions.inlay_hints').set_inlay_hints()
+  command ClangdDisableInlayHints lua require('clangd_extensions.inlay_hints').disable_inlay_hints()
+  command ClangdToggleInlayHints lua require('clangd_extensions.inlay_hints').toggle_inlay_hints()
+  command -range ClangdAST lua require('clangd_extensions.ast').display_ast(<line1>, <line2>)
+  command ClangdTypeHierarchy lua require('clangd_extensions.type_hierarchy').show_hierarchy()
+  command ClangdSymbolInfo lua require('clangd_extensions.symbol_info').show_symbol_info()
+  command -nargs=? -complete=customlist,s:memuse_compl ClangdMemoryUsage lua require('clangd_extensions.memory_usage').show_memory_usage('<args>' == 'expand_preamble')
+endif
+]]
+
 function M.enable_lsp()
     local lspconfig = require('lspconfig')
 
@@ -136,6 +151,12 @@ function M.enable_lsp()
         if client.config.flags then
             client.config.flags.allow_incremental_sync = true
         end
+
+        if require("clangd_extensions.config").options.extensions.autoSetHints then
+            require("clangd_extensions.inlay_hints").setup_autocmd()
+            require("clangd_extensions.inlay_hints").set_inlay_hints()
+        end
+        vim.cmd(clangd_commands)
     end
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -184,8 +205,8 @@ function M.enable_lsp()
         },
       },
       clangd = {
-   --   cmd = {require"lspinstall/util".extract_config("clangd").default_config.cmd[1], "--background-index", "--suggest-missing-includes", "--cross-file-rename", "--completion-style=bundled", "--all-scopes-completion"},
-        root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json'}),
+        cmd = {"clangd", "--inlay-hints", "--background-index", "--completion-style=bundled", "--all-scopes-completion"},
+        root_dir = lspconfig.util.root_pattern({'compile_commands.json', '.git/', '.vimspector.json'}),
         init_options = {
           clangdFileStatus = true
         },
@@ -210,8 +231,15 @@ function M.enable_lsp()
         local config = servers[server.name] or {root_dir = lspconfig.util.root_pattern({'.git/', 'Makefile', '.'})}
         config.on_attach = on_attach
         config.capabilities = capabilities
-        lspconfig[server.name].setup(coq.lsp_ensure_capabilities(config))
-        server:setup(config)
+
+        if server.name == 'clangd' then
+            require("clangd_extensions.config").setup({
+            })
+            server:setup(coq.lsp_ensure_capabilities(config))
+            require("clangd_extensions.ast").init()
+        else
+            server:setup(coq.lsp_ensure_capabilities(config))
+        end
     end)
 
     require('lspsaga').init_lsp_saga({
