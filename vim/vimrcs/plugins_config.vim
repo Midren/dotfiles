@@ -123,11 +123,11 @@ Plug 'junegunn/goyo.vim' | Plug 'amix/vim-zenroom2' | Plug 'junegunn/limelight.v
 """""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""
-Plug 'yutkat/osc52.nvim' " clipboard support via ssh
 Plug 'skywind3000/asyncrun.vim'
 Plug 'markonm/traces.vim' " Highlighting default ex substitute
 Plug 'tpope/vim-repeat'
-Plug 'yutkat/osc52.nvim' " copy text across ssh
+Plug 'ojroques/vim-oscyank', {'branch': 'main'} " copy text across ssh
+vnoremap <leader>cp :OSCYank<CR>
 
 
 """""""""""""""""""""""""""""
