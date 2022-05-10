@@ -112,6 +112,17 @@ function M.enable_treesitter()
       highlight = {
         enable = true,
       },
+      autotag = { -- using nvim-ts-autotag
+        enable = true,
+        filetypes = { "html" , "xml", "sdf" },
+      },
+      nt_cpp_tools = { -- using nvim-treesitter-cpp-tools
+        enable = true,
+        preview = {
+          quit = 'q',
+          accept = '<cr>'
+        },
+      }
     }
 end
 
@@ -338,6 +349,10 @@ function M.enable_legendary()
             {":FindSelected", ":call VisualSelection('gv', '')", description="Find selected text"},
             {":ConditionalBreakpoint", ":call vimspector#ToggleAdvancedBreakpoint()", description="Add conditional breakpoint"},
             {":MarkdownPreviewToggle", description="Toggle preview of markdown file"},
+            {":TSCppDefineClassFunc", description="Add definition of class methods"},
+            {":TSCppMakeConcreteClass", description="Create cpp concrete class implementation"},
+            {":TSCppRuleOf3", description="Add cpp methods for Rule of 3"},
+            {":TSCppRuleOf5", description="Add cpp methods for Rule of 5"},
         }
     })
 end

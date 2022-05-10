@@ -40,6 +40,7 @@ else
 endif
 Plug 'derekwyatt/vim-protodef', { 'for': ['c', 'cpp'] }
 Plug 'pchynoweth/vim-gencode-cpp', { 'for': ['c', 'cpp'] } | Plug 'pchynoweth/a.vim', { 'for': ['c', 'cpp']}
+Plug 'Badhi/nvim-treesitter-cpp-tools', { 'for': ['cpp']}
 
 " ==> Navigating
 if has('nvim')
@@ -52,6 +53,7 @@ Plug 'ludovicchabant/vim-gutentags' | Plug 'skywind3000/gutentags_plus'
 Plug 'mileszs/ack.vim' | Plug 'jesseleite/vim-agriculture'
 Plug 'vim-utils/vim-husk' " bash mappings for cli
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'andymass/vim-matchup'
 
 " ==> Linting
 if has('nvim')
