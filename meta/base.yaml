@@ -11,4 +11,4 @@
 - shell:
   - [git submodule update --recursive --init, Installing/updating submodules]
   - ['[ -x "$(command -v apt)" ] && apt update; echo Ignore', Update apt mirrors]
-  - [pip3 install wheel, Install wheel]
+  #- [pip3 install wheel, Install wheel]

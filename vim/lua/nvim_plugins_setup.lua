@@ -156,17 +156,18 @@ function M.enable_lsp()
         local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
         buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
+        client.server_capabilities.document_formatting = false
+        client.server_capabilities.document_range_formatting = false
 
         if client.config.flags then
             client.config.flags.allow_incremental_sync = true
         end
 
-        if require("clangd_extensions.config").options.extensions.autoSetHints then
-            require("clangd_extensions.inlay_hints").setup_autocmd()
-            require("clangd_extensions.inlay_hints").set_inlay_hints()
-        end
+        -- TODO: fix me 
+        --if require("clangd_extensions.config").options.extensions.autoSetHints then
+        --    require("clangd_extensions.inlay_hints").setup_autocmd()
+        --    require("clangd_extensions.inlay_hints").set_inlay_hints()
+        --end
         vim.cmd(clangd_commands)
     end
 
@@ -204,6 +205,7 @@ function M.enable_lsp()
                 extra_filetypes = {'cpp'}
             }),
             null_ls.builtins.formatting.clang_format,
+            null_ls.builtins.formatting.xmllint
         },
     })
 
@@ -357,10 +359,38 @@ function M.enable_legendary()
     })
 end
 
+function M.enable_auto_change_color()
+    local auto_dark_mode = require('auto-dark-mode')
+
+    auto_dark_mode.setup({
+        set_dark_mode = function()
+            vim.api.nvim_set_option('background', 'dark')
+            vim.cmd('colorscheme palenight')
+            vim.cmd('highlight! DiagnosticUnderlineError guisp=#db4b4b gui=undercurl,bold')
+            vim.cmd('highlight! DiagnosticUnderlineWarn guisp=#e0af68 gui=undercurl,bold')
+            vim.cmd('highlight! DiagnosticUnderlineInfo guisp=#0db9d7 gui=undercurl,bold')
+            vim.cmd('highlight! DiagnosticUnderlineHint guisp=#10B981 gui=undercurl,bold')
+            --  TODO: make valid colors for git diff
+        end,
+        set_light_mode = function()
+            vim.api.nvim_set_option('background', 'light')
+            vim.cmd('colorscheme vim-material')
+            vim.cmd('highlight! DiagnosticUnderlineError guisp=#db4b4b gui=undercurl,bold')
+            vim.cmd('highlight! DiagnosticUnderlineWarn guisp=#e0af68 gui=undercurl,bold')
+            vim.cmd('highlight! DiagnosticUnderlineInfo guisp=#0db9d7 gui=undercurl,bold')
+            vim.cmd('highlight! DiagnosticUnderlineHint guisp=#10B981 gui=undercurl,bold')
+        end,
+    })
+    auto_dark_mode.init()
+end
+
 function M.setup_plugins()
     pcall(M.enable_lsp)
     pcall(M.enable_treesitter)
     pcall(M.enable_colorizer)
+    if vim.fn.has('macunix') then
+        pcall(M.enable_auto_change_color)
+    end
     pcall(M.enable_refactoring)
     pcall(M.enable_telescope)
     pcall(M.enable_cmake)

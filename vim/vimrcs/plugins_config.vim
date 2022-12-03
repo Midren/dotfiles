@@ -8,6 +8,8 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+" TODO: deprecate vim support with plugins
+
 """""""""""""""""""""""""""""
 " => Lookie
 """""""""""""""""""""""""""""
@@ -21,6 +23,9 @@ if has('nvim')
     Plug 'cormacrelf/dark-notify'
     Plug 'stevearc/dressing.nvim' " better chooser
     Plug 'folke/todo-comments.nvim' " highlight TODO comments
+    if has('macunix')
+        Plug 'f-person/auto-dark-mode.nvim' " auto change colorscheme
+    endif
 endif
 
 """"""""""""""""""""""""""""""
@@ -35,6 +40,7 @@ if has('nvim')
     Plug 'p00f/clangd_extensions.nvim'
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
     Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
+    Plug 'github/copilot.vim'
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
@@ -64,15 +70,15 @@ endif
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'oguzbilgic/vim-gdiff'
+Plug 'rbong/vim-flog' " Better git logs
 
 " ==> Misc
 Plug 'tpope/vim-dispatch'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim' " Fzf for cmake4vim
 if has('nvim')
     Plug 'mfussenegger/nvim-dap'
     Plug 'Shatur/neovim-cmake'
 else
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim' " Fzf for cmake4vim
-
     Plug 'ilyachur/cmake4vim',                    " Cmake support
           \{ 'for': ['c', 'cpp']}
 end
@@ -90,6 +96,7 @@ Plug 'AndrewRadev/sideways.vim'             " argument objects
 Plug 'alepez/vim-gtest',                    " Google Test support
       \{'for': ['c', 'cpp']}
 Plug 'tmsvg/pear-tree'                      " pairs completition
+Plug 'alvan/vim-closetag'                   " auto-close xml tags
 Plug 'Midren/splitjoin.vim'
 Plug 'tpope/vim-surround'
 Plug 'moll/vim-bbye'
@@ -100,7 +107,10 @@ Plug 'puremourning/vimspector', { 'for': ['python', 'cpp', 'cmake'], 'do': './in
 Plug 'Shougo/echodoc.vim'
 Plug 'vim-test/vim-test', { 'for': ['python']}
 "Plug 'sagi-z/vimspectorpy', { 'for': ['python'], 'do': { -> vimspectorpy#update() } } " Adds vimspectorpy strategy for vim-test
-Plug 'rcarriga/vim-ultest', { 'for': ['python'], 'do': ':UpdateRemotePlugins' } | Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
+"Plug 'rcarriga/vim-ultest', { 'for': ['python'], 'do': ':UpdateRemotePlugins' }
+if !has('nvim')
+    Plug 'roxma/nvim-yarp' | Plug 'roxma/vim-hug-neovim-rpc'
+endif
 Plug 'mogelbrod/vim-jsonpath' " show path inside json
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
@@ -491,8 +501,13 @@ nmap <leader>gm :Gvdiffsplit!<cr>
 " => Vim-material
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
+if has('mac') "Use dark as default for mac to omit flashing in night
+    colorscheme palenight
+    set background=dark
+else
     colorscheme vim-material
     set background=light
+endif
 catch /^Vim\%((\a\+)\)\=:E185/
     " ignore
 endtry
@@ -675,8 +690,8 @@ else
     nnoremap <silent> <leader>gi :Telescope lsp_implementations<CR>
     nnoremap <silent> <leader>fr :Telescope lsp_references<CR>
     nnoremap <silent> <leader>fc :lua vim.lsp.buf.incoming_calls()<CR>
-    nnoremap <silent> <leader>cf :lua vim.lsp.buf.formatting()<CR>
-    vnoremap <silent> <leader>cf :lua vim.lsp.buf.range_formatting()<CR>
+    nnoremap <silent> <leader>cf :lua vim.lsp.buf.format()<CR>
+    vnoremap <silent> <leader>cf :lua vim.lsp.buf.format()<CR>
     "nnoremap <silent> <leader>ct :lua vim.lsp.buf.type_definition()<CR>
     "vim.api.nvim_set_keymap('n', '<c-s>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     nnoremap <silent> <c-s> :lua vim.lsp.buf.signature_help()<CR>
@@ -980,8 +995,12 @@ let g:terminator_runfile_map = {
 " => ms-jpq/coq_nvim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:coq_settings = { 'auto_start': 'shut-up',
+                     \ 'limits.completion_auto_timeout': 0.5,
                      \ 'keymap.recommended': v:false, 
                      \ 'keymap.jump_to_mark': '<leader><tab>', 
+                     \ 'clients.lsp.weight_adjust': 2,
+                     \ 'clients.tabnine.weight_adjust': 1,
+                     \ 'clients.buffers.weight_adjust': -2,
                      \ 'clients.tree_sitter.enabled': v:false,
                      \ 'clients.tabnine.enabled': v:true,
                      \ 'clients.tags.enabled': v:false,
@@ -1063,3 +1082,43 @@ au FileType json nnoremap <buffer> <silent> <leader>pp :call jsonpath#echo()<CR>
 au FileType Calltree nnoremap <buffer> <silent> <CR> :CTExpand<CR>
 au FileType Calltree nnoremap <buffer> <silent> <S-CR> :CTJump<CR>
 au FileType Calltree nnoremap <buffer> <silent> <leader>q :CTClose<CR>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => alvan/vim-closetag 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.xml,*.sdf,*.world'
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => github/copilot.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:copilot_enabled = v:false
+let g:copilot_filetypes = {
+      \ 'python': v:false,
+      \ 'cpp': v:false,
+      \ '*': v:false,
+      \ }
+
+" toggle copilot using ":Copilot enable" and ":Copilot disable" as mapping to control plus \
+ let g:toggle = 0
+function CopilotToggle(toggle)
+if g:toggle == 0
+:Copilot enable
+call copilot#Suggest()
+let g:toggle = 1
+echo "Copilot Enabled"
+else
+:Copilot disable
+let g:toggle = 0
+echo "Copilot Disabled"
+endif
+endfunction
+
+"imap <C-\> <C-o>:call CopilotToggle(g:toggle)<CR>
+
+"let g:copilot_no_tab_map = v:true
+"imap <silent><script><expr> <C-;> copilot#Accept("\<CR>")
+imap <silent> <C-\> <Plug>(copilot-suggest)
+imap <silent> <C-[> <Plug>(copilot-previous)
+imap <silent> <C-]> <Plug>(copilot-next)

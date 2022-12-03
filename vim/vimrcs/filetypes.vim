@@ -1,7 +1,3 @@
-""""""""""""""""""""""""""""""
-" => C++ section
-""""""""""""""""""""""""""""""
-
 """""""""""""""""""""""""""""""
 " => Python section
 """"""""""""""""""""""""""""""
@@ -101,3 +97,10 @@ au BufRead,BufNewFile *.vf_json set filetype=json
 """"""""""""""""""""""""""""""
 au BufRead,BufNewFile Jenkinsfile  set filetype=groovy
 au BufRead,BufNewFile CMakeConfig.txt set filetype=cmake
+
+""""""""""""""""""""""""""""""
+" => Ros
+""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.sdf set filetype=xml
+au BufRead,BufNewFile *.world set filetype=xml
+au BufRead,BufNewFile *.launch set filetype=xml
