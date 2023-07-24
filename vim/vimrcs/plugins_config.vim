@@ -41,6 +41,7 @@ if has('nvim')
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
     Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
     Plug 'github/copilot.vim'
+    Plug 'nat-418/boole.nvim'
 else
     Plug 'ycm-core/YouCompleteMe', {'do': './install.py --clang-completer --clangd-completer'} | Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 endif
@@ -1093,26 +1094,26 @@ let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.xml,*.sdf,*.world'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => github/copilot.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:copilot_enabled = v:false
+let g:copilot_enabled = v:true
 let g:copilot_filetypes = {
-      \ 'python': v:false,
-      \ 'cpp': v:false,
+      \ 'python': v:true,
+      \ 'cpp': v:true,
       \ '*': v:false,
       \ }
 
 " toggle copilot using ":Copilot enable" and ":Copilot disable" as mapping to control plus \
  let g:toggle = 0
 function CopilotToggle(toggle)
-if g:toggle == 0
-:Copilot enable
-call copilot#Suggest()
-let g:toggle = 1
-echo "Copilot Enabled"
-else
-:Copilot disable
-let g:toggle = 0
-echo "Copilot Disabled"
-endif
+    if g:toggle == 0
+    :Copilot enable
+    call copilot#Suggest()
+    let g:toggle = 1
+    echo "Copilot Enabled"
+    else
+    :Copilot disable
+    let g:toggle = 0
+    echo "Copilot Disabled"
+    endif
 endfunction
 
 "imap <C-\> <C-o>:call CopilotToggle(g:toggle)<CR>
