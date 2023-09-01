@@ -17,6 +17,7 @@
     stderr: true
     quiet: false
     description: Install plugins via Vim-Plug
+  #- [nvim --headless -c "MasonInstall yapf isort prettier" -c qall, Install linters]
   - [nvim --headless +PlugUpdate +qall, Update all plugins via Vim-Plug]
 
 - create:

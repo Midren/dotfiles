@@ -108,9 +108,11 @@ end
 
 function M.enable_treesitter()
     require'nvim-treesitter.configs'.setup {
-      ensure_installed = {"cpp", "python", "comment", "dockerfile", "html", "yaml"},
+      ensure_installed = {"cpp", "python", "lua", "dockerfile", "gitignore", "gitcommit", "markdown_inline", "yaml"},
+      sync_install = true,
       highlight = {
         enable = true,
+        additional_vim_regex_highlighting = false,
       },
       autotag = { -- using nvim-ts-autotag
         enable = true,
@@ -125,21 +127,6 @@ function M.enable_treesitter()
       }
     }
 end
-
-local clangd_commands = [[
-if !exists(':ClangdAST')
-  function s:memuse_compl(_a,_b,_c)
-      return ['expand_preamble']
-  endfunction
-  command ClangdSetInlayHints lua require('clangd_extensions.inlay_hints').set_inlay_hints()
-  command ClangdDisableInlayHints lua require('clangd_extensions.inlay_hints').disable_inlay_hints()
-  command ClangdToggleInlayHints lua require('clangd_extensions.inlay_hints').toggle_inlay_hints()
-  command -range ClangdAST lua require('clangd_extensions.ast').display_ast(<line1>, <line2>)
-  command ClangdTypeHierarchy lua require('clangd_extensions.type_hierarchy').show_hierarchy()
-  command ClangdSymbolInfo lua require('clangd_extensions.symbol_info').show_symbol_info()
-  command -nargs=? -complete=customlist,s:memuse_compl ClangdMemoryUsage lua require('clangd_extensions.memory_usage').show_memory_usage('<args>' == 'expand_preamble')
-endif
-]]
 
 function M.enable_lsp()
     local lspconfig = require('lspconfig')
@@ -163,22 +150,12 @@ function M.enable_lsp()
             client.config.flags.allow_incremental_sync = true
         end
 
-        -- TODO: fix me 
-        --if require("clangd_extensions.config").options.extensions.autoSetHints then
-        --    require("clangd_extensions.inlay_hints").setup_autocmd()
-        --    require("clangd_extensions.inlay_hints").set_inlay_hints()
-        --end
-        vim.cmd(clangd_commands)
+        require("clangd_extensions.inlay_hints").setup_autocmd()
+        require("clangd_extensions.inlay_hints").set_inlay_hints()
     end
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown', 'plaintext' }
-    capabilities.textDocument.completion.completionItem.preselectSupport = true
-    capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
-    capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-    capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-    capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
     capabilities.offsetEncoding = { "utf-16" }
     capabilities.textDocument.completion.completionItem.resolveSupport = {
       properties = {
@@ -200,7 +177,6 @@ function M.enable_lsp()
                 extra_filetypes = {'toml'}
             }),
             null_ls.builtins.diagnostics.checkmake,
-            null_ls.builtins.diagnostics.pylint,
             null_ls.builtins.code_actions.refactoring.with({
                 extra_filetypes = {'cpp'}
             }),
@@ -210,7 +186,7 @@ function M.enable_lsp()
     })
 
     local servers = {
-      sumneko_lua = {
+      lua_ls = {
         settings = {
           Lua = {
             diagnostics = {globals = {'vim', 'packer_plugins'}},
@@ -223,37 +199,39 @@ function M.enable_lsp()
         init_options = {
           clangdFileStatus = true
         },
+        capabilities = {
+            offsetEncoding = { "utf-16" }
+        }
       },
       pyright = {
         root_dir = lspconfig.util.root_pattern({'.git/', '.vimspector.json'}),
+      },
+      sourcery = {
+        init_options = {
+            token = "user_6fR1R0UkRe58HtFmOG47KzGJinhzNkTLMqJANQbNKmmnpENm3UuuDPmaxYc",
+        }
       }
     }
 
-    -- Add automatic lsp installation
-    local lsp_installer = require("nvim-lsp-installer")
-    lsp_installer.on_server_ready(function(server)
-        -- LSP Enable diagnostics
-        vim.lsp.handlers["textDocument/publishDiagnostics"] =
-            vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                virtual_text = false,
-                underline = true,
-                signs = true,
-                update_in_insert = false
-            })
+    require("mason").setup()
+    require("mason-lspconfig").setup{ensure_installed = { "lua_ls", "clangd", "pyright", "jsonls"}}
+    vim.lsp.handlers["textDocument/publishDiagnostics"] =
+        vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+            virtual_text = false,
+            underline = true,
+            signs = true,
+            update_in_insert = false
+        })
+    require("mason-lspconfig").setup_handlers {
+        function (server_name)
         local coq = require'coq'
-        local config = servers[server.name] or {root_dir = lspconfig.util.root_pattern({'.git/', 'Makefile', '.'})}
+        local config = servers[server_name] or {root_dir = lspconfig.util.root_pattern({'.git/', 'Makefile', '.'})}
         config.on_attach = on_attach
         config.capabilities = capabilities
 
-        if server.name == 'clangd' then
-            require("clangd_extensions.config").setup({
-            })
-            server:setup(coq.lsp_ensure_capabilities(config))
-            require("clangd_extensions.ast").init()
-        else
-            server:setup(coq.lsp_ensure_capabilities(config))
-        end
-    end)
+        require("lspconfig")[server_name].setup(coq.lsp_ensure_capabilities(config))
+        end,
+    }
 
     require('lspsaga').init_lsp_saga({
       use_saga_diagnostic_sign = false,

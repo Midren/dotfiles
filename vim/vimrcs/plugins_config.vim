@@ -35,7 +35,8 @@ endif
 if has('nvim')
     Plug 'neovim/nvim-lspconfig'
     Plug 'onsails/lspkind-nvim'
-    Plug 'williamboman/nvim-lsp-installer', {'do': ':LspInstall --sync clangd pyright jsonls' }
+    Plug 'williamboman/mason.nvim'
+    Plug 'williamboman/mason-lspconfig.nvim'
     Plug 'ray-x/lsp_signature.nvim'
     Plug 'p00f/clangd_extensions.nvim'
     Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': 'python3 -m coq deps'}
@@ -147,7 +148,6 @@ vnoremap <leader>cp :OSCYank<CR>
 " => Temp
 """""""""""""""""""""""""""""
 Plug 'tell-k/vim-autopep8'
-Plug 'dstein64/nvim-scrollview'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/refactoring.nvim'
 
