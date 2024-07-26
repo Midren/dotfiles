@@ -12,7 +12,7 @@
     #    curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb && sudo dpkg -i ripgrep_12.1.1_amd64.deb,
     #    Install ripgrep,
     #  ]
-    - [sudo apt install -y neovim, Install neovim]
+    - [sudo apt install -y neovim neovim-runtime=0.10.0~ubuntu1+git202401232107-8b2365369-c60402a16-0c0ea1f52~ubuntu20.04.1, Install neovim]
     - [sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60, Make neovim default]
 
 - shell:
